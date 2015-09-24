@@ -6,7 +6,5 @@
  * Time: 13:20
  */
 
-echo "test";
-echo "second_test3";
-echo "final";
-echo "penüs";
+
+echo "Test";
