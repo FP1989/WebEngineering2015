@@ -7,4 +7,4 @@
  */
 
 echo "test";
-echo "second_test";
+echo "second_test2";
