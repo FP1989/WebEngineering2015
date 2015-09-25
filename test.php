@@ -6,7 +6,7 @@
  * Time: 13:20
  */
 
-echo "SgtStar";
+echo "SgtStar1";
 
 
 echo "Test";
