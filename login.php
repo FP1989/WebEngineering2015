@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/font-awesome.min.css">
 
-
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
 </head>
@@ -29,10 +28,10 @@ if(isset($_COOKIE[session_name()]))
     <div class="col-md-4">
         <div class="container" style="margin-top: 50px">
             <div class="col-md-4">
-                <form>
+                <form action="test.php" method="post">
                     <h3>Log In</h3>
                     <label for="Email" class="sr-only">Email </label>
-                    <input type="email" id="Email" class="form-control" placeholder="Email" required="required" autofocus="autofocus"/>
+                    <input type="email" name="email" id="Email" class="form-control" placeholder="Email" required="required" autofocus="autofocus"/>
                     <label for="pwd" class="sr-only">Password</label>
                     <input type="password" id="pwd1" class="form-control" placeholder="Password" required="required" />
                     <div class="checkbox">
