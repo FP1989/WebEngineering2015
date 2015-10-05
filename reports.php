@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION = array();
+?>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -20,7 +24,7 @@
         <form action="" method="post" role="form" id="report_form">
             <h3>Reports</h3>
             <label for="select1">Report ausw&auml;hlen:</label>
-            <select name="report_type" id="select1" class="form-control input-small"><br>
+            <select name="report_type" id="select1" class="form-control input-small">
                 <option value="kreditoren">Offene Rechnungen anzeigen</option>
                 <option value="reiseteilnehmer">Kunden pro Reise</option>
                 <option value="offene_rechnungen">Kunden mit offenen Rechnungen anzeigen</option>
@@ -30,7 +34,8 @@
                 <option value="finanzuebersicht">Finanz&uuml;bersicht anzeigen</option>
                 <option value="reisegruppe">Reisegruppen anzeigen</option>
             </select><br>
-            <input type="submit" class="btn btn-primary" value="Report generieren"/>
+            <input type="submit" name="submit" class="btn btn-primary" value="Report generieren"/>
+            <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
         </form>
     </div>
 </div>
@@ -40,7 +45,13 @@
 <?php
 require "db_connect.php";
 
-if (isset($_POST['report_type'])) {
+if(isset($_POST['pdfbutton'])) {
+    $_SESSION['pdfquery'] = $_POST['report_type'];
+    header("Location:pdf_printer.php");
+
+}
+
+if (isset($_POST['report_type'], $_POST['submit'])) {
 
     $report_type = $_POST['report_type'];
     $query = "SELECT * FROM Teilnehmer WHERE Hausnummer=6666";
@@ -72,7 +83,9 @@ if (isset($_POST['report_type'])) {
 
     $result = $conn->query($query);
 
+
     if ($result->num_rows > 0) {
+
         echo "<div class='container'><table class='table table-striped'><tr>";
 
         while ($finfo = $result->fetch_field()) {
