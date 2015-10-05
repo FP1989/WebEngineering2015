@@ -43,7 +43,7 @@ require "db_connect.php";
 if (isset($_POST['report_type'])) {
 
     $report_type = $_POST['report_type'];
-    $query = "SELECT * FROM Teilnehmer WHERE Hausnummer=666";
+    $query = "SELECT * FROM Teilnehmer WHERE Hausnummer=6666";
 
     switch ($report_type) {
 
