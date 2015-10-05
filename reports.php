@@ -9,13 +9,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/font-awesome.min.css">
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
+
+    <style>
+       
+    </style>
 </head>
 <body>
-<div class="container">
+<div class="container" style="margin-top: 50px">
     <div class="form-group">
         <form action="" method="post" role="form" id="report_form">
+            <h3>Reports</h3>
             <label for="select1">Report ausw&auml;hlen:</label>
-            <select name="report_type" id="select1" class="form-control"><br>
+            <select name="report_type" id="select1" class="form-control input-small"><br>
                 <option value="kreditoren">Offene Rechnungen anzeigen</option>
                 <option value="reiseteilnehmer">Kunden pro Reise</option>
                 <option value="offene_rechnungen">Kunden mit offenen Rechnungen anzeigen</option>
@@ -25,7 +30,7 @@
                 <option value="finanzuebersicht">Finanz&uuml;bersicht anzeigen</option>
                 <option value="reisegruppe">Reisegruppen anzeigen</option>
             </select><br>
-            <input type="submit" value="Report generieren"/><input type="reset" value="Zur&uuml;cksetzen"/>
+            <input type="submit" class="btn btn-primary" value="Report generieren"/>
         </form>
     </div>
 </div>
@@ -38,7 +43,7 @@ require "db_connect.php";
 if (isset($_POST['report_type'])) {
 
     $report_type = $_POST['report_type'];
-    $query = "";
+    $query = "SELECT * FROM Teilnehmer WHERE Hausnummer=666";
 
     switch ($report_type) {
 
@@ -71,18 +76,18 @@ if (isset($_POST['report_type'])) {
         echo "<div class='container'><table class='table table-striped'><tr>";
 
         while ($finfo = $result->fetch_field()) {
-            echo "<th align='left'>" . $finfo->name . "</th>";
+            echo "<th align='left' style='font-size:medium'>" . $finfo->name . "</th>";
         }
         echo "</tr>";
 
         while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
+            echo "<tr style='font-size:small'>";
             foreach ($row as $value) {
                 echo "<td>" . $value . "</td>";
             }
             echo "</tr>";
         }
         echo "</table></div>";
-    } else echo "Keine Treffer";
+    } else echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage.</div>";
     mysqli_close($conn);
 }
