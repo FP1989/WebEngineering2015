@@ -22,7 +22,7 @@ require("includes/authentication.inc.php");
 <div class="container">
     <div class="row">
 
-            <div class="dropdown col-sm-6 col-md-4 col-lg-2">
+            <div class="dropdown col-md-4 offset2">
                 <button href="#" class="btn btn-squared-default btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
                     <i class="fa fa-plane fa-5x"></i><br/>
                     <h2>Reisen</h2>
@@ -34,11 +34,8 @@ require("includes/authentication.inc.php");
                 </ul>
             </div>
 
-            <div class="clearfix visible-sm-block"></div>
 
-
-
-        <div class="dropdown col-sm-6 col-md-4 col-lg-2">
+        <div class="dropdown col-md-4 offset2">
             <button href="#" class="btn btn-squared-default btn-success" id="menu2" type="button" data-toggle="dropdown">
                 <i class="fa fa-balance-scale fa-5x"></i><br/>
                 <h2>Rechnungen</h2>
@@ -49,40 +46,42 @@ require("includes/authentication.inc.php");
                 <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=1#tabs">Rechnung einsehen / editieren</a></li>
             </ul>
         </div>
+    </div>
+    
 
-        <div class="clearfix visible-sm-block"></div>
+    <div class="row">
 
-
-        <div class="dropdown col-sm-6 col-md-4 col-lg-2">
+        <div class="dropdown col-md-4 offset2">
             <button href="#" class="btn btn-squared-default btn-warning" id="menu3" type="button" data-toggle="dropdown">
                 <i class="fa fa-users fa-5x"></i><br/>
                 <h2>Teilnehmer</h2>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu3" role="menu">
+            <ul class="dropdown-menu dropdown-menu-right dropdown-toggle" aria-labelledby="menu3" role="menu">
                 <li role="presentation"><a role="menuitem" href="teilnehmer.php?tab=0#tabs">Neuen Teilnehmer erfassen</a></li>
                 <li role="presentation"><a role="menuitem" href="teilnehmer.php?tab=1#tabs">Teilnehmer einsehen / editieren</a></li>
             </ul>
         </div>
 
-        <div class="clearfix visible-sm-block"></div>
 
 
-        <div class="dropdown col-sm-6 col-md-4 col-lg-2">
+        <div class="dropdown col-sm-6 col-md-4 offset2">
             <button href="#" class="btn btn-squared-default btn-danger" id="menu4" type="button" data-toggle="dropdown">
                 <i class="fa fa-table fa-5x"></i><br/>
                 <h2>Report</h2>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu4" role="menu">
+            <ul class="dropdown-menu dropdown-menu-right dropdown-toggle" aria-labelledby="menu4" role="menu">
                 <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=0#tabs">Neuen Report erfassen</a></li>
                 <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=1#tabs">Report einsehen / editieren</a></li>
             </ul>
         </div>
 
+        </div>
+
+    </div>
 
 
-</div>
 
     <script>
 
@@ -92,10 +91,11 @@ require("includes/authentication.inc.php");
 
 
         .btn-squared-default {
-            width: 200px !important;
+            width: 350px !important;
             height: 200px !important;
             font-size: 10px;
-            margin-top: 150px;
+            margin-top: 50%;
+            margin-left: 50%;
         }
 
 
