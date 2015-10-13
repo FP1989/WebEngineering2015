@@ -14,10 +14,6 @@
 </head>
 <body>
 
-<?php
-include("includes/navigation.inc.php");
-?>
-
 
 <div class="container">
     <div class="row">
@@ -29,11 +25,8 @@ include("includes/navigation.inc.php");
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu1" role="menu">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+                    <li role="presentation"><a role="menuitem" href="reisen.php?tab=0#tabs">Neue Reise erfassen</a></li>
+                    <li role="presentation"><a role="menuitem" href="reisen.php?tab=1#tabs">Reise einsehen / editieren</a></li>
                 </ul>
             </div>
 
@@ -48,11 +41,8 @@ include("includes/navigation.inc.php");
             </button>
 
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu2" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=0#tabs">Rechnung erfassen</a></li>
+                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=1#tabs">Rechnung einsehen / editieren</a></li>
             </ul>
         </div>
 
@@ -66,11 +56,8 @@ include("includes/navigation.inc.php");
             </button>
 
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu3" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+                <li role="presentation"><a role="menuitem" href="teilnehmer.php?tab=0#tabs">Neuen Teilnehmer erfassen</a></li>
+                <li role="presentation"><a role="menuitem" href="teilnehmer.php?tab=1#tabs">Teilnehmer einsehen / editieren</a></li>
             </ul>
         </div>
 
@@ -84,17 +71,18 @@ include("includes/navigation.inc.php");
             </button>
 
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu4" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=0#tabs">Neuen Report erfassen</a></li>
+                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=1#tabs">Report einsehen / editieren</a></li>
             </ul>
         </div>
 
 
 
 </div>
+
+    <script>
+
+    </script>
 
     <style>
 
