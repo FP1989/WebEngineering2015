@@ -1,13 +1,27 @@
 <?php
-
-include ("htmltopdf/html2pdf.class.php");
-require ("db_connect.php");
-
 session_start();
-
-ob_start();
+require ("db_connect.php");
 require ("reports_query.php");
-$content = ob_get_clean();
-$pdf = new HTML2PDF('L', 'A4', 'en', 'true', 'UTF-8');
-$pdf->writeHTML($content);
-$pdf->Output('table.pdf');
+
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+
+    echo "<table border='1'><tr>";
+
+    while ($finfo = $result->fetch_field()) {
+        echo "<td>" . $finfo->name . "</td>";
+    }
+    echo "</tr>";
+
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        foreach ($row as $value) {
+            echo "<td>" . $value . "</td>";
+        }
+        echo "</tr>";
+    }
+    echo "</table></div>";
+
+} else echo "Keine Daten vorhanden zu dieser Abfrage.";
+mysqli_close($conn);

@@ -24,27 +24,3 @@ break;
 case "reisegruppe":
 break;
 }
-
-$result = $conn->query($query);
-
-if ($result->num_rows > 0) {
-
-echo "<div class='container'><table class='table table-striped'><tr>";
-
-            while ($finfo = $result->fetch_field()) {
-            echo "<th align='left' style='font-size:medium'>" . $finfo->name . "</th>";
-            }
-            echo "</tr>";
-
-        while ($row = $result->fetch_assoc()) {
-        echo "<tr style='font-size:small'>";
-            foreach ($row as $value) {
-            echo "<td>" . $value . "</td>";
-            }
-            echo "</tr>";
-        }
-        echo "</table></div>";
-
-} else echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage.</div>";
-mysqli_close($conn);
-
