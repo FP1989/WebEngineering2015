@@ -15,6 +15,7 @@
 <?php
 //Session starten oder neu aufnehmen
 session_start();
+//
 
 //Session beenden
 if(isset($_COOKIE[session_name()]))
