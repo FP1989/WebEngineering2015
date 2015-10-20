@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,34 +15,23 @@
     <script type="text/javascript" src="bootstrap.min.js"></script>
 </head>
 <body>
-<?php
-//Session starten oder neu aufnehmen
-session_start();
-////
-
-//Session beenden
-if(isset($_COOKIE[session_name()]))
-{
-    setcookie(session_name(), '', time()-86400, '/');
-}
-
-?>
 <div class="container colored" >
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <div class="container" style="margin-top: 50px">
             <div class="col-md-4">
-                <form action="test.php" method="post">
+                <form action="login_authorization.php" method="post">
                     <h3>Log In</h3>
-                    <label for="Email" class="sr-only">Email </label>
-                    <input type="email" name="email" id="Email" class="form-control" placeholder="Email" required="required" autofocus="autofocus"/>
+                    <label for="UserID" class="sr-only">UserID </label>
+                    <input type="text" name="userid" class="form-control" placeholder="UserID" required="required" autofocus="autofocus"/>
                     <label for="pwd" class="sr-only">Password</label>
-                    <input type="password" id="pwd1" class="form-control" placeholder="Password" required="required" />
+                    <input type="password" name="pwd" class="form-control" placeholder="Password" required="required" />
                     <div class="checkbox">
                         <label>
                             <input name="remember" type="checkbox" value="Remember Me"/>Remember Login</label>
                     </div>
                     <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
+                    <div><?php echo (isset($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
                 </form>
             </div>
         </div>

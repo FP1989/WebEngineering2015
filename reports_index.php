@@ -64,8 +64,9 @@ if (isset($_POST['report_type'], $_POST['submit'])) {
 
     } else echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage.</div>";
     mysqli_close($conn);
-
-
 }
 ?>
 </div>
+<?php
+require ("includes/footer.inc.php");
+?>

@@ -4,7 +4,7 @@
     include("includes/header.inc.php");
     include("includes/navigation.inc.php");
 ?>
-<div id="content">
+<div id="content" class="container">
     <div id="tabs">
         <ul>
             <li><a href="#createBill">Rechnung erfassen</a></li>
@@ -96,8 +96,6 @@
                 </div>
             </div>
 
-
-
             <div class="form-group">
                 <div>
                     <label>Bemerkung</label>
@@ -114,9 +112,6 @@
                     </span>
                 </div>
             </div>
-
-
-
 
             <div class="form-group">
                 <label>Rechnung bezahlt?</label> </br>

@@ -1,3 +1,7 @@
+<?php
+require("includes/authentication.inc.php");
+?>
+
 <html>
 <head>
     <title>Home</title>
