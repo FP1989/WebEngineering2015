@@ -14,16 +14,16 @@ class database
         $this->benutzer = 'root';
         $this->passwort ='';
         $this->dbname = 'reiseunternehmen';
-        $this->link = mysqli_connect('localhost', $this->benutzer, $this->passwort);
+        $this->link = mysqli_connect('localhost', $this->benutzer, $this->passwort, $this->dbname);
 
 
     }
 
     public function createDatabase(){
 
-    if ($this->database == null) $this->database = new Database();
+    if (database::$database == null) database::$database = new Database();
 
-    return $this->database;
+    return database::$database;
 
     }
 
@@ -44,7 +44,6 @@ class database
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
-        mysqli_close($this->link);
     }
 
     public function fetchBeguenstigter($beguenstigterID){
@@ -80,12 +79,10 @@ class database
 
         mysqli_select_db($this->link, $this->dbname);
 
-        $query = "INSERT INTO reise VALUES ('DEFAULT', '$ziel', '$beschreibung', '$preis', '$hinreise', '$rueckreise')";
+        $query = "INSERT INTO reise VALUES ('DEFAULT', '$ziel', '$beschreibung', '$bezeichnung', '$preis', '$hinreise', '$rueckreise')";
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
-
-        mysqli_close($this->link);
 
     }
 
@@ -133,8 +130,6 @@ class database
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
-        mysqli_close($this->link);
-
     }
 
     public function fetchRechnung($rechnungsID){
@@ -179,7 +174,6 @@ class database
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
-        mysqli_close($this->link);
     }
 
     public function fetchTeilnehmer($teilnehmerID){
@@ -213,8 +207,6 @@ class database
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
-        mysqli_close($this->link);
-
     }
 
     public function fetchOrt($plz){
@@ -229,7 +221,7 @@ class database
 
         if(is_null($datensatz)) return false;
 
-        else return datensatz;
+        else return $datensatz;
 
     }
 
@@ -243,8 +235,6 @@ class database
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
-
-        mysqli_close($this->link);
 
     }
 

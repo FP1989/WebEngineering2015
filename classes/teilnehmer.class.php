@@ -26,7 +26,7 @@ class teilnehmer{
 
     }
 
-    public function newTeilnehmer($teilnehmerdaten){
+    public static function newTeilnehmer($teilnehmerdaten){
 
         if(array_key_exists('$teilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['teilnehmerID'];
 
