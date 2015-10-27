@@ -164,7 +164,7 @@ class rechnung{
 
     }
 
-    public function getBezahlt(){
+    public function isBezahlt(){
 
         return $this->bezahlt;
 
