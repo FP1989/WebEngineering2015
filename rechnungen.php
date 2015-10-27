@@ -1,16 +1,17 @@
 
 <?php
-    $pagetitle = "Rechnungen";
-    include("includes/header.inc.php");
-    include("includes/navigation.inc.php");
+$pagetitle = "Rechnungen";
+include("includes/header.inc.php");
+include("includes/navigation.inc.php");
 ?>
 <div id="content" class="container">
-    <div id="tabs">
-        <ul>
-            <li><a href="#createBill">Rechnung erfassen</a></li>
-            <li><a href="#editBill">Rechnung ansehen / editieren</a></li>
-        </ul>
-        <div id="createBill">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#createBill">Rechnung erfassen</a></li>
+        <li><a data-toggle="tab" href="#editBill">Rechnung ansehen / editieren</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="createBill" class="tab-pane fade in active">
             <h2>Rechnung erfassen</h2> </br></br>
 
             <div class="form-group">
@@ -59,19 +60,15 @@
 
 
 
-                <div class="form-group">
-                    <label class="control-label" for="inputGroup">Beg&uuml;nstigter</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputGroup"/>
+            <div class="form-group">
+                <label class="control-label" for="inputGroup">Beg&uuml;nstigter</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="inputGroup"/>
                     <span class="input-group-addon">
                         <i class="fa fa-search"></i>
                     </span>
-                    </div>
                 </div>
-
-
-
-
+            </div>
 
             <div class="form-group">
                 <div>
@@ -124,21 +121,19 @@
                 <button type="submit" class="btn btn-default">Rechnung erfassen</button>
                 <button type="reset" class="btn btn-default">Felder l&ouml;schen</button>
             </div>
-    </div> <!-- end tab-1 -->
+        </div> <!-- end tab-1 -->
+        <div id="editBill" class="tab-pane fade">
+            <div class="form-group">
+                <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
+            </div>
+        </div> <!-- end tab-2 -->
+    </div>
 
-    <div id="editBill">
-        <div class="form-group">
-            <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
-        </div>
-    </div> <!-- end tab-2 -->
-
-
-</div> <!-- end tabs -->
 </div> <!-- end content div -->
 
 
 
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
         $(function() {
             $( "#datepicker" ).datepicker();
             dateFormat: "dd-mm-yyyy",
@@ -169,7 +164,7 @@
             }
             return 0;
         }
-    </script>
+    </script>-->
 
 <?php
 include("includes/footer.inc.php");
