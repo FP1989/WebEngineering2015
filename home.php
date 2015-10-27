@@ -1,5 +1,5 @@
 <?php
-require("includes/authentication.inc.php");
+//require("includes/authentication.inc.php");
 ?>
 
 <html>

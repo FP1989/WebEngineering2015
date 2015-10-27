@@ -4,17 +4,16 @@ $pagetitle = "Teilnehmer";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 ?>
-<div id="content">
+<div id="content" class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#createParticipant">Neuen Teilnehmer erfassen</a></li>
+        <li><a data-toggle="tab" href="#editParticipant">Teilnehmer ansehen / editieren</a></li>
+    </ul>
 
+    <div class="tab-content">
 
-    <div id="tabs">
-        <ul>
-            <li><a href="#createParticipant">Neuen Teilnehmer erfassen</a></li>
-            <li><a href="#editParticipant">Teilnehmer ansehen / editieren</a></li>
-        </ul>
-
-        <div id="createParticipant">
-            <h2>Teilnehmer erfassen</h2> </br></br>
+        <div id="createParticipant" class="tab-pane fade in active">
+            <h2>Teilnehmer erfassen</h2><br><br>
 
             <div class="form-group">
                 <label>Teilnehmer-ID</label>
@@ -59,28 +58,21 @@ include("includes/navigation.inc.php");
                 <input class="form-control" type="text">
             </div>
 
-
-
-
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Teilnehmer erfassen</button>
                 <button type="reset" class="btn btn-default">Felder l&ouml;schen</button>
             </div>
         </div> <!-- end tab-1 -->
 
-
-        <div id="editParticipant">
+        <div id="editParticipant" class="tab-pane fade">
             <div class="form-group">
                 <h2>Teilnehmer ansehen / Teilnehmer editieren</h2> <br/><br/>
             </div>
         </div> <!-- end tab-2 -->
-
     </div> <!-- end tabs -->
 </div> <!-- end content div -->
 
-
-
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
     $(function() {
         $( "#tabs" ).tabs();
@@ -106,7 +98,7 @@ include("includes/navigation.inc.php");
         }
         return 0;
     }
-</script>
+</script>-->
 
 <?php
 include("includes/footer.inc.php");

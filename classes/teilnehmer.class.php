@@ -11,6 +11,8 @@ class teilnehmer{
     private $hausnummer;
     private $plz;
     private $ort;
+    private $telefonNr;
+    private $Email;
 
     private function __construct($teilnehmerdaten, $id){
 
@@ -24,7 +26,7 @@ class teilnehmer{
 
     }
 
-    public function newTeilnehmer($teilnehmerdaten){
+    public static function newTeilnehmer($teilnehmerdaten){
 
         if(array_key_exists('$teilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['teilnehmerID'];
 
@@ -84,6 +86,18 @@ class teilnehmer{
 
     }
 
+    public function getEmail(){
+
+        return $this->Email;
+
+    }
+
+    public function setEmail($Email){
+
+        $this->Email = $Email;
+
+    }
+
     public function getPlz(){
 
         return $this->plz;
@@ -111,6 +125,19 @@ class teilnehmer{
     public function getTeilnehmerID(){
 
         return $this->teilnehmerID;
+
+    }
+
+
+    public function getTelefonNr(){
+
+        return $this->telefonNr;
+
+    }
+
+    public function setTelefonNr($telefonNr){
+
+        $this->telefonNr = $telefonNr;
 
     }
 

@@ -32,7 +32,7 @@ class rechnung{
         $this->bezahlt = $rechnungsdaten['bezahlt'];
     }
 
-    public function newRechnung($rechnungsdaten){
+    public static function newRechnung($rechnungsdaten){
 
         if(array_key_exists('rechnungsID', $rechnungsdaten)) $id = $rechnungsdaten['rechnungsID'];
 
@@ -164,7 +164,7 @@ class rechnung{
 
     }
 
-    public function getBezahlt(){
+    public function isBezahlt(){
 
         return $this->bezahlt;
 

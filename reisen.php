@@ -4,16 +4,14 @@ $pagetitle = "Teilnehmer";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 ?>
-<div id="content">
+<div id="content" class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#createTravel">Neuen Teilnehmer erfassen</a></li>
+        <li><a data-toggle="tab" href="#editTravel">Teilnehmer ansehen / editieren</a></li>
+    </ul>
 
-
-    <div id="tabs">
-        <ul>
-            <li><a href="#createTravel">Neuen Teilnehmer erfassen</a></li>
-            <li><a href="#editTravel">Teilnehmer ansehen / editieren</a></li>
-        </ul>
-
-        <div id="createTravel">
+    <div class="tab-content">
+        <div id="createTravel" class="tab-pane fade in active">
             <h2>Reise erfassen</h2> </br></br>
 
             <div class="form-group">
@@ -61,35 +59,24 @@ include("includes/navigation.inc.php");
                 </div>
             </div>
 
-
-
-
-
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Reise erfassen</button>
                 <button type="reset" class="btn btn-default">Felder l&ouml;schen</button>
             </div>
 
-
-
-
-
-
         </div> <!-- end tab-1 -->
 
-
-        <div id="editTravel">
+        <div id="editTravel" class="tab-pane fade">
             <div role="form">
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
             </div>
         </div> <!-- end tab-2 -->
-
     </div> <!-- end tabs -->
 </div> <!-- end content div -->
 
 
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
     $(function() {
         $( "#hinreise" ).datepicker();
@@ -122,7 +109,7 @@ include("includes/navigation.inc.php");
         }
         return 0;
     }
-</script>
+</script>-->
 
 <?php
 include("includes/footer.inc.php");

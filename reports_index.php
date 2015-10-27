@@ -10,7 +10,7 @@ include("includes/navigation.inc.php");
     <div class="container">
         <div class="form-group">
             <form action="" method="post" role="form" id="report_form">
-                <h3>Reports</h3>
+                <h2>Reports</h2>
                 <label for="select1">Report ausw&auml;hlen:</label>
                 <select name="report_type" id="select1" class="form-control input-small">
                     <option value="kreditoren">Offene Rechnungen anzeigen</option>

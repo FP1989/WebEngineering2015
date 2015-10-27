@@ -20,7 +20,7 @@ class beguenstigter{
 
     }
 
-    public function newBeguenstigter($beguenstigterdaten){
+    public static function newBeguenstigter($beguenstigterdaten){
 
         if(array_key_exists('beguenstigterID', $beguenstigterdaten)) $id = $beguenstigterdaten['beguenstigterID'];
 

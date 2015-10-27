@@ -5,6 +5,7 @@ class reise{
 private $reiseID;
 private $ziel;
 private $beschreibung;
+private $bezeichnung;
 private $preis;
 private $hinreise;
 private $rueckreise;
@@ -19,7 +20,7 @@ private $rueckreise;
         $this->rueckreise = $reisedaten['rueckreise'];
     }
 
-   public function newReise($reisedaten){
+   public static function newReise($reisedaten){
 
        if(array_key_exists('reiseID', $reisedaten)) $id = $reisedaten['reiseID'];
 
@@ -94,6 +95,18 @@ private $rueckreise;
     public function getReiseID(){
 
         return $this->reiseID;
+
+    }
+
+    public function getBezeichnung(){
+
+        return $this->bezeichnung;
+
+    }
+
+    public function setBezeichnung($bezeichnung){
+
+        $this->bezeichnung = $bezeichnung;
 
     }
 
