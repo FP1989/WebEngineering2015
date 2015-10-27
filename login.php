@@ -31,6 +31,7 @@ session_start();
                             <input name="remember" type="checkbox" value="Remember Me"/>Remember Login</label>
                     </div>
                     <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
+                    <br>
                     <div><?php echo (isset($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
                 </form>
             </div>

@@ -3,6 +3,7 @@
 class database
 {
     private static $database;
+    private $host;
     private $benutzer;
     private $passwort;
     private $dbname;
@@ -11,15 +12,15 @@ class database
 
     private function __construct(){
 
+        $this->host = '127.0.0.1';
         $this->benutzer = 'root';
         $this->passwort ='';
         $this->dbname = 'reiseunternehmen';
-        $this->link = mysqli_connect('localhost', $this->benutzer, $this->passwort, $this->dbname);
-
+        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
 
     }
 
-    public function createDatabase(){
+    public static function createDatabase(){
 
     if (database::$database == null) database::$database = new Database();
 
@@ -37,8 +38,6 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO beguenstigter VALUES ('DEFAULT', '$name', '$strasse', '$hausnummer', '$plz')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -47,8 +46,6 @@ class database
     }
 
     public function fetchBeguenstigter($beguenstigterID){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM beguenstigter WHERE beguenstigterID = '$beguenstigterID'";
 
@@ -77,8 +74,6 @@ class database
         $hinreise = $reise->getHinreise();
         $rueckreise = $reise->getRueckreise();
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO reise VALUES ('DEFAULT', '$ziel', '$beschreibung', '$bezeichnung', '$preis', '$hinreise', '$rueckreise')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -87,8 +82,6 @@ class database
     }
 
     public function fetchReise($reiseID){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM reise WHERE reiseID = '$reiseID'";
 
@@ -123,8 +116,6 @@ class database
 
         if(!$this->fetchBeguenstigter($beguenstigter->getBeguenstigterID)) $this->insertBeguenstigter($beguenstigter);
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO rechnung VALUES ('DEFAULT', '$rechnungsart', '$betrag', '$waehrung', '$iban', '$swift', '$beguenstigter', '$kostenart', '$faelligkeit', '$bemerkung', '$reise', '$bezahlt')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -133,8 +124,6 @@ class database
     }
 
     public function fetchRechnung($rechnungsID){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM rechnung WHERE rechnunsID = '$rechnungsID'";
 
@@ -167,8 +156,6 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO teilnehmer VALUES ('DEFAULT', '$vorname', '$nachname', '$strasse', '$hausnummer', '$plz', '$telefon', '$mail')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -177,8 +164,6 @@ class database
     }
 
     public function fetchTeilnehmer($teilnehmerID){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM teilnehmer WHERE teilnehmerID = '$teilnehmerID'";
 
@@ -200,8 +185,6 @@ class database
 
     public function insertOrt($plz, $ort){
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO ort VALUES ('$plz', '$ort')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -210,8 +193,6 @@ class database
     }
 
     public function fetchOrt($plz){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM ort WHERE plz = '$plz'";
 
@@ -229,8 +210,6 @@ class database
 
     public function insertReservation($reiseID, $teilnehmerID, $bezahlt){
 
-        mysqli_select_db($this->link, $this->dbname);
-
         $query = "INSERT INTO reservation VALUES ('$reiseID', '$teilnehmerID', '$bezahlt')";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -239,8 +218,6 @@ class database
     }
 
     public function fetchReservation($reiseID, $teilnehmerID){
-
-        mysqli_select_db($this->link, $this->dbname);
 
         $query = "SELECT * FROM reservation WHERE reiseID = '$reiseID' AND teilnehmerID = '$teilnehmerID'";
 
@@ -252,12 +229,19 @@ class database
 
         else return $datensatz;
 
-
     }
 
     public function alterReservation($reiseID, $teilnehmerID){}
 
-    public function insertLogin(){}
+    public function verifyLogin($user, $pwdhash){
+
+        $query = "SELECT * FROM logindaten WHERE LoginID = '$user' AND Loghash = '$pwdhash'";
+
+        $result = $this->link->query($query);
+
+        return $result;
+
+    }
 
 
 
