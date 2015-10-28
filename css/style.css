@@ -37,6 +37,7 @@
     background-color: lightslategray;
     height: 20px;
     color: white;
+    text-align: right;
 }
 
 #login
@@ -51,7 +52,9 @@
 }
 
 
-/*Bootstrap Override*/
+/*
+Bootstrap Override
+*/
 .navbar
 {
     min-height: 1px !important

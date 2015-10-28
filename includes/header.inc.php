@@ -16,8 +16,6 @@
 </head>
 <body>
 
-<div id="wrapper">
-
 <div id="header">
 
     <h1>Star Reisen AG</h1>
