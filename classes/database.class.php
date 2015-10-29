@@ -30,6 +30,7 @@ class database
 
     public function insertBeguenstigter(beguenstigter $beguenstigter){
 
+        $id = $beguenstigter->getBeguenstigterID();
         $name = $beguenstigter->getBeguenstigterName();
         $strasse = $beguenstigter->getStrasse();
         $hausnummer = $beguenstigter->getHausnummer();
@@ -38,16 +39,19 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        $query = "INSERT INTO beguenstigter VALUES ('DEFAULT', '$name', '$strasse', '$hausnummer', '$plz')";
+        if($id == "DEFAULT")$query = "INSERT INTO beguenstigter VALUES ('$id', '$name', '$strasse', '$hausnummer', '$plz')";
+        else $query = "UPDATE beguenstigter SET BeguenstigterName = $name, Strasse = $strasse, Hausnummer = $hausnummer, Ort = $plz  WHERE BeguenstigterID = $id";
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
     }
 
-    public function fetchBeguenstigter($beguenstigterID){
+    public function fetchBeguenstigter($beguenstigterID = null, $beguenstigterName = null){
 
-        $query = "SELECT * FROM beguenstigter WHERE beguenstigterID = '$beguenstigterID'";
+        if(is_null($beguenstigterID)&& is_null($beguenstigterName)) return false;
+        else if(!is_null($beguenstigterID)) $query = "SELECT * FROM beguenstigter WHERE BeguenstigterID = '$beguenstigterID'";
+        else $query = "SELECT * FROM beguenstigter WHERE BeguenstigterName = '$beguenstigterName'";
 
         $result = $this->link->query($query);
 
@@ -63,10 +67,9 @@ class database
 
     }
 
-    public function alterBeguenstigter($beguenstigter){}
-
     public function insertReise(reise $reise){
 
+        $id = $reise->getReiseID();
         $ziel = $reise->getZiel();
         $beschreibung = $reise->getBeschreibung();
         $bezeichnung = $reise->getBezeichnung();
@@ -74,16 +77,19 @@ class database
         $hinreise = $reise->getHinreise();
         $rueckreise = $reise->getRueckreise();
 
-        $query = "INSERT INTO reise VALUES ('DEFAULT', '$ziel', '$beschreibung', '$bezeichnung', '$preis', '$hinreise', '$rueckreise')";
+        if($id == "DEFAULT") $query = "INSERT INTO reise VALUES ('$id', '$ziel', '$beschreibung', '$bezeichnung', '$preis', '$hinreise', '$rueckreise')";
+        else $query = "UPDATE reise SET Ziel = $ziel, Beschreibung = $beschreibung, Bezeichnung = $bezeichnung, Preise = $preis, Hinreise = $hinreise, Rueckreise = $rueckreise WHERE ReiseID = $id";
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
     }
 
-    public function fetchReise($reiseID){
+    public function fetchReise($reiseID = null, $reiseZiel = null){
 
-        $query = "SELECT * FROM reise WHERE reiseID = '$reiseID'";
+        if(is_null($reiseID)&& is_null($reiseZiel)) return false;
+        else if(!is_null($reiseID)) $query = "SELECT * FROM reise WHERE ReiseID = '$reiseID'";
+        else $query = "SELECT * FROM reise WHERE Ziel = '$reiseZiel'";
 
         $result = $this->link->query($query);
 
@@ -98,10 +104,9 @@ class database
         }
     }
 
-    public function alterReise($reise){}
-
     public function insertRechnung(rechnung $rechnung){
 
+        $id = $rechnung->getRechnungsID();
         $rechnungsart = $rechnung->getRechnungsart();
         $betrag = $rechnung->getBetrag();
         $waehrung = $rechnung->getWaehrung();
@@ -116,7 +121,8 @@ class database
 
         if(!$this->fetchBeguenstigter($beguenstigter->getBeguenstigterID)) $this->insertBeguenstigter($beguenstigter);
 
-        $query = "INSERT INTO rechnung VALUES ('DEFAULT', '$rechnungsart', '$betrag', '$waehrung', '$iban', '$swift', '$beguenstigter', '$kostenart', '$faelligkeit', '$bemerkung', '$reise', '$bezahlt')";
+        if($id == "DEFAULT") $query = "INSERT INTO rechnung VALUES ('$id', '$rechnungsart', '$betrag', '$waehrung', '$iban', '$swift', '$beguenstigter', '$kostenart', '$faelligkeit', '$bemerkung', '$reise', '$bezahlt')";
+        else $query = "UPDATE Rechnung SET Rechnungsart = $rechnungsart, Betrag = $betrag, Waehrung = $waehrung, IBAN = $iban, SWIFT = $swift, Beguenstigter = $beguenstigter, Kostenart = $kostenart, Faelligkeit = $faelligkeit, Bemerkung = $bemerkung, Reise = $reise, bezahlt = $bezahlt";
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
@@ -141,10 +147,9 @@ class database
 
     }
 
-    public function alterRechnung($rechnungsID){}
-
     public function insertTeilnehmner(teilnehmer $teilnehmer){
 
+        $id = $teilnehmer->getTeilnehmerID();
         $vorname = $teilnehmer->getVorname();
         $nachname = $teilnehmer->getNachname();
         $strasse = $teilnehmer->getStrasse();
@@ -156,16 +161,19 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        $query = "INSERT INTO teilnehmer VALUES ('DEFAULT', '$vorname', '$nachname', '$strasse', '$hausnummer', '$plz', '$telefon', '$mail')";
+        if($id == "DEFAULT") $query = "INSERT INTO teilnehmer VALUES ('$id', '$vorname', '$nachname', '$strasse', '$hausnummer', '$plz', '$telefon', '$mail')";
+        else $query = "UPDATE teilnehmer SET TeilnehmerID = $id, Vorname = $vorname, Nachname = $nachname, Strasse = $strasse, Hausnummer = $hausnummer, Ort = $plz, Telefon = $telefon, Mail = $mail";
 
         if(mysqli_query($this->link, $query)) return true;
         else return false;
 
     }
 
-    public function fetchTeilnehmer($teilnehmerID){
+    public function fetchTeilnehmer($teilnehmerID = null, $teilnehmerName = null){
 
-        $query = "SELECT * FROM teilnehmer WHERE teilnehmerID = '$teilnehmerID'";
+        if(is_null($teilnehmerID) && is_null($teilnehmerName)) return false;
+        else if(!is_null($teilnehmerID)) $query = "SELECT * FROM teilnehmer WHERE TeilnehmerID = '$teilnehmerID'";
+        else $query = "SELECT * FROM teilnehmer WHERE Nachname = '$teilnehmerName'";
 
         $result = $this->link->query($query);
 
@@ -180,8 +188,6 @@ class database
         }
 
     }
-
-    public function alterTeilnehmer($teilnehmer){}
 
     public function insertOrt($plz, $ort){
 
@@ -219,7 +225,7 @@ class database
 
     public function fetchReservation($reiseID, $teilnehmerID){
 
-        $query = "SELECT * FROM reservation WHERE reiseID = '$reiseID' AND teilnehmerID = '$teilnehmerID'";
+        $query = "SELECT * FROM reservation WHERE ReiseID = '$reiseID' AND TeilnehmerID = '$teilnehmerID'";
 
         $result = $this->link->query($query);
 
@@ -230,8 +236,6 @@ class database
         else return $datensatz;
 
     }
-
-    public function alterReservation($reiseID, $teilnehmerID){}
 
     public function verifyLogin($user, $pwdhash){
 
