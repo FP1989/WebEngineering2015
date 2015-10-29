@@ -16,17 +16,12 @@
 </head>
 <body>
 
-
-
-<div id="wrapper">
-
-
 <div id="header">
 
     <h1>Star Reisen AG</h1>
     <div id="login">
 
-    <a href="login.php"> Logout</a></li>
+    <a href="login.php">Logout</a></li>
 
     </div>
 </div>

@@ -1,4 +1,3 @@
-
 <?php
 $pagetitle = "Rechnungen";
 include("includes/header.inc.php");
@@ -87,9 +86,10 @@ include("includes/navigation.inc.php");
                 <label>F&auml;lligkeit</label>
                 <div class="input-group date">
                     <input type='text' class="form-control" id="datepicker"/>
-                                    <span class="input-group-addon">
-                                     <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
+                        </span>
+                    </span>
                 </div>
             </div>
 
@@ -130,8 +130,6 @@ include("includes/navigation.inc.php");
     </div>
 
 </div> <!-- end content div -->
-
-
 
 <!--    <script type="text/javascript">
         $(function() {
