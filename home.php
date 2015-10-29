@@ -35,16 +35,12 @@
             </div>
 
 
-        <div class="dropdown col-md-4 offset2">
-            <button href="#" class="btn btn-squared-default btn-success" id="menu2" type="button" data-toggle="dropdown">
+        <div class="col-md-4 offset2">
+            <button href="rechnungen.php" class="btn btn-squared-default btn-success" type="button">
                 <i class="fa fa-balance-scale fa-5x"></i><br/>
                 <h2>Rechnungen</h2>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menu2" role="menu">
-                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=0#tabs">Rechnung erfassen</a></li>
-                <li role="presentation"><a role="menuitem" href="rechnungen.php?tab=1#tabs">Rechnung einsehen / editieren</a></li>
-            </ul>
         </div>
     </div>
     

@@ -13,6 +13,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/typeahead.js/0.9.3/typeahead.min.js"></script>
 </head>
 <body>
 
