@@ -17,16 +17,16 @@
 </head>
 <body>
 
-<div id="header">
+<!--<div id="header">
 
-<!--    <h1>Star Reisen AG</h1>-->
-<!--    <img src="files/logo.jpg" id="image" alt="logo">-->
+    <h1>Star Reisen AG</h1>
+    <img src="files/logo.jpg" id="image" alt="logo">
 </div>
 <div id="login">
 
     <a href="login.php">Logout</a></li>
 
-</div>
+</div>-->
 
 
 

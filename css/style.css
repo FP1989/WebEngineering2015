@@ -13,23 +13,17 @@
     color:#f00;
 }
 
-#header
+/*#header
 {
     width: 100%;
     height: 106px;
-    /*margin-bottom: 2%;*/
+    margin-bottom: 2%;
     border: 0pt;
-    /*padding: 5pt;*/
+    /!*padding: 5pt;*!/
     background-color: lightslategray;
     color: white;
     font-weight: bolder;
-}
-
-#image
-{
-    float:right;
-    padding: 2pt;
-}
+}*/
 
 #navigation
 {
@@ -38,10 +32,11 @@
     margin-top: 0%;
     margin-bottom: 2%;
     border: 0pt;
-    background-color: lightslategray;
+    background-color: slategrey;
     padding: 0pt;
     position: absolute;
     color: white;
+    font-size: medium;
 }
 
 #content
@@ -51,6 +46,14 @@
     float: left;
     padding: 10px 10px 50px 10px;
     position: relative;
+}
+
+#content > div.panel
+{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 5pt;
+    margin-right: 5pt;
 }
 
 #footer
@@ -76,6 +79,23 @@
 /*
 Bootstrap Override
 */
+
+.panel > .panel-heading
+{
+    background: slategrey none;
+    color: white;
+}
+
+.jumbotron p
+{
+    font-size: medium;
+}
+
+.jumbotron h2
+{
+    font-weight: bold;
+}
+
 .navbar
 {
     min-height: 1px !important
@@ -83,6 +103,7 @@ Bootstrap Override
 
 .navbar-default .navbar-nav > li > a {
     color: white;
+
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {

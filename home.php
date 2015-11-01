@@ -5,8 +5,21 @@ include("includes/navigation.inc.php");
 ?>
 <div id="content" class="container">
 
+    <div class="jumbotron">
+        <h2>Herzlich willkommen zum Online-Planungstool der Star Reisen AG!</h2>
+        <p>Verwenden Sie die Navigation links um Rechnungen, Reisen oder Teilnehmer einzusehen oder zu mutieren. Zus&auml;tzlich k&ouml;nnen Sie sich unter 'Reports' vorgefertigte Berichte ausstellen lassen.</p>
+    </div>
 
+    <div class="panel panel-primary col-md-4">
+            <div class="panel-heading">Kommende Reisen</div>
+            <div class="panel-body">Text</div>
+    </div>
+    <div class="panel panel-primary col-md-4">
+        <div class="panel-heading">F&auml;llige Rechnungen</div>
+        <div class="panel-body">Text</div>
+    </div>
 </div>
+
 
 
 <!--    <title>Home</title>-->
