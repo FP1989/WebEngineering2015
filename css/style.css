@@ -63,11 +63,20 @@
 Bootstrap Override
 */
 
+.panel{
+    border-color: slategray;
+}
+
 .panel > .panel-heading
 {
     background: slategrey none;
     color: white;
 }
+
+/*.btn-primary*/
+/*{*/
+    /*background: slategrey;*/
+/*}*/
 
 .jumbotron p
 {
