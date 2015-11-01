@@ -21,12 +21,12 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['amount'])) {
         $amount_error = "Bitte einen Rechnungsbetrag eingeben";
     } else {
-        @$amount = $_POST['amount'];
+        $amount = $_POST['amount'];
     }
     if (empty($_POST['iban'])){
         $iban_error = "Bitte eine IBAN-Nr. eingeben";
     } else {
-        @$iban = $_POST['iban'];
+        $iban = $_POST['iban'];
     }
 
 }

@@ -16,17 +16,3 @@
     <script src="http://cdn.jsdelivr.net/typeahead.js/0.9.3/typeahead.min.js"></script>
 </head>
 <body>
-
-<!--<div id="header">
-
-    <h1>Star Reisen AG</h1>
-    <img src="files/logo.jpg" id="image" alt="logo">
-</div>
-<div id="login">
-
-    <a href="login.php">Logout</a></li>
-
-</div>-->
-
-
-

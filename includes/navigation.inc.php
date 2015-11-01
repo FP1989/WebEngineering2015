@@ -7,5 +7,6 @@
         <li><a href="reisen.php"><i class="fa fa-plane fa-2x"></i><br>Reisen</a></li>
         <li><a href="teilnehmer.php"><i class="fa fa-users fa-2x"></i><br>Teilnehmer</a></li>
         <li><a href="reports_index.php"><i class="fa fa-table fa-2x"></i><br>Reports</a></li>
+<!--        <a href="login.php">Logout</a></li>-->
     </ul>
 </div>
