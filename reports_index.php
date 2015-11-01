@@ -69,4 +69,3 @@ if (isset($_POST['report_type'], $_POST['submit'])) {
 </div>
 <?php
 require ("includes/footer.inc.php");
-?>

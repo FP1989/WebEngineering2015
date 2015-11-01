@@ -181,5 +181,3 @@ if(isset($_POST['gesendet'])) {
 
 <?php
 include("includes/footer.inc.php");
-?>
-

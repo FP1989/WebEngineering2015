@@ -13,18 +13,6 @@
     color:#f00;
 }
 
-/*#header
-{
-    width: 100%;
-    height: 106px;
-    margin-bottom: 2%;
-    border: 0pt;
-    /!*padding: 5pt;*!/
-    background-color: lightslategray;
-    color: white;
-    font-weight: bolder;
-}*/
-
 #navigation
 {
     width: 100pt;
@@ -61,11 +49,6 @@
     background-color: lightslategray;
     height: 20px;
     color: white;
-    text-align: right;
-}
-
-#login
-{
     text-align: right;
 }
 

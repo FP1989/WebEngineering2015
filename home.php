@@ -30,3 +30,6 @@ include("includes/navigation.inc.php");
         </form>
     </div>
 </div>
+
+<?php
+include ("includes/footer.inc.php");
