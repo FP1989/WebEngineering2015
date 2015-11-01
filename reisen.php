@@ -1,13 +1,13 @@
 
 <?php
-$pagetitle = "Teilnehmer";
+$pagetitle = "Reisen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 ?>
 <div id="content" class="container">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#createTravel">Neuen Teilnehmer erfassen</a></li>
-        <li><a data-toggle="tab" href="#editTravel">Teilnehmer ansehen / editieren</a></li>
+        <li class="active"><a data-toggle="tab" href="#createTravel">Neue Reise erfassen</a></li>
+        <li><a data-toggle="tab" href="#editTravel">Reise ansehen / editieren</a></li>
     </ul>
 
     <div class="tab-content">

@@ -1,12 +1,16 @@
+
 <?php
 $pagetitle = "Rechnungen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
-?>
-<?php
+
+
+
+
 
 // define variables and set to empty values
 $amount_error = $currency_error = $costs_error = "";
+$amount = $iban = "";
 
 
 
@@ -18,8 +22,15 @@ if(isset($_POST['gesendet'])) {
     } else {
         @$amount = $_POST['amount'];
     }
+    if (empty($_POST['iban'])){
+        $iban_error = "Bitte eine IBAN-Nr. eingeben";
+    } else {
+        @$iban = $_POST['iban'];
+    }
 
 }
+
+
 ?>
 
 <div id="content" class="container">
@@ -66,10 +77,11 @@ if(isset($_POST['gesendet'])) {
                 </div>
 
                 <div class="form-group">
-                    <div>
-                        <label>IBAN</label>
-                        <input type="text" name="iban" class="form-control"/>
-                    </div>
+
+                    <label>IBAN</label>
+                    <input type="text" name="iban" class="form-control" />
+
+
                 </div>
 
                 <div class="form-group">
@@ -169,3 +181,4 @@ if(isset($_POST['gesendet'])) {
 <?php
 include("includes/footer.inc.php");
 ?>
+
