@@ -1,5 +1,6 @@
 
 <?php
+ini_set('display_errors', 1);
 $pagetitle = "Rechnungen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
