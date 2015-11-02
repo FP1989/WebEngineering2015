@@ -52,16 +52,7 @@
     text-align: right;
 }
 
-.ui-tabs
-{
-    position: relative;
-    width: 1550px;
-}
-
-
-/*
-Bootstrap Override
-*/
+/*Following classes: Bootstrap override*/
 
 .panel{
     border-color: slategray;
@@ -72,11 +63,6 @@ Bootstrap Override
     background: slategrey none;
     color: white;
 }
-
-/*.btn-primary*/
-/*{*/
-    /*background: slategrey;*/
-/*}*/
 
 .jumbotron p
 {
@@ -95,7 +81,6 @@ Bootstrap Override
 
 .navbar-default .navbar-nav > li > a {
     color: white;
-
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {

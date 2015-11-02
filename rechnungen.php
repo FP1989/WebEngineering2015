@@ -148,10 +148,10 @@ if(isset($_POST['gesendet'])) {
                 </div>
 
 
-
-                <button type="submit" name="gesendet" class="btn btn-default">Rechnung erfassen</button>
-                <button type="reset" class="btn btn-default">Felder l&ouml;schen</button>
-
+                <div class="form-group pull-right">
+                <button type="submit" name="gesendet" class="btn btn-primary">Rechnung erfassen</button>
+                <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
+                </div>
 
             </form>
 

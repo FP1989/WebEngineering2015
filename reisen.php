@@ -59,9 +59,9 @@ include("includes/navigation.inc.php");
                 </div>
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Reise erfassen</button>
-                <button type="reset" class="btn btn-default">Felder l&ouml;schen</button>
+            <div class="form-group pull-right">
+                <button type="submit" class="btn btn-primary">Reise erfassen</button>
+                <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
             </div>
 
         </div> <!-- end tab-1 -->

@@ -20,7 +20,7 @@ include("includes/navigation.inc.php");
             <div class="panel-body">Text</div>
         </div>
 
-        <div class=" cold-md-3 pull-right jumbotron">
+        <div class=" col-md pull-right jumbotron">
             <form action="" name="schnellzugriff">
                 <div class="form-group">
                     <label for="teilnehmerid">Teilnehmer ID</label>

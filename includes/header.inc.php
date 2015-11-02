@@ -16,3 +16,5 @@
     <script src="http://cdn.jsdelivr.net/typeahead.js/0.9.3/typeahead.min.js"></script>
 </head>
 <body>
+<!--Open Wrapper-->
+<div id="wrapper">
