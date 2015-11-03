@@ -33,7 +33,7 @@ include("includes/navigation.inc.php");
                 <label>Bezeichnung</label>
                 <input class="form-control" type="text">
             </div>
-
+            
             <div class="form-group">
                 <label>Preis</label>
                 <input class="form-control" type="number">

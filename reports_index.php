@@ -1,18 +1,16 @@
 <?php
 session_start();
-$_SESSION = array();
 
 $pagetitle = "Reports";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 ?>
-<div id="content">
-    <div class="container">
+<div id="content" class="container">
         <div class="form-group">
             <form action="" method="post" role="form" id="report_form">
                 <h2>Reports</h2>
                 <label for="select1">Report ausw&auml;hlen:</label>
-                <select name="report_type" id="select1" class="form-control input-small">
+                <select name="report_type" id="select1" class="form-control">
                     <option value="kreditoren">Offene Rechnungen anzeigen</option>
                     <option value="reiseteilnehmer">Kunden pro Reise</option>
                     <option value="offene_rechnungen">Kunden mit offenen Rechnungen anzeigen</option>
@@ -26,7 +24,6 @@ include("includes/navigation.inc.php");
                 <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
             </form>
         </div>
-    </div>
 
 <?php
 require "db_connect.php";
