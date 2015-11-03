@@ -1,22 +1,14 @@
-
 <?php
-ini_set('display_errors', 1);
+ini_set('display_errors', E_ALL);
 $pagetitle = "Rechnungen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
-
-
-
-
 
 // define variables and set to empty values
 $amount_error = $currency_error = $costs_error = "";
 $amount = $iban = "";
 
-
-
 if(isset($_POST['gesendet'])) {
-
 
     if (empty($_POST['amount'])) {
         $amount_error = "Bitte einen Rechnungsbetrag eingeben";
@@ -28,12 +20,8 @@ if(isset($_POST['gesendet'])) {
     } else {
         $iban = $_POST['iban'];
     }
-
 }
-
-
 ?>
-
 <div id="content" class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#createBill">Neue Rechnung erfassen</a></li>
@@ -78,11 +66,8 @@ if(isset($_POST['gesendet'])) {
                 </div>
 
                 <div class="form-group">
-
                     <label>IBAN</label>
                     <input type="text" name="iban" class="form-control" />
-
-
                 </div>
 
                 <div class="form-group">
@@ -147,12 +132,10 @@ if(isset($_POST['gesendet'])) {
                     <label class="radio-inline"><input type="radio" name="paidBill" <?php echo isset($_POST['paidBill'])=='Nein'? 'checked':''; ?>>Nein</label>
                 </div>
 
-
                 <div class="form-group pull-right">
                 <button type="submit" name="gesendet" class="btn btn-primary">Rechnung erfassen</button>
                 <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
                 </div>
-
             </form>
 
         </div> <!-- end tab-1 -->
@@ -165,8 +148,6 @@ if(isset($_POST['gesendet'])) {
     </div> <!-- end tabs -->
 </div> <!-- end content div -->
 
-
-
 <script type="text/javascript">
 
     $(function() {
@@ -175,9 +156,6 @@ if(isset($_POST['gesendet'])) {
         dateFormat: "dd-mm-yyyy",
             $.datepicker.setDefaults($.datepicker.regional["de"]);
     });
-
-
 </script>
-
 <?php
 include("includes/footer.inc.php");

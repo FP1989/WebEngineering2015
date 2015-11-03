@@ -2,6 +2,9 @@
 $pagetitle = "Home";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
+include("classes/database.class.php");
+
+$verbindung = database::createDatabase();
 ?>
     <div id="content" class="container">
 
