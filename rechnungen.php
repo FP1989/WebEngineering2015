@@ -159,10 +159,10 @@ if ($valid) {
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-8 <?php echo (!empty($recipient_error)) ? 'has-error':''; ?>">
-                            <label>Beg&uuml;nstigter</label>
-                            <input type="text" class="form-control" name="recipient" value="<?php echo @$_POST['recipient'];?>"/>
-                            <?php echo "<span class='help-block'>$recipient_error</span>";?>
+                        <div class="col-md-8 <?php echo (!empty($duedate_error)) ? ' has-error':''; ?>">
+                            <label>F&auml;lligkeit</label>
+                            <input type='text' class="form-control" name="duedate" title="Format [dd.mm.jjjj]"  id="datepicker" value="<?php echo @$_POST['duedate'];?>"/>
+                            <?php echo "<div><p class='help-block'>$duedate_error</p></div>";?>
                         </div>
                         <div class="col-md-4 <?php echo (!empty($costs_error)) ? ' has-error':''; ?>">
                             <label>Kostenart</label>
@@ -179,13 +179,77 @@ if ($valid) {
                 </div>
 
 
+                <div class="form-group <?php echo (!empty($recipient_error)) ? 'has-error':''; ?>">
+                    <label>Beg&uuml;nstigter</label>
+                    <div class="input-group">
 
+                        <input type="text" class="form-control" name="recipient" value="<?php echo @$_POST['recipient'];?>"/>
+                        <?php echo "<span class='help-block'>$recipient_error</span>";?>
 
-                <div class="form-group <?php echo (!empty($duedate_error)) ? ' has-error':''; ?>">
-                    <label>F&auml;lligkeit</label>
-                    <input type='text' class="form-control" name="duedate" title="Format [dd.mm.jjjj]"  id="datepicker" value="<?php echo @$_POST['duedate'];?>"/>
-                    <?php echo "<div><p class='help-block'>$duedate_error</p></div>";?>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#newRecipient">Neuen Beg&uuml;nstigten anlegen</button>
+                        </span>
+                    </div>
                 </div>
+
+
+                <!-- Modal for new Recipient -->
+                <div class="modal fade" id="newRecipient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Neuen Beg&uuml;nstigten erfassen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label>Beg&uuml;nstigten-ID</label>
+                                        <input class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" name="name" class="form-control" value="<?php echo @$_POST['name'];?>"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label>Strasse</label>
+                                                <input type="text" name="street" value="<?php echo @$_POST['street'];?>" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Hausnummer</label>
+                                                <input type="number" name="housenumber" value="<?php echo @$_POST['housenumber'];?>" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label>PLZ</label>
+                                                <input type="number" name="plz" value="<?php echo @$_POST['plz'];?>" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Ort</label>
+                                                <input type="text" name="town" value="<?php echo @$_POST['town'];?>" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                                <button type="button" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
 
                 <div class="form-group <?php echo (!empty($comment_error)) ? ' has-error':''; ?>">
                     <div>
