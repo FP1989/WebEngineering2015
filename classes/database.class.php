@@ -9,7 +9,6 @@ class database
     private $dbname;
     private $link;
 
-
     private function __construct(){
 
         $this->host = '127.0.0.1';
@@ -17,16 +16,18 @@ class database
         $this->passwort ='';
         $this->dbname = 'reiseunternehmen';
         $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
-
     }
 
-    public static function createDatabase(){
+    public static function getDatabase(){
 
     if (database::$database == null) database::$database = new Database();
 
     return database::$database;
 
     }
+
+    public function preparedStatement(){}
+
 
     public function insertBeguenstigter(beguenstigter $beguenstigter){
 
@@ -39,11 +40,39 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        if($id == "DEFAULT")$query = "INSERT INTO beguenstigter VALUES ('$id', '$name', '$strasse', '$hausnummer', '$plz')";
-        else $query = "UPDATE beguenstigter SET BeguenstigterName = $name, Strasse = $strasse, Hausnummer = $hausnummer, Ort = $plz  WHERE BeguenstigterID = $id";
+        /**  @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        if($id == "DEFAULT"){
+
+            $query = "INSERT INTO beguenstigter (BeguenstigterName, Strasse, Hausnummer, Ort) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sssi', $name, $strasse, $hausnummer, $plz);
+
+        }
+
+        else {
+
+            $query = "UPDATE beguenstigter SET BeguenstigterName = ?, Strasse = ?, Hausnummer = ?, Ort = ?  WHERE BeguenstigterID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sssii',$name, $strasse, $hausnummer, $plz, $id);
+
+        }
+
+        if($stmt->execute()) {
+
+            $stmt->close();
+            return true;
+
+        }
+
+        else {
+
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
@@ -77,11 +106,40 @@ class database
         $hinreise = $reise->getHinreise();
         $rueckreise = $reise->getRueckreise();
 
-        if($id == "DEFAULT") $query = "INSERT INTO reise VALUES ('$id', '$ziel', '$beschreibung', '$bezeichnung', '$preis', '$hinreise', '$rueckreise')";
-        else $query = "UPDATE reise SET Ziel = $ziel, Beschreibung = $beschreibung, Bezeichnung = $bezeichnung, Preise = $preis, Hinreise = $hinreise, Rueckreise = $rueckreise WHERE ReiseID = $id";
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        if($id == "DEFAULT") {
+
+            $query = "INSERT INTO reise (Ziel, Beschreibung, Bezeichnung, Preis, Hinreise, Rueckreise) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sssdss', $ziel,$beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise);
+
+        }
+
+        else {
+
+            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preise = ?, Hinreise = ?, Rueckreise = ? WHERE ReiseID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sssdssi', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise,$id);
+
+        }
+
+        if($stmt->execute()) {
+
+            $stmt->close();
+            return true;
+
+        }
+
+        else {
+
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
@@ -121,11 +179,39 @@ class database
 
         if(!$this->fetchBeguenstigter($beguenstigter->getBeguenstigterID)) $this->insertBeguenstigter($beguenstigter);
 
-        if($id == "DEFAULT") $query = "INSERT INTO rechnung VALUES ('$id', '$rechnungsart', '$betrag', '$waehrung', '$iban', '$swift', '$beguenstigter', '$kostenart', '$faelligkeit', '$bemerkung', '$reise', '$bezahlt')";
-        else $query = "UPDATE Rechnung SET Rechnungsart = $rechnungsart, Betrag = $betrag, Waehrung = $waehrung, IBAN = $iban, SWIFT = $swift, Beguenstigter = $beguenstigter, Kostenart = $kostenart, Faelligkeit = $faelligkeit, Bemerkung = $bemerkung, Reise = $reise, bezahlt = $bezahlt";
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        if($id == "DEFAULT") {
+
+            $query = "INSERT INTO rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+
+        }
+        else {
+
+            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
+
+        }
+
+        if($stmt->execute()) {
+
+            $stmt->close();
+            return true;
+
+        }
+
+        else {
+
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
@@ -161,7 +247,7 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        if($id == "DEFAULT") $query = "INSERT INTO teilnehmer VALUES ('$id', '$vorname', '$nachname', '$strasse', '$hausnummer', '$plz', '$telefon', '$mail')";
+        if($id == "DEFAULT") $query = "INSERT INTO teilnehmer (Vorname, Nachname, Strasse, Hausnummer, Ort, Telefon, Mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         else $query = "UPDATE teilnehmer SET TeilnehmerID = $id, Vorname = $vorname, Nachname = $nachname, Strasse = $strasse, Hausnummer = $hausnummer, Ort = $plz, Telefon = $telefon, Mail = $mail";
 
         if(mysqli_query($this->link, $query)) return true;
@@ -247,6 +333,20 @@ class database
 
     }
 
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    public function toString(){
+
+        return $this->dbname;
+    }
 
 
 

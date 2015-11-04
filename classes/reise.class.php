@@ -11,18 +11,18 @@ private $hinreise;
 private $rueckreise;
 
    private function __construct($reisedaten, $id){
-
         $this->reiseID = $id;
-        $this->ziel = $reisedaten['ziel'];
-        $this->beschreibung = $reisedaten['beschreibung'];
-        $this->preis = $reisedaten['preis'];
-        $this->hinreise = $reisedaten['hinreise'];
-        $this->rueckreise = $reisedaten['rueckreise'];
+        $this->ziel = $reisedaten['Ziel'];
+        $this->beschreibung = $reisedaten['Beschreibung'];
+        $this->bezeichnung= $reisedaten['Bezeichnung'];
+        $this->preis = $reisedaten['Preis'];
+        $this->hinreise = $reisedaten['Hinreise'];
+        $this->rueckreise = $reisedaten['Rueckreise'];
     }
 
    public static function newReise($reisedaten){
 
-       if(array_key_exists('reiseID', $reisedaten)) $id = $reisedaten['reiseID'];
+       if(array_key_exists('ReiseID', $reisedaten)) $id = $reisedaten['ReiseID'];
 
        else $id = 'DEFAULT';
 
