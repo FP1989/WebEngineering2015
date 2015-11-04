@@ -2,7 +2,7 @@
 
 include("classes/database.class.php");
 session_start();
-$verbindung = database::createDatabase();
+$verbindung = database::getDatabase();
 
 if(isset($_POST['userid']) AND isset($_POST['pwd'])) {
     $_SESSION['logged'] = TRUE;

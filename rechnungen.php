@@ -1,8 +1,10 @@
+
 <?php
 ini_set('display_errors', E_ALL);
 $pagetitle = "Rechnungen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
+include("classes/database.class.php");
 include ("beguenstigter_modal.php");
 // define variables and set to empty values
 $amount_error = $currency_error = $costs_error = $iban_error=$swift_error=$recipient_error=$duedate_error=$comment_error=$travel_error=$paymentoption_error=$paidBill_error="";
@@ -189,10 +191,27 @@ if(isset($_POST['gesendet'])) {
                 </form>
             </div> <!-- end tab-1 -->
             <div id="editBill" class="tab-pane fade">
-                <div class="form-group">
-                    <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
-                </div>
-            </div> <!-- end tab-2 -->
+                <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
+                <form role="form" method="post" action="">
+                    <div class = "form-group">
+                        <label for="reise">Reise ausw&auml;hlen</label>
+                        <select name="reise" id="reise" class="form-control">
+                            <?php
+                            /** @var database $database*/
+                            $database = database::getDatabase();
+
+                            $link = $database->getLink();
+                            $query = 'SELECT * FROM reise';
+
+                            $result = $link->query($query);
+
+                            while($datensatz = $result->fetch_assoc()){
+                                echo "<option value = \"".$datensatz["ReiseID"]."\">".$datensatz["ReiseID"]." ".$datensatz["Ziel"]." Datum: ".$datensatz["Hinreise"]."</option>";
+                            }?>
+                        </select>
+                    </div>
+                </form>
+            </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->
     <script type="text/javascript">
