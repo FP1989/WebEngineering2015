@@ -1,5 +1,7 @@
 <?php
 
+include ("beguenstigter.class.php");
+
 class database
 {
     private static $database;
@@ -25,9 +27,6 @@ class database
     return database::$database;
 
     }
-
-    public function preparedStatement(){}
-
 
     public function insertBeguenstigter(beguenstigter $beguenstigter){
 
@@ -89,10 +88,40 @@ class database
         if(is_null($datensatz)) return false;
 
         else {
-            $beguenstigter = Beguenstigter::newBeguenstigter($datensatz);
 
+
+            $beguenstigter = beguenstigter::newBeguenstigter($datensatz);
             return $beguenstigter;
+
         }
+
+    }
+
+    public function existsBeguenstigter($beguenstigterID){
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT BeguenstigterID, BeguenstigterName FROM beguenstigter WHERE BeguenstigterID = ?";
+
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $beguenstigterID);
+
+        $stmt->execute();
+
+        $stmt->bind_result($beguenstigterID,$beguenstigterName);
+
+        $enthalten = false;
+
+        while($stmt->fetch()){
+
+            $enthalten = true;
+            break;
+
+        }
+
+        return $enthalten;
 
     }
 
@@ -120,9 +149,9 @@ class database
 
         else {
 
-            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preise = ?, Hinreise = ?, Rueckreise = ? WHERE ReiseID = ?";
+            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preis = ?, Hinreise = ?, Rueckreise = ? WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sssdssi', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise,$id);
+            $stmt->bind_param('sssdssi', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $id);
 
         }
 
@@ -177,7 +206,7 @@ class database
         $reise = $rechnung->getReise();
         $bezahlt = $rechnung->isBezahlt();
 
-        if(!$this->fetchBeguenstigter($beguenstigter->getBeguenstigterID)) $this->insertBeguenstigter($beguenstigter);
+        if(!$this->existsBeguenstigter($beguenstigter)) return false;//$this->insertBeguenstigter($beguenstigter);
 
         /** @var database $database*/
         $database = database::getDatabase();
@@ -185,14 +214,14 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
 
         }
         else {
 
-            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ?";
+            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE BeguenstigterID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
 
@@ -247,11 +276,40 @@ class database
 
         if(!$this->fetchOrt($plz)) $this->insertOrt($plz, $ort);
 
-        if($id == "DEFAULT") $query = "INSERT INTO teilnehmer (Vorname, Nachname, Strasse, Hausnummer, Ort, Telefon, Mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        else $query = "UPDATE teilnehmer SET TeilnehmerID = $id, Vorname = $vorname, Nachname = $nachname, Strasse = $strasse, Hausnummer = $hausnummer, Ort = $plz, Telefon = $telefon, Mail = $mail";
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        if($id == "DEFAULT") {
+
+            $query = "INSERT INTO teilnehmer (Vorname, Nachname, Strasse, Hausnummer, Ort, Telefon, Mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('ssssiis', $vorname, $nachname, $strasse, $hausnummer, $plz, $telefon, $mail);
+
+        }
+
+        else {
+
+            $query = "UPDATE teilnehmer SET Vorname = ?, Nachname = ?, Strasse = ?, Hausnummer = ?, Ort = ?, Telefon = ?, Mail = ? WHERE TeilnehmerID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('ssssiisi', $vorname, $nachname, $strasse, $hausnummer, $plz, $telefon, $mail, $id);
+
+        }
+
+
+        if($stmt->execute()) {
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
@@ -277,10 +335,28 @@ class database
 
     public function insertOrt($plz, $ort){
 
-        $query = "INSERT INTO ort VALUES ('$plz', '$ort')";
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        $query = "INSERT INTO ort (PLZ, Ortname)VALUES (?, ?)";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('is', $plz, $ort);
+
+        if($stmt->execute()) {
+
+            $stmt->close();
+            return true;
+
+        }
+
+        else {
+
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
@@ -302,10 +378,27 @@ class database
 
     public function insertReservation($reiseID, $teilnehmerID, $bezahlt){
 
-        $query = "INSERT INTO reservation VALUES ('$reiseID', '$teilnehmerID', '$bezahlt')";
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
-        if(mysqli_query($this->link, $query)) return true;
-        else return false;
+        $query = "INSERT INTO reservation (ReiseID, TeilnehmerID, bezahlt) VALUES (?, ?, ?)";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('iii', $reiseID, $teilnehmerID, $bezahlt);
+
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else{
+
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+
+        }
 
     }
 
