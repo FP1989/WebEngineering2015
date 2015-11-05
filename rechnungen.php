@@ -31,6 +31,9 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['amount'])) {
         $amount_error = "Bitte einen Rechnungsbetrag eingeben";
         $valid = false;
+    }elseif(!(is_int($_POST['amount']))&& (!(in_array($_POST['amount'], range(1, 500000))))){
+        $amount_error = "Bitte nur Betr&auml;ge zwischen 1 und 500000.";
+        $valid = false;
     }
     if ($_POST['currency']=='default') {
         $currency_error = "Bitte eine W&auml;hrung eingeben";
@@ -39,13 +42,23 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['iban'])){
         $iban_error = "Bitte eine IBAN-Nr. eingeben";
         $valid = false;
+
+    }elseif(!(preg_match("/[a-zA-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{1}|[a-zA-Z]{2}\d{22}/", $_POST['iban']))){
+        $iban_error = "Bitte ein korrektes Format eingeben";
+        $valid = false;
     }
     if (empty($_POST['swift'])){
         $swift_error = "Bitte eine Swift-Nr. eingeben";
         $valid = false;
+    }elseif(!(preg_match('/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i', $_POST['swift']))){
+        $swift_error = "Bitte ein korrektes Format eingeben";
+        $valid = false;
     }
     if (empty($_POST['recipient'])){
         $recipient_error = "Bitte einen Beg&uuml;nstigten eingeben";
+        $valid = false;
+    }elseif(is_numeric($_POST['recipient'])){
+        $recipient_error = "Bitte nur Text eingeben.";
         $valid = false;
     }
     if ($_POST['costs']=='default') {
@@ -125,12 +138,12 @@ if(isset($_POST['gesendet'])) {
                     </div>
                     <div class="form-group <?php echo (!empty($iban_error)) ? 'has-error':''; ?>">
                         <label>IBAN</label>
-                        <input type="text" name="iban" class="form-control" value="<?php echo @$_POST['iban'];?>"/>
+                        <input type="text" name="iban" title="Format: CH63 4489 9857 4842 9034 6" class="form-control" value="<?php echo @$_POST['iban'];?>"/>
                         <?php echo "<span class='help-block'>$iban_error</span>";?>
                     </div>
                     <div class="form-group <?php echo (!empty($swift_error)) ? 'has-error':''; ?>">
                         <label>Swift</label>
-                        <input type="text" name="swift" class="form-control" value="<?php echo @$_POST['swift'];?>"/>
+                        <input type="text" name="swift" title="Format: LUKBCH2260A" class="form-control" value="<?php echo @$_POST['swift'];?>"/>
                         <?php echo "<span class='help-block'>$swift_error</span>";?>
                     </div>
                     <div class="form-group">
@@ -174,7 +187,7 @@ if(isset($_POST['gesendet'])) {
                         </div>
                     </div>
                     <div class="form-group <?php echo (!empty($travel_error)) ? ' has-error':''; ?>">
-                        <label class="control-label">Reise</label>
+                        <label>Reise</label>
                         <input class="form-control" type="text" name="travelid" value="<?php echo @$_POST['travelid'];?>"/>
                         <?php echo "<div><p class='help-block'>$travel_error</p></div>";?>
                     </div>
