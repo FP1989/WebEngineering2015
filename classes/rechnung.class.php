@@ -23,7 +23,7 @@ class rechnung{
         $this->betrag = $rechnungsdaten['Betrag'];
         $this->waehrung = $rechnungsdaten['Waehrung'];
         $this->iban = $rechnungsdaten['IBAN'];
-        if(array_key_exists('SWIF', $rechnungsdaten)) $this->swift = $rechnungsdaten['SWIFT'];
+        if(array_key_exists('SWIFT', $rechnungsdaten)) $this->swift = $rechnungsdaten['SWIFT'];
         $this->beguenstigter = $rechnungsdaten['Beguenstigter'];
         $this->kostenart = $rechnungsdaten['Kostenart'];
         $this->faelligkeit = $rechnungsdaten['Faelligkeit'];
