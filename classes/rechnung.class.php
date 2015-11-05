@@ -19,22 +19,22 @@ class rechnung{
     private function __construct($rechnungsdaten, $id){
 
         $this->rechnungsID = $id;
-        $this->rechnungsart = $rechnungsdaten['rechnungsart'];
-        $this->betrag = $rechnungsdaten['betrag'];
-        $this->waehrung = $rechnungsdaten['waehrung'];
-        $this->iban = $rechnungsdaten['iban'];
-        if(array_key_exists('swift', $rechnungsdaten)) $this->swift = $rechnungsdaten['swift'];
-        $this->beguenstigter = $rechnungsdaten['beguenstigter'];
-        $this->kostenart = $rechnungsdaten['kostenart'];
-        $this->faelligkeit = $rechnungsdaten['faelligkeit'];
-        if(array_key_exists('bemerkung', $rechnungsdaten)) $this->bemerkung = $rechnungsdaten['bemerkung'];
-        if(array_key_exists('reise',$rechnungsdaten)) $this->reise = $rechnungsdaten['reise'];
+        $this->rechnungsart = $rechnungsdaten['Rechnungsart'];
+        $this->betrag = $rechnungsdaten['Betrag'];
+        $this->waehrung = $rechnungsdaten['Waehrung'];
+        $this->iban = $rechnungsdaten['IBAN'];
+        if(array_key_exists('SWIF', $rechnungsdaten)) $this->swift = $rechnungsdaten['SWIFT'];
+        $this->beguenstigter = $rechnungsdaten['Beguenstigter'];
+        $this->kostenart = $rechnungsdaten['Kostenart'];
+        $this->faelligkeit = $rechnungsdaten['Faelligkeit'];
+        if(array_key_exists('Bemerkung', $rechnungsdaten)) $this->bemerkung = $rechnungsdaten['Bemerkung'];
+        if(array_key_exists('Reise',$rechnungsdaten)) $this->reise = $rechnungsdaten['Reise'];
         $this->bezahlt = $rechnungsdaten['bezahlt'];
     }
 
     public static function newRechnung($rechnungsdaten){
 
-        if(array_key_exists('rechnungsID', $rechnungsdaten)) $id = $rechnungsdaten['rechnungsID'];
+        if(array_key_exists('RechnungsID', $rechnungsdaten)) $id = $rechnungsdaten['RechnungsID'];
 
         else $id = 'DEFAULT';
 
