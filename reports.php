@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 $pagetitle = "Reports";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
@@ -33,8 +32,10 @@ include("classes/database.class.php");
         <?php
 
         if(isset($_POST['pdfbutton'])) {
-            $_SESSION['type'] = $_POST['report_type'];
-            header("Location:reports_pdf.php");
+            $pdf = new PDF();
+            $pdf->createTable($_POST['report_type']);
+
+/*            header("Location:reports_pdf.php");*/
         }
 
         if (isset($_POST['report_type'], $_POST['submit'])) {
