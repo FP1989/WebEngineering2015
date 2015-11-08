@@ -4,7 +4,7 @@ include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 include("classes/database.class.php");
 
-$verbindung = database::createDatabase();
+$verbindung = database::getDatabase();
 ?>
     <div id="content" class="container">
 
