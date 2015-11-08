@@ -3,6 +3,7 @@
 $pagetitle = "Reisen";
 include("includes/header.inc.php");
 include("includes/navigation.inc.php");
+include("classes/database.class.php");
 ?>
 <div id="content" class="container">
     <ul class="nav nav-tabs">
@@ -67,9 +68,29 @@ include("includes/navigation.inc.php");
         </div> <!-- end tab-1 -->
 
         <div id="editTravel" class="tab-pane fade">
-            <div role="form">
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
-            </div>
+                <form role="form" method="post" action="">
+                    <div class = "form-group">
+                        <label for="reise">Reise ausw&auml;hlen</label>
+                        <select name="reise" id="reise" class="form-control">
+
+                            <?php
+                            /** @var database $database*/
+                            $database = database::getDatabase();
+
+                            $link = $database->getLink();
+                            $query = 'SELECT * FROM reise';
+
+                            $result = $link->query($query);
+
+                            $rows = $result->num_rows;
+                            $spalten = $result->field_count;
+                            while($datensatz = $result->fetch_assoc()){
+                                echo "<option value = \"".$datensatz["ReiseID"]."\">".$datensatz["ReiseID"]." ".$datensatz["Ziel"]." Datum: ".$datensatz["Hinreise"]."</option>";
+                            }?>
+                        </select>
+                    </div>
+                </form>
         </div> <!-- end tab-2 -->
     </div> <!-- end tabs -->
 </div> <!-- end content div -->
