@@ -51,7 +51,7 @@ class PDF extends FPDF
             $this->Ln();
 
 //  Table Content
-            $fs = ($_SESSION['type'] == 'Kundenuebersicht' ? 8 : ($_SESSION['type'] == 'Reiseuebersicht' ? 8 : 12));
+            $fs = ($_SESSION['type'] == 'Kundenuebersicht' ? 8 : ($_SESSION['type'] == 'Reiseuebersicht' ? 8 : 10));
 
             $this->SetFont('Helvetica', '', $fs);
             $this->SetDrawColor(0, 0, 0);
