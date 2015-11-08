@@ -12,23 +12,25 @@ class teilnehmer{
     private $plz;
     private $ort;
     private $telefonNr;
-    private $Email;
+    private $email;
 
     private function __construct($teilnehmerdaten, $id){
 
         $this->teilnehmerID = $id;
-        $this->vorname = $teilnehmerdaten['vorname'];
-        $this->nachname = $teilnehmerdaten['nachname'];
-        $this->strasse = $teilnehmerdaten['strasse'];
-        if(array_key_exists('hausnummmer', $teilnehmerdaten)) $this->hausnummer = $teilnehmerdaten['hausnummer'];
-        $this->plz = $teilnehmerdaten['plz'];
-        $this->ort = $teilnehmerdaten['ort'];
+        $this->vorname = $teilnehmerdaten['Vorname'];
+        $this->nachname = $teilnehmerdaten['Nachname'];
+        $this->strasse = $teilnehmerdaten['Strasse'];
+        if(array_key_exists('Hausnummer', $teilnehmerdaten)) $this->hausnummer = $teilnehmerdaten['Hausnummer'];
+        $this->plz = $teilnehmerdaten['PLZ'];
+        $this->ort = $teilnehmerdaten['Ort'];
+        if(array_key_exists('Telefon', $teilnehmerdaten)) $this->telefonNr = $teilnehmerdaten['Telefon'];
+        if(array_key_exists('Mail', $teilnehmerdaten)) $this->email = $teilnehmerdaten['Mail'];
 
     }
 
     public static function newTeilnehmer($teilnehmerdaten){
 
-        if(array_key_exists('$teilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['teilnehmerID'];
+        if(array_key_exists('$teilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['TeilnehmerID'];
 
         else $id = 'DEFAULT';
 
@@ -88,13 +90,13 @@ class teilnehmer{
 
     public function getEmail(){
 
-        return $this->Email;
+        return $this->email;
 
     }
 
-    public function setEmail($Email){
+    public function setEmail($email){
 
-        $this->Email = $Email;
+        $this->email = $email;
 
     }
 
