@@ -1,58 +1,72 @@
 <?php
-
-include ("database.class.php");
-include ("fpdf/fpdf.php");
+include ("FPDF/fpdf.php");
 
 class PDF extends FPDF
+
 {
+//    Override FPDF Header
+    function Header() {
+//        First Line
+        $this->SetFont('Helvetica', 'B', 20);
+        $this->SetDrawColor(0, 0, 0);
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFillColor(153, 153, 255);
+        $this->Cell(275, 10, 'Report', '', 0, 'L', 1);
+        $this->Ln();
 
-    public function createTable($type) {
+//        Second Line
+        $this->SetFont('Helvetica', '', 20);
+        $this->SetFillColor(206, 212, 236);
+        $this->Cell(275, 10, $_SESSION['type'], '', 0, 'L', 1);
+        $this->Ln(50);
+    }
 
-        /** @var database $verbindung */
-        $verbindung = database::getDatabase();
-        $result = $verbindung->generateReport($type);
+//    Override FPDF Footer
+    function Footer() {
+        $this->SetY(-139);
+        $this->Image('files/logo_reports.png', 130, 173,'','','','');
+        $this->SetY(-6);
+        $this->SetFont('Courier','I',12);
+        $this->SetDrawColor(0, 0, 0);
+        $this->SetFillColor(0, 0, 0);
+        $this->SetTextColor(255, 255, 255);
+        $this->Cell(275, 6, 'Star Reisen AG - 2015', 'T', 0, 'C', 1);
+    }
+
+    function createTable($result) {
 
         if ($result->num_rows > 0) {
-
-            $w = $type == 'Reiseuebersicht' ? 40 : 30;
+            $w = ($_SESSION['type'] == 'Reiseuebersicht' ? 40 : 30);
             $h = 10;
-            $pdf = new FPDF();
-            $pdf->AddPage('L');
-            $pdf->SetFont('Helvetica', 'B', 20);
-            $pdf->Cell(40, 10, 'Report: ' . $type);
-            $pdf->Ln();
-            $pdf->Ln();
 
-/*Header*/
-            $pdf->SetFont('Helvetica', 'B', 12);
-            $pdf->SetDrawColor(0, 0, 0);
-            $pdf->SetFillColor(206, 212, 236);
-            $pdf->SetTextColor(0, 0, 0);
+//  Table Header
+            $this->SetFont('Helvetica', 'B', 12);
+            $this->SetDrawColor(0, 0, 0);
+            $this->SetFillColor(206, 212, 236);
+            $this->SetTextColor(0, 0, 0);
 
             while ($finfo = $result->fetch_field()) {
-                $pdf->Cell($w, $h, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);
+                $this->Cell($w, $h, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);
             }
-            $pdf->Ln();
+            $this->Ln();
 
-/*Content*/
-            $fs = ($type == 'Kundenuebersicht' ? 8 : ($type == 'Reiseuebersicht' ? 8 : 12));
+//  Table Content
+            $fs = ($_SESSION['type'] == 'Kundenuebersicht' ? 8 : ($_SESSION['type'] == 'Reiseuebersicht' ? 8 : 12));
 
-            $pdf->SetFont('Helvetica', '', $fs);
-            $pdf->SetDrawColor(0, 0, 0);
-            $pdf->SetFillColor(255, 255, 255);
-            $pdf->SetTextColor(0, 0, 0);
-
-            $x = $pdf->GetX();
-            $y = $pdf->GetY();
+            $this->SetFont('Helvetica', '', $fs);
+            $this->SetDrawColor(0, 0, 0);
+            $this->SetFillColor(255, 255, 255);
+            $this->SetTextColor(0, 0, 0);
 
             while ($row = $result->fetch_assoc()) {
                 foreach ($row as $value) {
-                    $pdf->Cell($w, $h, utf8_decode($value), 'LTRB', 0, 'C', 1);
+
+                    $this->Cell($w, $h, utf8_decode($value), 'LTRB', 0, 'C', 1);
                 }
-                $pdf->Ln();
+                $this->Ln();
             }
-            $pdf->Ln();
-            $pdf->Output();
+            $this->Ln();
+            $this->Output();
         }
-    }
+}
 }

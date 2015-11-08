@@ -1,9 +1,9 @@
 <?php
 session_start();
 $pagetitle = "Reports";
-include("includes/header.inc.php");
-include("includes/navigation.inc.php");
-include("classes/database.class.php");
+include_once("includes/header.inc.php");
+include_once("includes/navigation.inc.php");
+include_once("classes/database.class.php");
 ?>
     <div id="content" class="container">
         <div class="form-group">
@@ -11,7 +11,7 @@ include("classes/database.class.php");
                 <h2>Reports</h2>
                 <div class="form-group">
                     <label for="select1">Report ausw&auml;hlen:</label>
-                    <select name="report_type" id="select1" class="form-control">
+                    <select name="type" id="select1" class="form-control">
                         <option value="Kreditoren">Offene Rechnungen anzeigen</option>
                         <option value="Reiseteilnehmer">Kunden pro Reise</option>
                         <option value="Debitoren">Kunden mit offenen Rechnungen anzeigen</option>
@@ -28,21 +28,18 @@ include("classes/database.class.php");
                 </div>
             </form>
         </div>
-
         <?php
 
         if(isset($_POST['pdfbutton'])) {
-            $pdf = new PDF();
-            $pdf->createTable($_POST['report_type']);
-
-/*            header("Location:reports_pdf.php");*/
+            $_SESSION['type'] = $_POST['type'];
+            header("Location:print_pdf.php");
         }
 
-        if (isset($_POST['report_type'], $_POST['submit'])) {
+        if (isset($_POST['type'], $_POST['submit'])) {
 
             /** @var database $verbindung */
             $verbindung = database::getDatabase();
-            $result = $verbindung->generateReport($_POST['report_type']);
+            $result = $verbindung->generateReport($_POST['type']);
 
             if ($result->num_rows > 0) {
 
@@ -63,7 +60,6 @@ include("classes/database.class.php");
                 echo "</table>";
 
             } else echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage.</div>";
-//            mysqli_close($link);
         }
         ?>
     </div>

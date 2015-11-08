@@ -1,6 +1,6 @@
 
 <div id="navigation" class="navbar navbar-default">
-    <img src="files/logo_100pt_4.png" id="image" alt="logo" >
+    <img src="files/logo.png" id="image" alt="logo" >
 
     <ul class="nav navbar-nav">
 

@@ -661,9 +661,9 @@ class database
 
     }
 
-    public function generateReport($reportvalue) {
+    public function generateReport($type) {
 
-        switch ($reportvalue) {
+        switch ($type) {
 
             case "Kreditoren":
                 $query = "";
@@ -678,7 +678,7 @@ class database
                 $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Strasse, T.Hausnummer, O.PLZ, O.Ortname, T.Telefon, T.Mail FROM Teilnehmer T JOIN Ort O ON T.Ort= O.PLZ";
                 break;
             case "Reiseuebersicht":
-                $query = "SELECT R.ReiseID, R.Ziel, R.Beschreibung, R.Bezeichnung, R.Preis, R.Hinreise, R.Rueckreise FROM Reise R";
+                $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Preis, R.Hinreise, R.Rueckreise FROM Reise R";
                 break;
             case "Reisen demnaechst":
                 $query = "SELECT R.Ziel, R.Hinreise, T.Nachname, T.Vorname FROM Reise R JOIN Reservation Re ON R.ReiseID=Re.ReiseID JOIN Teilnehmer T ON Re.TeilnehmerID=T.TeilnehmerID WHERE R.Hinreise > CURDATE()";
