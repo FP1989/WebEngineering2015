@@ -3,10 +3,13 @@
 include("classes/database.class.php");
 include("classes/rechnung.class.php");
 
-$rechnungsID = $_POST["RechnungsID_R"];
-
 /* @var database $database*/
 $database = database::getDatabase();
+$link = $database->getLink();
+
+
+$rechnungsID = $_POST["RechnungsID_R"];
+
 
 $rechnung = $database->fetchRechnung($rechnungsID);
 

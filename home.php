@@ -4,7 +4,7 @@ include("includes/header.inc.php");
 include("includes/navigation.inc.php");
 include("classes/database.class.php");
 
-$verbindung = database::createDatabase();
+$verbindung = database::getDatabase();
 ?>
     <div id="content" class="container">
 
@@ -14,7 +14,7 @@ $verbindung = database::createDatabase();
             <p>Auf dieser Seite finden Sie aktuelle Daten zu anstehenden Reisen sowie f&auml;llige Rechnungen. Weiter k&ouml;nnen Sie mit dem Schnellzugriff Kunden entsprechenden Reisen zuweisen.</p>
         </div>
 
-        <div class="panel panel-primary col-md-4">
+         <div class="panel panel-primary col-md-4">
             <div class="panel-heading">Reisen demn&auml;chst</div>
             <div class="panel-body">Text</div>
         </div>
