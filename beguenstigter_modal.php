@@ -1,4 +1,42 @@
+<?php
+$recipientData = array();
+if(isset($_POST['newRecipient'])) {
+    //$recipientData = array();
+    $recipientData['beguenstigterName'] = $_POST['name'];
+    $recipientData['strasse'] = $_POST['street'];
+    $recipientData['hausnummer'] = $_POST['housenumber'];
+    $recipientData['plz'] = $_POST['plz'];
+    $recipientData['ort'] = $_POST['town'];
 
+
+
+
+//create Rechnungsobjekt
+    $recipient = beguenstigter::newBeguenstigter($recipientData);
+
+//make insert-statement
+    /** @var database $verbindung */
+
+    $verbindung = database::getDatabase();
+    $successful = $verbindung->insertBeguenstigter($recipient);
+
+    if($successful){
+
+    //set all variables to default
+    unset($_POST['name']);
+    unset($_POST['street']);
+    unset($_POST['housenumber']);
+    unset($_POST['plz']);
+    unset($_POST['town']);
+
+    }
+
+
+
+}
+
+
+?>
 <!-- Modal for new Recipient -->
 <div class="modal fade" id="newRecipient" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -9,7 +47,7 @@
             </div>
             <div class="modal-body">
 
-                    <form action="beguenstigter_modal.php" method="post">
+                <form action="beguenstigter_modal.php" method="post">
                         <div class="form-group">
                             <label>Beg&uuml;nstigten-ID</label>
                             <input class="form-control" type="text" readonly>
@@ -47,7 +85,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                <button type="button" type="submit" data-dismiss="modal" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
+                <button type="button" type="submit" name ="newRecipient" data-dismiss="modal" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
             </div>
         </div>
     </div>

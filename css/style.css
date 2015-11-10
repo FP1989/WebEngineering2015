@@ -36,6 +36,7 @@
     position: relative;
 }
 
+
 #content > div.panel
 {
     padding-left: 0;
@@ -87,3 +88,5 @@
     color: #000;
     font-weight: bold;
 }
+
+

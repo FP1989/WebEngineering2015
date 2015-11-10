@@ -75,6 +75,7 @@ class database
 
     }
 
+
     public function fetchBeguenstigter($beguenstigterID = null, $beguenstigterName = null){
 
         /* @var database $database*/
@@ -281,7 +282,7 @@ class database
 
         if(!$this->existsBeguenstigter($beguenstigter)) $this->insertBeguenstigter($beguenstigter);
 
-        /** @var database $database*/
+        /** @var database $database */
         $database = database::getDatabase();
         $link = $database->getLink();
 
