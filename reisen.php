@@ -97,7 +97,7 @@ include("classes/database.class.php");
 
 
 
-<!--<script type="text/javascript">
+<script type="text/javascript">
 
     $(function() {
         $( "#hinreise" ).datepicker();
@@ -105,32 +105,32 @@ include("classes/database.class.php");
         dateFormat: "dd-mm-yyyy",
             $.datepicker.setDefaults($.datepicker.regional["de"]);
     });
-
-    $(function() {
-        $( "#tabs" ).tabs();
-    });
-
-
-    $(function() {
-        var defaultTab = parseInt(getParam('tab'));
-        $( "#tabs" ).tabs(
-            {active: defaultTab}
-        );
-    });
-    function getParam(name) {
-        var query = location.search.substring(1);
-        if (query.length) {
-            var parts = query.split('&');
-            for (var i = 0; i < parts.length; i++) {
-                var pos = parts[i].indexOf('=');
-                if (parts[i].substring(0,pos) == name) {
-                    return parts[i].substring(pos+1);
-                }
-            }
-        }
-        return 0;
-    }
-</script>-->
+//
+//    $(function() {
+//        $( "#tabs" ).tabs();
+//    });
+//
+//
+//    $(function() {
+//        var defaultTab = parseInt(getParam('tab'));
+//        $( "#tabs" ).tabs(
+//            {active: defaultTab}
+//        );
+//    });
+//    function getParam(name) {
+//        var query = location.search.substring(1);
+//        if (query.length) {
+//            var parts = query.split('&');
+//            for (var i = 0; i < parts.length; i++) {
+//                var pos = parts[i].indexOf('=');
+//                if (parts[i].substring(0,pos) == name) {
+//                    return parts[i].substring(pos+1);
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+</script>
 
 <?php
 include("includes/footer.inc.php");

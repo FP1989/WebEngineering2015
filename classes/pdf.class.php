@@ -1,72 +1,85 @@
 <?php
 include ("FPDF/fpdf.php");
 
-class PDF extends FPDF
+class PDF extends FPDF {
 
-{
+    private $hwidth = 275;
+    private $cwidth = 40;
+    private $cheight = 10;
+    private $fsize = 10;
+    private $imagey = 173;
+    private $imagex = 130;
+    private $font = 'Times';
+    private $footerfont = 'Courier';
+    private $imageloc = 'files/logo_reports.png';
+    private $white = 255;
+    private $black = 0;
+
 //    Override FPDF Header
     function Header() {
 //        First Line
-        $this->SetFont('Helvetica', 'B', 20);
-        $this->SetDrawColor(0, 0, 0);
-        $this->SetTextColor(0, 0, 0);
-        $this->SetFillColor(153, 153, 255);
-        $this->Cell(275, 10, 'Report', '', 0, 'L', 1);
-        $this->Ln();
+        $this->SetFont($this->font, 'B', $this->fsize + 10);
+        $this->SetDrawColor($this->black, $this->black, $this->black);
+        $this->SetTextColor($this->black, $this->black, $this->black);
+        $this->SetFillColor(104, 74, 255);
+        $this->Cell($this->hwidth, $this->cheight, '', '', 0, 'L', 1);
+        $this->Ln(2);
 
 //        Second Line
-        $this->SetFont('Helvetica', '', 20);
-        $this->SetFillColor(206, 212, 236);
-        $this->Cell(275, 10, $_SESSION['type'], '', 0, 'L', 1);
+        $this->SetFillColor(149, 128, 255);
+        $this->Cell($this->hwidth-30, $this->cheight, '', '', 0, 'L', 1);
+        $this->Ln(2);
+
+//        Third Line
+        $this->SetFillColor(190, 176, 255);
+        $this->Cell($this->hwidth-60, $this->cheight, "Report " . $_SESSION['type'], '', 0, 'L', 1);
         $this->Ln(50);
     }
 
 //    Override FPDF Footer
     function Footer() {
         $this->SetY(-139);
-        $this->Image('files/logo_reports.png', 130, 173,'','','','');
+        $this->Image($this->imageloc, $this->imagex, $this->imagey,'','','','');
         $this->SetY(-6);
-        $this->SetFont('Courier','I',12);
-        $this->SetDrawColor(0, 0, 0);
-        $this->SetFillColor(0, 0, 0);
-        $this->SetTextColor(255, 255, 255);
-        $this->Cell(275, 6, 'Star Reisen AG - 2015', 'T', 0, 'C', 1);
+        $this->SetFont($this->footerfont,'I',$this->fsize+2);
+        $this->SetDrawColor($this->black, $this->black, $this->black);
+        $this->SetFillColor($this->black, $this->black, $this->black);
+        $this->SetTextColor($this->white, $this->white, $this->white);
+        $this->Cell($this->hwidth, $this->fsize-4, 'Star Reisen AG - 2015', 'T', 0, 'C', 1);
     }
 
     function createTable($result) {
 
         if ($result->num_rows > 0) {
-            $w = ($_SESSION['type'] == 'Reiseuebersicht' ? 40 : 30);
-            $h = 10;
+
+            $this->cwidth = $_SESSION['type'] == 'Kundenuebersicht' ? 31 : 40;
 
 //  Table Header
-            $this->SetFont('Helvetica', 'B', 12);
-            $this->SetDrawColor(0, 0, 0);
+            $this->SetFont($this->font, 'B', 12);
+            $this->SetDrawColor($this->black, $this->black, $this->black);
             $this->SetFillColor(206, 212, 236);
-            $this->SetTextColor(0, 0, 0);
+            $this->SetTextColor($this->black, $this->black, $this->black);
 
             while ($finfo = $result->fetch_field()) {
-                $this->Cell($w, $h, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);
+                $this->Cell($this->cwidth, $this->cheight, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);
             }
             $this->Ln();
 
 //  Table Content
-            $fs = ($_SESSION['type'] == 'Kundenuebersicht' ? 8 : ($_SESSION['type'] == 'Reiseuebersicht' ? 8 : 10));
-
-            $this->SetFont('Helvetica', '', $fs);
-            $this->SetDrawColor(0, 0, 0);
-            $this->SetFillColor(255, 255, 255);
-            $this->SetTextColor(0, 0, 0);
+            $this->SetFont($this->font, '', $this->fsize);
+            $this->SetDrawColor($this->black, $this->black, $this->black);
+            $this->SetFillColor($this->white, $this->white, $this->white);
+            $this->SetTextColor($this->black, $this->black, $this->black);
 
             while ($row = $result->fetch_assoc()) {
                 foreach ($row as $value) {
 
-                    $this->Cell($w, $h, utf8_decode($value), 'LTRB', 0, 'C', 1);
+                    $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
                 }
                 $this->Ln();
             }
             $this->Ln();
             $this->Output();
         }
-}
+    }
 }
