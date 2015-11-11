@@ -55,6 +55,7 @@ include ("beguenstigter_modal.php");
                     $stmt = $link->prepare($query);
                     $stmt->bind_param('i', $gesuchteReise);
 
+
                     $stmt->execute();
 
                     $stmt->bind_result($rgID, $rgBetrag, $rgWaehrung, $rgBeguenstigter, $rgFaelligkeit, $rgKostenart);
