@@ -17,8 +17,7 @@ include("includes/navigation.inc.php");
 
         <div id="editTravel" class="tab-pane fade">
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
-            <?php echo ($valid) ? $success_alert: $error_alert; ?>
-                <form role="form" method="post" action="">
+                  <form role="form" method="post" action="">
                     <div class = "form-group">
                         <label for="reise">Reise ausw&auml;hlen</label>
                         <select name="reise" id="reise" class="form-control">

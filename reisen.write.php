@@ -92,7 +92,7 @@ if(isset($_POST['gesendet'])) {
 
 <form role="form" method="post" action="">
     <h2>Reise erfassen</h2> </br></br>
-
+    <?php echo ($valid) ? $success_alert: $error_alert; ?>
     <div class="form-group">
         <label>Reise-ID</label>
         <input class="form-control" type="text" readonly>
