@@ -13,55 +13,7 @@ include("includes/navigation.inc.php");
     <div class="tab-content">
 
         <div id="createParticipant" class="tab-pane fade in active">
-            <h2>Teilnehmer erfassen</h2><br><br>
-
-            <div class="form-group">
-                <label>Teilnehmer-ID</label>
-                <input class="form-control" type="text" readonly>
-            </div>
-
-            <div class="form-group">
-                <label>Vorname</label>
-                <input class="form-control" type="text">
-            </div>
-
-            <div class="form-group">
-                <label>Nachname</label>
-                <input class="form-control" type="text">
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-8">
-                        <label>Strasse</label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="col-md-4">
-                        <label>Hausnummer</label>
-                        <input class="form-control" type="number">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Ort</label>
-                <input class="form-control" type="text">
-            </div>
-
-            <div class="form-group">
-                <label>Telefon Nr.</label>
-                <input class="form-control" type="number">
-            </div>
-
-            <div class="form-group">
-                <label>E-Mail Adresse</label>
-                <input class="form-control" type="text">
-            </div>
-
-            <div class="form-group pull-right">
-                <button type="submit" class="btn btn-primary">Teilnehmer erfassen</button>
-                <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
-            </div>
+            <?php include("teilnehmer.write.php");?>
         </div> <!-- end tab-1 -->
 
         <div id="editParticipant" class="tab-pane fade">

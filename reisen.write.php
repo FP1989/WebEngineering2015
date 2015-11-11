@@ -63,7 +63,7 @@ if(isset($_POST['gesendet'])) {
         $traveldata['Hinreise'] = $_POST['fromdate'];
         $traveldata['Rueckreise']= $_POST['todate'];
 
-        //create Rechnungsobjekt
+
         $reise = reise::newReise($traveldata);
 
         //make insert-statement
