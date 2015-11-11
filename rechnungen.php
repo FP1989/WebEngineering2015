@@ -77,12 +77,7 @@ include ("beguenstigter_modal.php");
             </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->
-    <script type="text/javascript">
-        $(function() {
-            $( "#datepicker" ).datepicker();
-            dateFormat: "dd-mm-yyyy",
-                $.datepicker.setDefaults($.datepicker.regional["de"]);
-        });
-    </script>
+
+
 <?php
 include("includes/footer.inc.php");
