@@ -14,6 +14,8 @@ class PDF extends FPDF {
     private $imageloc = 'files/logo_reports.png';
     private $white = 255;
     private $black = 0;
+//    Defines at what Y-Coordinate the page is broken
+    private $maxheight = 160;
 
 //    Override FPDF Header
     function Header() {
@@ -32,7 +34,7 @@ class PDF extends FPDF {
 
 //        Third Line
         $this->SetFillColor(190, 176, 255);
-        $this->Cell($this->hwidth-60, $this->cheight, "Report " . $_SESSION['type'], '', 0, 'L', 1);
+        $this->Cell($this->hwidth-60, $this->cheight, "Report '" . $_SESSION['type'] . "'", '', 0, 'L', 1);
         $this->Ln(50);
     }
 
@@ -70,15 +72,19 @@ class PDF extends FPDF {
             $this->SetDrawColor($this->black, $this->black, $this->black);
             $this->SetFillColor($this->white, $this->white, $this->white);
             $this->SetTextColor($this->black, $this->black, $this->black);
+            $counter = 0;
 
             while ($row = $result->fetch_assoc()) {
-                foreach ($row as $value) {
 
-                    $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
+                if ($counter < $this->maxheight) foreach ($row as $value) $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
+
+                else {
+                    $this->AddPage('L');
+                    foreach ($row as $value) $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
                 }
+                $counter = $this->GetY();
                 $this->Ln();
             }
-            $this->Ln();
             $this->Output();
         }
     }
