@@ -7,11 +7,11 @@ class PDF extends FPDF {
     private $cwidth = 40;
     private $cheight = 10;
     private $fsize = 10;
-    private $imagey = 173;
+    private $imagey = 169;
     private $imagex = 130;
     private $font = 'Times';
     private $footerfont = 'Courier';
-    private $imageloc = 'files/logo_reports.png';
+    private $imageloc = 'files/logo_report.png';
     private $white = 255;
     private $black = 0;
 //    Defines at what Y-Coordinate the page is broken
