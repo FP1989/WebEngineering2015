@@ -14,6 +14,26 @@
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/3.1.1/bootstrap3-typeahead.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script id="source" language="javascript" type="text/javascript">
+        $(document).ready(function ()
+        {
+            $.ajax({
+                url: 'reisen.read.php', //   Skript, das aufgerufen wird
+                data: "", //   Übergebene Daten
+                dataType: 'json', //   Datenformat JSON
+                success: function (data) { //   Erhalt des Ergebnisses => mehrere Datensätze
+                    var len = data.length;
+                    for (i = 0; i < len; i++) {
+
+                        $('#reise').append("<option>Reiseziel: " + data[i].Ziel+ ", Abreise: "+ data[i].Hinreise+ "</option>");
+                    }
+                }
+            });
+        });
+    </script>
+
 
 </head>
 <body>

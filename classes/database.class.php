@@ -713,6 +713,17 @@ class database
         return $this->dbname;
     }
 
+    public function getAlleReisen(){
+
+        /*@var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT * FROM reise";
+        $result = $link->query($query);
+
+        return $result;
+    }
 
 
 

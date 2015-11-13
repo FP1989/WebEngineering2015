@@ -21,21 +21,11 @@ include ("beguenstigter_modal.php");
                 <form role="form" method="post" action="">
                     <div class = "form-group">
                         <label for="reise">Reise ausw&auml;hlen</label>
+
                         <select name="reise" id="reise" class="form-control">
-                            <?php
-                            /** @var database $database*/
-                            $database = database::getDatabase();
 
-                            $link = $database->getLink();
-                            $query = 'SELECT * FROM reise';
-
-                            $result = $link->query($query);
-
-                            while($datensatz = $result->fetch_assoc()){
-                                echo "<option value = \"".$datensatz["ReiseID"]."\">";
-                                echo $datensatz["ReiseID"]." ".$datensatz["Ziel"]." "."Datum: ".$datensatz["Hinreise"]."</option>";
-                            } ?>
                         </select>
+
                     </div>
                      <div class="form-group pull-right">
                         <button type="submit" type="button" name="Reisegesucht" class="btn btn-primary">Rechnung suchen</button>
