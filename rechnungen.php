@@ -19,51 +19,23 @@ include ("beguenstigter_modal.php");
             <div id="editBill" class="tab-pane fade">
                 <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
                 <form role="form" method="post" action="">
+
                     <div class = "form-group">
                         <label for="reise">Reise ausw&auml;hlen</label>
-
                         <select name="reise" id="reise" class="form-control">
 
                         </select>
 
                     </div>
-                     <div class="form-group pull-right">
-                        <button type="submit" type="button" name="Reisegesucht" class="btn btn-primary">Rechnung suchen</button>
-                    </div><br/><br/>
+
+                    <div class = "form-group">
+                        <label for="rechnung">Rechnung ausw&auml;hlen</label>
+                        <select name="rechnung" id="rechnung" class ="form-control">
+
+                        </select>
+
+                    </div>
                 </form>
-                <?php
-                if(isset($_POST["Reisegesucht"])){
-
-                $gesuchteReise = $_POST['reise'];
-                    echo "<form role=\"form\" method=\"post\" action=\"rechnungen.read.php\">";
-                    echo "<div class = \"form-group\">";
-                    echo "<label for=\"reise\">Reise ausw&auml;hlen</label>";
-                    echo "<select name=\"reise\" id=\"reise\" class=\"form-control\">";
-
-                    $query = "SELECT RechnungsID, Betrag, Waehrung, Beguenstigter, Faelligkeit, Kostenart  FROM rechnung WHERE Reise = ?";
-
-                    $stmt = $link->prepare($query);
-                    $stmt->bind_param('i', $gesuchteReise);
-
-
-                    $stmt->execute();
-
-                    $stmt->bind_result($rgID, $rgBetrag, $rgWaehrung, $rgBeguenstigter, $rgFaelligkeit, $rgKostenart);
-                    while($stmt->fetch()){
-
-                        echo "<option value =\"".$rgID."\">".$rgID." ".$rgKostenart." ".$rgWaehrung." ".$rgBetrag." ".$rgBeguenstigter." ".$rgFaelligkeit."</option>";
-
-                    };
-                    $stmt->close();
-
-
-                        echo  "</select>";
-                        echo "</div>";
-
-                   echo "</div>";
-                echo "</form>";}    ?>
-
-
             </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->

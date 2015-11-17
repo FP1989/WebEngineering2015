@@ -8,21 +8,41 @@ $database = database::getDatabase();
 $link = $database->getLink();
 
 
-$rechnungsID = $_POST["RechnungsID_R"];
 
 
-$rechnung = $database->fetchRechnung($rechnungsID);
+if(isset($_POST["RechnungsID_R"])) {
 
-$_POST["Rechnungsart_R"] = $rechnung->getRechnungsart();
-$_POST["Betrag_R"] = $rechnung->getBetrag();
-$_POST["Waehrung_R"] = $rechnung->getWaehrung();
-$_POST["IBAN_R"] = $rechnung->getIban();
-$_POST["SWIFT_R"] = $rechnung->getSwift();
-$_POST["Beguenstigter_R"] = $rechnung->getBeguenstigter();
-$_POST["Kostenart_R"] = $rechnung->getKostenart();
-$_POST["Faelligkeit_R"] = $rechnung->getFaelligkeit();
-$_POST["Bemerkung_R"] = $rechnung->getBemerkung();
-$_POST["Reise_R"] = $rechnung->getReise();
-$_POST["bezahlt_R"] = $rechnung->isBezahlt();
+    $rechnungsID = $_POST["RechnungsID_R"];
+
+    $rechnung = $database->fetchRechnung($rechnungsID);
+
+    $_POST["Rechnungsart_R"] = $rechnung->getRechnungsart();
+    $_POST["Betrag_R"] = $rechnung->getBetrag();
+    $_POST["Waehrung_R"] = $rechnung->getWaehrung();
+    $_POST["IBAN_R"] = $rechnung->getIban();
+    $_POST["SWIFT_R"] = $rechnung->getSwift();
+    $_POST["Beguenstigter_R"] = $rechnung->getBeguenstigter();
+    $_POST["Kostenart_R"] = $rechnung->getKostenart();
+    $_POST["Faelligkeit_R"] = $rechnung->getFaelligkeit();
+    $_POST["Bemerkung_R"] = $rechnung->getBemerkung();
+    $_POST["Reise_R"] = $rechnung->getReise();
+    $_POST["bezahlt_R"] = $rechnung->isBezahlt();
+
+}
+
+else if (isset($_POST["ReiseID_R"])){
+
+    $reiseID = $_POST["ReiseID_R"];
+
+    $result = $database->getAlleRechnungen($reiseID);
+
+    while($datensatz = $result->fetch_assoc()) $return [] = $datensatz;
+
+    echo json_encode($return);
+
+
+
+}
+
 
 

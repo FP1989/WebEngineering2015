@@ -41,11 +41,7 @@ else {
 
     $result = $database->getAlleReisen();
 
-    while($datensatz = $result->fetch_assoc()){
-
-        $return [] = $datensatz;
-
-    }
+    while($datensatz = $result->fetch_assoc()) $return [] = $datensatz;
 
     echo json_encode($return);
 

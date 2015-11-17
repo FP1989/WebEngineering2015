@@ -318,15 +318,31 @@ class database
 
     }
 
-    public function fetchRechnung($rechnungsID){
+    public function fetchRechnung($rechnungsID = null, $reiseID = null){
+
 
         /* @var database $database*/
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM rechnung WHERE RechnungsID = ?";
-        $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $rechnungsID);
+        if(is_null($reiseID)&& is_null($rechnungsID)) return false;
+
+        else if(!is_null($rechnungsID)) {
+
+            $query = "SELECT * FROM rechnung WHERE RechnungsID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $rechnungsID);
+
+        }
+
+        else {
+
+            $query = "SELECT * FROM rechnung WHERE ReiseID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i',$reiseID);
+
+        }
+
 
         $stmt->execute();
         $stmt->bind_result($rechnungsID, $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
@@ -723,6 +739,36 @@ class database
         $result = $link->query($query);
 
         return $result;
+    }
+
+    public function getAlleRechnungen($reiseID = null){
+
+        if(is_null($reiseID)){
+
+            /*@var database $database*/
+            $database = database::getDatabase();
+            $link = $database->getLink();
+
+            $query = "SELECT * FROM rechnung";
+            $result = $link->query($query);
+
+            return $result;
+
+        }
+
+        else{
+
+            /*@var database $database*/
+            $database = database::getDatabase();
+            $link = $database->getLink();
+
+            $query = "SELECT * FROM rechnung WHERE Reise = $reiseID";
+            $result = $link->query($query);
+
+            return $result;
+        }
+
+
     }
 
 
