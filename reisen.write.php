@@ -1,6 +1,6 @@
 <?php
-include("classes/database.class.php");
-include("classes/reise.class.php");
+include_once("classes/database.class.php");
+include_once("classes/reise.class.php");
 
 // define variables and set to empty values
 $destination_error = $description_error = $travelname_error = $price_error = $todate_error = $fromdate_error = "";

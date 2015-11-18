@@ -1,9 +1,23 @@
 
-<?php
-$pagetitle = "Reisen";
-include("includes/header.inc.php");
-include("includes/navigation.inc.php");
-?>
+<!doctype html>
+<html lang="de">
+<head>
+    <?php
+    $pagetitle = "Reisen";
+    include_once("includes/header.inc.php");
+    ?>
+
+
+
+</head>
+<body>
+<div id="wrapper">
+
+    <?php
+    include_once("includes/navigation.inc.php");
+    include_once("classes/database.class.php");
+    ?>
+
 <div id="content" class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#createTravel">Neue Reise erfassen</a></li>
@@ -12,7 +26,7 @@ include("includes/navigation.inc.php");
 
     <div class="tab-content">
         <div id="createTravel" class="tab-pane fade in active">
-            <?php include("reisen.write.php");?>
+            <?php include_once("reisen.write.php");?>
         </div> <!-- end tab-1 -->
 
         <div id="editTravel" class="tab-pane fade">

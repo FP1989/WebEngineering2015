@@ -20,15 +20,15 @@ else{
 
 }
 
-$_POST["TeilnehmerID_R"] = $teilnehmer->getTeilnehmerID();
-$_POST["Vorname_R"] = $teilnehmer->getVorname();
-$_POST["Nachname_R"] = $teilnehmer->getNachname();
-$_POST["Strasse_R"] = $teilnehmer->getStrasse();
-$_POST["Hausnummer_R"] = $teilnehmer->getHausnummer();
-$_POST["PLZ_R"] = $teilnehmer->getPlz();
-$_POST["Ort_R"] = $teilnehmer->getOrt();
-$_POST["Telefon_R"] = $teilnehmer->getTelefonNr();
-$_POST["Mail_R"] = $teilnehmer->getEmail();
+$_SESSION["TeilnehmerID_R"] = $teilnehmer->getTeilnehmerID();
+$_SESSION["Vorname_R"] = $teilnehmer->getVorname();
+$_SESSION["Nachname_R"] = $teilnehmer->getNachname();
+$_SESSION["Strasse_R"] = $teilnehmer->getStrasse();
+$_SESSION["Hausnummer_R"] = $teilnehmer->getHausnummer();
+$_SESSION["PLZ_R"] = $teilnehmer->getPlz();
+$_SESSION["Ort_R"] = $teilnehmer->getOrt();
+$_SESSION["Telefon_R"] = $teilnehmer->getTelefonNr();
+$_SESSION["Mail_R"] = $teilnehmer->getEmail();
 
 
 

@@ -1,10 +1,22 @@
+<?php session_start();?>
+<!doctype html>
+<html lang="de">
+<head>
+    <?php
+    $pagetitle = "Reports";
+    include_once("includes/header.inc.php");
+    ?>
+
+
+</head>
+<body>
+<div id="wrapper">
+
 <?php
-session_start();
-$pagetitle = "Reports";
-include_once("includes/header.inc.php");
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
 ?>
+
     <div id="content" class="container">
         <div class="form-group">
             <form action="" method="post" role="form" id="report_form">

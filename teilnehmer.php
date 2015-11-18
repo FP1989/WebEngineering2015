@@ -1,9 +1,20 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <?php
+    $pagetitle = "Teilnehmer";
+    include_once("includes/header.inc.php");
+    ?>
 
-<?php
-$pagetitle = "Teilnehmer";
-include("includes/header.inc.php");
-include("includes/navigation.inc.php");
-?>
+</head>
+<body>
+<div id="wrapper">
+
+    <?php
+    include_once("includes/navigation.inc.php");
+    include_once("classes/database.class.php");
+    ?>
+
 <div id="content" class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#createParticipant">Neuen Teilnehmer erfassen</a></li>
@@ -13,7 +24,7 @@ include("includes/navigation.inc.php");
     <div class="tab-content">
 
         <div id="createParticipant" class="tab-pane fade in active">
-            <?php include("teilnehmer.write.php");?>
+            <?php include_once("teilnehmer.write.php");?>
         </div> <!-- end tab-1 -->
 
         <div id="editParticipant" class="tab-pane fade">

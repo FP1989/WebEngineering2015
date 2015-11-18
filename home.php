@@ -1,8 +1,18 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <?php
+        $pagetitle = "Home";
+        include_once("includes/header.inc.php");
+    ?>
+
+</head>
+<body>
+<div id="wrapper">
 <?php
-$pagetitle = "Home";
-include("includes/header.inc.php");
-include("includes/navigation.inc.php");
-include("classes/database.class.php");
+
+include_once("includes/navigation.inc.php");
+include_once("classes/database.class.php");
 
 $verbindung = database::getDatabase();
 ?>

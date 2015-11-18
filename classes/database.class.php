@@ -1,6 +1,6 @@
 <?php
 
-include ("beguenstigter.class.php");
+include_once("beguenstigter.class.php");
 
 class database
 {
@@ -45,7 +45,7 @@ class database
 
         if($id == "DEFAULT"){
 
-            $query = "INSERT INTO beguenstigter (BeguenstigterName, Strasse, Hausnummer, Ort) VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO beguenstigter (BeguenstigterName, Strasse, Hausnummer, Ort) VALUES (?, ?, ?, ?)";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sssi', $name, $strasse, $hausnummer, $plz);
 
