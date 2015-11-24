@@ -1,18 +1,13 @@
-
 <!doctype html>
 <html lang="de">
 <head>
     <?php
     $pagetitle = "Reisen";
-    include_once("includes/header.inc.php");
+    include("includes/header.inc.php");
     ?>
-
-
-
 </head>
 <body>
 <div id="wrapper">
-
     <?php
     include_once("includes/navigation.inc.php");
     include_once("classes/database.class.php");

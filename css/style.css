@@ -53,6 +53,11 @@
     text-align: right;
 }
 
+td {
+    padding: 8px;
+    text-align: center;
+}
+
 /*Following classes: Bootstrap override*/
 
 .panel{

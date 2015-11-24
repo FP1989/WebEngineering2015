@@ -633,14 +633,11 @@ class database
             return true;
 
         }
-        else{
-
+        else {
             echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             $stmt->close();
             return false;
-
         }
-
     }
 
     public function fetchReservation($reiseID, $teilnehmerID){
@@ -712,6 +709,7 @@ class database
             $result = $this->link->query($query);
             return $result;
         }
+        else return false;
     }
 
     public function getLink()
@@ -729,9 +727,9 @@ class database
         return $this->dbname;
     }
 
-    public function getAlleReisen(){
+    public function getAllReisen(){
 
-        /*@var database $database*/
+        /* @var database $database */
         $database = database::getDatabase();
         $link = $database->getLink();
 
@@ -741,11 +739,36 @@ class database
         return $result;
     }
 
-    public function getAlleRechnungen($reiseID = null){
+    public function getNextReisen() {
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) ORDER BY R.Hinreise ASC";
+//        $query = "SELECT R.Hinreise, R.Ziel FROM Reise R WHERE CURDATE() < R.Hinreise AND R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY)";
+
+        $result = $link->query($query);
+        return $result;
+    }
+
+    public function getNextRechnungen() {
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit < DATE_ADD(CURDATE(), INTERVAL 60 DAY) AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
+
+        $result = $link->query($query);
+        return $result;
+    }
+
+    public function getAllRechnungen($reiseID = null){
 
         if(is_null($reiseID)){
 
-            /*@var database $database*/
+            /* @var database $database */
             $database = database::getDatabase();
             $link = $database->getLink();
 
@@ -758,7 +781,7 @@ class database
 
         else{
 
-            /*@var database $database*/
+            /* @var database $database */
             $database = database::getDatabase();
             $link = $database->getLink();
 
@@ -767,12 +790,5 @@ class database
 
             return $result;
         }
-
-
     }
-
-
-
-
-
 }

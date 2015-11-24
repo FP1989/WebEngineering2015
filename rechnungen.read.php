@@ -34,7 +34,7 @@ else if (isset($_POST["ReiseID_R"])){
 
     $reiseID = $_POST["ReiseID_R"];
 
-    $result = $database->getAlleRechnungen($reiseID);
+    $result = $database->getAllRechnungen($reiseID);
 
     while($datensatz = $result->fetch_assoc()) $return [] = $datensatz;
 

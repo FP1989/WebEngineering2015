@@ -15,6 +15,11 @@
 <?php
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
+
+if(isset($_POST['pdfbutton'])) {
+    $_SESSION['type'] = $_POST['type'];
+    header("Location:print_pdf.php");
+}
 ?>
 
     <div id="content" class="container">
@@ -24,14 +29,14 @@ include_once("classes/database.class.php");
                 <div class="form-group">
                     <label for="select1">Report ausw&auml;hlen:</label>
                     <select name="type" id="select1" class="form-control">
-                        <option value="Kreditoren">Offene Rechnungen anzeigen</option>
-                        <option value="Reiseteilnehmer">Kunden pro Reise</option>
-                        <option value="Debitoren">Kunden mit offenen Rechnungen anzeigen</option>
-                        <option value="Kundenuebersicht">Alle Kunden anzeigen</option>
-                        <option value="Reiseuebersicht">Alle Reisen anzeigen</option>
-                        <option value="Reisen demnaechst">Ausstehende Reisen anzeigen</option>
-                        <option value="Finanzuebersicht">Finanz&uuml;bersicht anzeigen</option>
-                        <option value="Reisegruppen">Reisegruppen anzeigen</option>
+                        <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
+                        <option value="Reiseteilnehmer" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseteilnehmer') ? "selected" : ""?>>Kunden pro Reise</option>
+                        <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
+                        <option value="Kundenuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenuebersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
+                        <option value="Reiseuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseuebersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
+                        <option value="Reisen demnaechst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'REisen demnaechst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
+                        <option value="Finanzuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzuebersicht') ? "selected" : ""?>>Finanz&uuml;bersicht anzeigen</option>
+                        <option value="Reisegruppen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisegruppen') ? "selected" : ""?>>Reisegruppen anzeigen</option>
                     </select><br>
                 </div>
                 <div class="form-group pull-right">
@@ -41,11 +46,6 @@ include_once("classes/database.class.php");
             </form>
         </div>
         <?php
-
-        if(isset($_POST['pdfbutton'])) {
-            $_SESSION['type'] = $_POST['type'];
-            header("Location:print_pdf.php");
-        }
 
         if (isset($_POST['type'], $_POST['submit'])) {
 
