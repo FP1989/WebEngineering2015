@@ -8,25 +8,27 @@ $database = database::getDatabase();
 $link = $database->getLink();
 
 
-
-
 if(isset($_POST["RechnungsID_R"])) {
 
     $rechnungsID = $_POST["RechnungsID_R"];
 
     $rechnung = $database->fetchRechnung($rechnungsID);
 
-    $_SESSION["Rechnungsart_R"] = $rechnung->getRechnungsart();
-    $_SESSION["Betrag_R"] = $rechnung->getBetrag();
-    $_SESSION["Waehrung_R"] = $rechnung->getWaehrung();
-    $_SESSION["IBAN_R"] = $rechnung->getIban();
-    $_SESSION["SWIFT_R"] = $rechnung->getSwift();
-    $_SESSION["Beguenstigter_R"] = $rechnung->getBeguenstigter();
-    $_SESSION["Kostenart_R"] = $rechnung->getKostenart();
-    $_SESSION["Faelligkeit_R"] = $rechnung->getFaelligkeit();
-    $_SESSION["Bemerkung_R"] = $rechnung->getBemerkung();
-    $_SESSION["Reise_R"] = $rechnung->getReise();
-    $_SESSION["bezahlt_R"] = $rechnung->isBezahlt();
+    $result = array();
+
+    $result["Rechnungsart_R"]= $rechnung->getRechnungsart();
+    $result["Betrag_R"]= $rechnung->getBetrag();
+    $result["Waehrung_R"] = $rechnung->getWaehrung();
+    $result["IBAN_R"] = $rechnung->getIban();
+    $result["Swift_R"] = $rechnung->getSwift();
+    $result["Beguenstigter_R"] = $rechnung->getBeguenstigter();
+    $result["Kostenart_R"] = $rechnung->getKostenart();
+    $result["Faelligkeit_R"] = $rechnung->getFaelligkeit();
+    $result["Bemerkung_R"] = $rechnung->getBemerkung();
+    $result["ReiseID_R"]= $rechnung->getReise();
+    $result["bezahlt_R"]  = $rechnung->isBezahlt();
+
+    /* echo json_encode($result); */
 
 }
 
@@ -34,11 +36,21 @@ else if (isset($_POST["ReiseID_R"])){
 
     $reiseID = $_POST["ReiseID_R"];
 
-    $result = $database->getAlleRechnungen($reiseID);
+    $result = $database->getAllRechnungen($reiseID);
 
-    while($datensatz = $result->fetch_assoc()) $return [] = $datensatz;
+    while($datensatz = $result->fetch_assoc()){
 
-    echo json_encode($return);
+
+        $beguenstigterID = $datensatz["Beguenstigter"];
+        $beguenstigter = $database->fetchBeguenstigter($beguenstigterID)->getBeguenstigterName();
+
+        $datensatz["Beguenstigter"] = $beguenstigter;
+
+        $returnRechnung [] = $datensatz;
+
+    }
+
+    echo json_encode($returnRechnung);
 
 
 

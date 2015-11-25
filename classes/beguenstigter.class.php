@@ -12,17 +12,17 @@ class beguenstigter{
     private function __construct($beguenstigterdaten, $id){
 
         $this->beguenstigterID = $id;
-        $this->beguenstigterName = $beguenstigterdaten['beguenstigterName'];
-        $this->strasse = $beguenstigterdaten['strasse'];
-        if(array_key_exists('hausnummer', $beguenstigterdaten)) $this->hausnummer = $beguenstigterdaten['hausnummer'];
-        $this->plz = $beguenstigterdaten['plz'];
-        $this->ort = $beguenstigterdaten['ort'];
+        $this->beguenstigterName = $beguenstigterdaten['BeguenstigterName'];
+        $this->strasse = $beguenstigterdaten['Strasse'];
+        if(array_key_exists('Hausnummer', $beguenstigterdaten)) $this->hausnummer = $beguenstigterdaten['Hausnummer'];
+        $this->plz = $beguenstigterdaten['PLZ'];
+        $this->ort = $beguenstigterdaten['Ort'];
 
     }
 
     public static function newBeguenstigter($beguenstigterdaten){
 
-        if(array_key_exists('beguenstigterID', $beguenstigterdaten)) $id = $beguenstigterdaten['beguenstigterID'];
+        if(array_key_exists('BeguenstigterID', $beguenstigterdaten)) $id = $beguenstigterdaten['BeguenstigterID'];
 
         else $id = 'DEFAULT';
 

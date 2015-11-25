@@ -729,7 +729,7 @@ class database
         return $this->dbname;
     }
 
-    public function getAlleReisen(){
+    public function getAllReisen(){
 
         /*@var database $database*/
         $database = database::getDatabase();
@@ -741,11 +741,11 @@ class database
         return $result;
     }
 
-    public function getAlleRechnungen($reiseID = null){
+    public function getAllRechnungen($reiseID = null){
 
         if(is_null($reiseID)){
 
-            /*@var database $database*/
+            /* @var database $database */
             $database = database::getDatabase();
             $link = $database->getLink();
 
@@ -756,14 +756,16 @@ class database
 
         }
 
-        else{
+        else {
 
-            /*@var database $database*/
+            /* @var database $database */
             $database = database::getDatabase();
             $link = $database->getLink();
 
             $query = "SELECT * FROM rechnung WHERE Reise = $reiseID";
             $result = $link->query($query);
+
+
 
             return $result;
         }

@@ -39,7 +39,7 @@ if(isset($_POST["Ziel_R"])){
 
 else {
 
-    $result = $database->getAlleReisen();
+    $result = $database->getAllReisen();
 
     while($datensatz = $result->fetch_assoc()) $return [] = $datensatz;
 

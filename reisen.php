@@ -4,7 +4,7 @@
 <head>
     <?php
     $pagetitle = "Reisen";
-    include_once("includes/header.inc.php");
+    include("includes/header.inc.php");
     ?>
 
 
