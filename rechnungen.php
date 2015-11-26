@@ -5,6 +5,45 @@
     $pagetitle = "Rechnungen";
     include_once("includes/header.inc.php");
     ?>
+    <script type = text/javascript>
+
+        function getRechnungsID(button){
+
+            var id = button.id;
+
+            $.ajax({
+
+                url: 'rechnungen.read.php',
+                type: "POST",
+                dataType: 'json',
+                data:{
+                    RechnungsID_R: id
+                },
+
+                success: function (data) {
+
+                        document.getElementById("RechnungsID_R").value = id;
+                        document.getElementById("Betrag_R").value = data.Betrag_R;
+                        document.getElementById("IBAN_R").value = data.IBAN_R;
+                        document.getElementById("Swift_R").value = data.SWIFT_R;
+                        document.getElementById("Faelligkeit_R").value = data.Faelligkeit_R;
+                        document.getElementById("recipient").value = String(data.Beguenstigter_R);
+                        document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
+                        document.getElementById("Reise_R").value = data.Reise_R;
+                    }
+
+            });
+
+
+
+        }
+
+
+
+    </script>
+
+    <!--data-toggle=\"modal\" data-target=\"#Mutationsformular\"-->
+
     <script id="source" language="javascript" type="text/javascript">
 
         $(function (){
@@ -41,7 +80,7 @@
 
                         for (var i = 0; i < data.length; i++) {
 
-                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id=\"Mutationsbutton\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><a class=\"btn btn-danger btn-sm\" >löschen</a></td></tr>";
+                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</a><td><a class=\"btn btn-danger btn-sm\" >löschen</a></td></tr>";
 
                         }
 
@@ -50,6 +89,7 @@
                     }
                 });
             });
+
 
         });
 
@@ -102,7 +142,7 @@ include_once("beguenstigter_modal.php");
                                 <h2>Rechnung mutieren</h2> </br></br>
                                 <div class="form-group">
                                     <label>Rechnungs-ID</label>
-                                    <input class="form-control" type="text" readonly>
+                                    <input class="form-control" id="RechnungsID_R" type="text" readonly>
                                 </div>
 
                                 <div class="form-group">
@@ -116,7 +156,7 @@ include_once("beguenstigter_modal.php");
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label>Betrag</label>
-                                            <input type="number" name="amount" value="<?php $_SESSION["Betrag_R"] ?>" class="form-control"/>
+                                            <input type="number" id="Betrag_R" name="amount" class="form-control"/>
                                         </div>
                                         <div class="col-md-4">
                                             <label>W&auml;hrung</label>
@@ -132,17 +172,17 @@ include_once("beguenstigter_modal.php");
                                 </div>
                                 <div class="form-group">
                                     <label>IBAN</label>
-                                    <input type="text" name="iban" title="Format: CH63 4489 9857 4842 9034 6" class="form-control"/>
+                                    <input type="text" id="IBAN_R" name="iban" title="Format: CH63 4489 9857 4842 9034 6" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Swift</label>
-                                    <input type="text" name="swift" title="Format: LUKBCH2260A" class="form-control" value=""/>
+                                    <input type="text" id="Swift_R" name="swift" title="Format: LUKBCH2260A" class="form-control" value=""/>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label>F&auml;lligkeit</label>
-                                            <input type='text' class="form-control" name="duedate" title="Format [dd.mm.jjjj]"  id="datepicker" value=""/>
+                                            <input type='text' id="Faelligkeit_R" class="form-control" name="duedate" title="Format [dd.mm.jjjj]"  id="datepicker" value=""/>
 
                                         </div>
                                         <div class="col-md-4">
@@ -173,12 +213,12 @@ include_once("beguenstigter_modal.php");
                                 <div class="form-group">
                                     <div>
                                         <label>Bemerkung</label>
-                                        <textarea class="form-control" rows="3" name="comment"></textarea>
+                                        <textarea id="Bemerkung_R" class="form-control" rows="3" name="comment"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Reise</label>
-                                    <input class="form-control" type="text" id="travel" name="travelid" value=""/>
+                                    <input id="Reise_R" class="form-control" type="text" id="travel" name="travelid" value=""/>
                                 </div>
                                 <div class="form-group">
                                     <label>Rechnung bezahlt?</label> </br>

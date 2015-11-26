@@ -14,17 +14,22 @@ if(isset($_POST["RechnungsID_R"])) {
 
     $rechnung = $database->fetchRechnung($rechnungsID);
 
-    $_SESSION["Rechnungsart_R"] = $rechnung->getRechnungsart();
-    $_SESSION["Betrag_R"] = $rechnung->getBetrag();
-    $_SESSION["Waehrung_R"] = $rechnung->getWaehrung();
-    $_SESSION["IBAN_R"] = $rechnung->getIban();
-    $_SESSION["SWIFT_R"] = $rechnung->getSwift();
-    $_SESSION["Beguenstigter_R"] = $rechnung->getBeguenstigter();
-    $_SESSION["Kostenart_R"] = $rechnung->getKostenart();
-    $_SESSION["Faelligkeit_R"] = $rechnung->getFaelligkeit();
-    $_SESSION["Bemerkung_R"] = $rechnung->getBemerkung();
-    $_SESSION["Reise_R"] = $rechnung->getReise();
-    $_SESSION["bezahlt_R"] = $rechnung->isBezahlt();
+    $rg = array();
+
+    $rg["Rechnungsart_R"] = $rechnung->getRechnungsart();
+    $rg["Betrag_R"] = $rechnung->getBetrag();
+    $rg["Waehrung_R"] = $rechnung->getWaehrung();
+    $rg["IBAN_R"] = $rechnung->getIban();
+    $rg["SWIFT_R"] = $rechnung->getSwift();
+    $rg["Beguenstigter_R"] = $rechnung->getBeguenstigter();
+    $rg["Kostenart_R"] = $rechnung->getKostenart();
+    $rg["Faelligkeit_R"] = $rechnung->getFaelligkeit();
+    $rg["Bemerkung_R"] = $rechnung->getBemerkung();
+    $rg["Reise_R"] = $rechnung->getReise();
+    $rg["bezahlt_R"] = $rechnung->isBezahlt();
+
+
+    echo json_encode($rg);
 
 }
 
