@@ -152,8 +152,12 @@ include_once("beguenstigter_modal.php");
 
                         <div class="modal-content">
 
-                            <form role="form" method="post" action="">
+                            <div class="modal-header">
                                 <h2>Rechnung mutieren</h2> </br></br>
+                            </div>
+
+                            <div class ="modal-body">
+                            <form role="form" method="post" action="">
                                 <div class="form-group">
                                     <label>Rechnungs-ID</label>
                                     <input class="form-control" id="RechnungsID_R" type="text" readonly>
@@ -237,11 +241,12 @@ include_once("beguenstigter_modal.php");
                                     <label class="radio-inline"><input type="radio" id="bez_y" name="paidBill">Ja</label>
                                     <label class="radio-inline"><input type="radio" id="bez_n" name="paidBill">Nein</label>
                                 </div>
-                                <div class="form-group pull-right">
+
                                     <button type="submit" type="button" name="gesendet" class="btn btn-primary">&Auml;nderungen speichern</button>
                                     <button type="reset" class="btn btn-primary">Rechnung l&ouml;schen</button>
-                                </div>
+
                             </form>
+                                </div>
                         </div>
                     </div>
                 </div>
