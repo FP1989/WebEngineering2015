@@ -38,6 +38,13 @@
                     var kostenart = document.getElementById("Kostenart_R");
                     kostenart.value = data.Kostenart_R;
 
+                    if(data.Rechnungsart_R=="ESR") document.getElementById("RA_ESR").checked = true;
+                    else if (data.Rechnungsart_R=="RoterES") document.getElementById("RA_RES").checked = true;
+                    else if (data.Rechnungsart_R=="Ausland") document.getElementById("RA_A").checked = true;
+
+                    if(data.bezahlt_R == 0) document.getElementById("bez_n").checked = true;
+                    else if(data.bezahlt_R == 1) document.getElementById("bez_y").checked = true;
+
 
                 }
 
@@ -87,7 +94,7 @@
 
                         for (var i = 0; i < data.length; i++) {
 
-                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</a><td><a class=\"btn btn-danger btn-sm\" >löschen</a></td></tr>";
+                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><a class=\"btn btn-danger btn-sm\" >löschen</a></td></tr>";
 
                         }
 
@@ -153,10 +160,10 @@ include_once("beguenstigter_modal.php");
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Einzahlungsart</label> </br>
-                                    <label class="radio-inline"><input type="radio" name="paymentoption" value="ESR">ESR</label>
-                                    <label class="radio-inline"><input type="radio" name="paymentoption" value="RoterES">Roter Einzahlungsschein</label>
-                                    <label class="radio-inline"><input type="radio" name="paymentoption" value="Ausland">Auslandzahlung</label>
+                                    <label>Rechnungsart</label> </br>
+                                    <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_ESR" value="ESR">ESR</label>
+                                    <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_RES" value="RoterES">Roter Einzahlungsschein</label>
+                                    <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_A" value="Ausland">Auslandzahlung</label>
                                 </div>
 
                                 <div class="form-group">
@@ -227,8 +234,8 @@ include_once("beguenstigter_modal.php");
                                 </div>
                                 <div class="form-group">
                                     <label>Rechnung bezahlt?</label> </br>
-                                    <label class="radio-inline"><input type="radio" name="paidBill">Ja</label>
-                                    <label class="radio-inline"><input type="radio" name="paidBill">Nein</label>
+                                    <label class="radio-inline"><input type="radio" id="bez_y" name="paidBill">Ja</label>
+                                    <label class="radio-inline"><input type="radio" id="bez_n" name="paidBill">Nein</label>
                                 </div>
                                 <div class="form-group pull-right">
                                     <button type="submit" type="button" name="gesendet" class="btn btn-primary">&Auml;nderungen speichern</button>
