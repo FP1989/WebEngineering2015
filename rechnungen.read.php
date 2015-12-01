@@ -7,6 +7,7 @@ include("classes/rechnung.class.php");
 $database = database::getDatabase();
 $link = $database->getLink();
 
+$_POST["RechnungsID_R"]=7;
 
 if(isset($_POST["RechnungsID_R"])) {
 

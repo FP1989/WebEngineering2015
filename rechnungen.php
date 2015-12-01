@@ -22,15 +22,24 @@
 
                 success: function (data) {
 
-                        document.getElementById("RechnungsID_R").value = id;
-                        document.getElementById("Betrag_R").value = data.Betrag_R;
-                        document.getElementById("IBAN_R").value = data.IBAN_R;
-                        document.getElementById("Swift_R").value = data.SWIFT_R;
-                        document.getElementById("Faelligkeit_R").value = data.Faelligkeit_R;
-                        document.getElementById("recipient").value = String(data.Beguenstigter_R);
-                        document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
-                        document.getElementById("Reise_R").value = data.Reise_R;
-                    }
+                    document.getElementById("RechnungsID_R").value = id;
+                    document.getElementById("Betrag_R").value = data.Betrag_R;
+                    document.getElementById("IBAN_R").value = data.IBAN_R;
+                    document.getElementById("Swift_R").value = data.SWIFT_R;
+                    document.getElementById("Faelligkeit_R").value = data.Faelligkeit_R;
+                    document.getElementById("recipient").value = String(data.Beguenstigter_R);
+                    document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
+                    document.getElementById("Reise_R").value = data.Reise_R;
+
+
+                    var waehrung = document.getElementById("Waehrung_R");
+                    waehrung.value = data.Waehrung_R;
+
+                    var kostenart = document.getElementById("Kostenart_R");
+                    kostenart.value = data.Kostenart_R;
+
+
+                }
 
             });
 
@@ -41,8 +50,6 @@
 
 
     </script>
-
-    <!--data-toggle=\"modal\" data-target=\"#Mutationsformular\"-->
 
     <script id="source" language="javascript" type="text/javascript">
 
@@ -160,12 +167,11 @@ include_once("beguenstigter_modal.php");
                                         </div>
                                         <div class="col-md-4">
                                             <label>W&auml;hrung</label>
-                                            <select name="currency" class="form-control">
-                                                <option value="default">W&auml;hlen Sie bitte eine W&auml;hrung</option>
+                                            <select id ="Waehrung_R" name="currency" class="form-control">
                                                 <option value="CHF">CHF</option>
                                                 <option value="EUR">EUR</option>
                                                 <option value="GBP">GBP</option>
-                                                <option value="GBP">USD</option>
+                                                <option value="USD">USD</option>
                                             </select>
                                         </div>
                                     </div>
@@ -187,13 +193,12 @@ include_once("beguenstigter_modal.php");
                                         </div>
                                         <div class="col-md-4">
                                             <label>Kostenart</label>
-                                            <select id="costs" name="costs" class="form-control">
-                                                <option value="default">Kostenart w&auml;hlen</option>
-                                                <option>Hotel</option>
-                                                <option>Administration</option>
-                                                <option>Versicherung</option>
-                                                <option>Treibstoff</option>
-                                                <option>Sonstiges</option>
+                                            <select id="Kostenart_R" name="costs" class="form-control">
+                                                <option value="Hotel">Hotel</option>
+                                                <option value="Administration">Administration</option>
+                                                <option value="Versicherung">Versicherung</option>
+                                                <option value="Treibstoff">Treibstoff</option>
+                                                <option value="Sonstiges">Sonstiges</option>
                                             </select>
                                         </div>
                                     </div>
