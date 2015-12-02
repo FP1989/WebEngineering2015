@@ -1,6 +1,6 @@
 <?php
 
-include_once("beguenstigter.class.php");
+
 
 class database
 {
