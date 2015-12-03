@@ -90,6 +90,7 @@
                         $('#hausnummer').val("");
                         $('#plz').val("");
                         $('#ort').val("");
+                        $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
                     }else {
                         $('#feedback_negative').show().html(response.message);
                         $('#newRecipient').effect( "shake", {times:4}, 1000 );
