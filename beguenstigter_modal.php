@@ -8,13 +8,9 @@
                 <h4 class="modal-title" id="myModalLabel">Neuen Beg&uuml;nstigten erfassen</h4>
             </div>
             <div class="modal-body">
-                <div id="thanks"></div>
                 <form id="modalForm" action="beguenstigter_modal.php" method="post">
-                        <div class="form-group">
-                            <label>Beg&uuml;nstigten-ID</label>
-                            <input class="form-control" type="text"
-                            readonly>
-                        </div>
+                        <p class="alert alert-success" role="alert" id="feedback_positive"></p>
+                    <p class="alert alert-warning" role="alert" id="feedback_negative"></p>
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" name="name" id="name" class="form-control" />
@@ -48,7 +44,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                <button type="submit" name ="send" id="send" data-dismiss="modal" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
+                <button type="submit" name ="send" id="send" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
             </div>
         </div>
     </div>
@@ -56,6 +52,17 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $("#rec").on("click", function(e){
+            $('#feedback_positive').hide();
+            $('#feedback_negative').hide();
+
+            $('#name').val("");
+            $('#strasse').val("");
+            $('#hausnummer').val("");
+            $('#plz').val("");
+            $('#ort').val("");
+        });
+
         $("#send").on("click", function(e){
             e.preventDefault();
 
@@ -68,8 +75,6 @@
 
 
             $.ajax({
-
-                // what url should be there ??
                 url:"process.php",
                 type:"POST",
                 dataType:"json",
@@ -77,12 +82,23 @@
 
                 ContentType:"application/json",
                 success: function(response){
-                    alert(JSON.stringify(response));
-                    $('#name').val("");
-                    $('#strasse').val("");
-                    $('#hausnummer').val("");
-                    $('#plz').val("");
-                    $('#ort').val("");
+                    var status = response.flag;
+                    if(status==true){
+                        $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+                        $('#name').val("");
+                        $('#strasse').val("");
+                        $('#hausnummer').val("");
+                        $('#plz').val("");
+                        $('#ort').val("");
+                    }else {
+                        $('#feedback_negative').show().html(response.message);
+                        $('#newRecipient').effect( "shake", {times:4}, 1000 );
+                        var Name = $('#name').val();
+                        var Strasse = $('#strasse').val();
+                        var Hausnummer = $('#hausnummer').val();
+                        var PLZ = $('#plz').val();
+                        var Ort = $('#ort').val();
+                    }
                 },
                 error: function(err){
                     alert(JSON.stringify(err));
@@ -90,6 +106,5 @@
             })
         });
     });
-
 
 </script>
