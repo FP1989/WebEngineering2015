@@ -74,7 +74,18 @@ if(isset($_POST['gesendet'])) {
 
     <div class="form-group">
         <label>Teilnehmer-ID</label>
-        <input class="form-control" type="text" readonly>
+        <input class="form-control" type="text" <?php
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+        $query = 'SELECT MAX(TeilnehmerID) as id FROM teilnehmer';
+        $result = $link->query($query);
+        while ($row = mysqli_fetch_assoc($result)){
+            settype($row['id'], "int");
+            $id = $row['id'] +1;
+            echo "value=".$id;
+        }
+        ?> readonly>
     </div>
 
     <div class="form-group <?php echo (!empty($surname_error)) ? 'has-error':''; ?>">

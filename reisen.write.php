@@ -5,7 +5,7 @@ include_once("classes/reise.class.php");
 // define variables and set to empty values
 $destination_error = $description_error = $travelname_error = $price_error = $todate_error = $fromdate_error = "";
 $destination =  $description = $travelname = $price= $todate =$fromdate="";
-$valid = true;
+$valid = null;
 $success_alert="";
 $error_alert="";
 
@@ -92,10 +92,21 @@ if(isset($_POST['gesendet'])) {
 
 <form role="form" method="post" action="">
     <h2>Reise erfassen</h2> </br></br>
-    <?php echo ($valid) ? $success_alert: $error_alert; ?>
+    <?php echo (!empty($valid)) ? $success_alert: $error_alert; ?>
     <div class="form-group">
         <label>Reise-ID</label>
-        <input class="form-control" type="text" readonly>
+        <input class="form-control" type="text" <?php
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+        $query = 'SELECT MAX(ReiseID) as id FROM reise';
+        $result = $link->query($query);
+        while ($row = mysqli_fetch_assoc($result)){
+            settype($row['id'], "int");
+            $id = $row['id'] +1;
+            echo "value=".$id;
+        }
+        ?> readonly>
     </div>
 
     <div class="form-group <?php echo (!empty($destination_error)) ? 'has-error':''; ?>">
