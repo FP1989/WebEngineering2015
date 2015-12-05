@@ -53,7 +53,7 @@
     text-align: right;
 }
 
-td {
+td, th {
     padding: 8px;
     text-align: center;
 }

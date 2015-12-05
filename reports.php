@@ -6,9 +6,7 @@
     $pagetitle = "Reports";
     include_once("includes/header.inc.php");
     ?>
-
-
-</head>
+    </head>
 <body>
 <div id="wrapper">
 

@@ -32,7 +32,7 @@ session_start();
                     </div>
                     <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
                     <br>
-                    <div><?php echo (isset($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
+                    <div><?php echo (isset($_SESSION['falselogin']) && !empty($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
                 </form>
             </div>
         </div>
