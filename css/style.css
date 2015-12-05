@@ -27,6 +27,17 @@
     font-size: medium;
 }
 
+#reset
+{
+    font-size: small;
+    color: dodgerblue;
+}
+
+#loginwindow
+{
+    margin-top: 50%;
+}
+
 #content
 {
     margin-top: 0%;
