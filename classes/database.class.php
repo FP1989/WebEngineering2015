@@ -1,6 +1,6 @@
 <?php
 
-
+include_once("beguenstigter.class.php");
 
 class database
 {
@@ -22,9 +22,9 @@ class database
 
     public static function getDatabase(){
 
-    if (database::$database == null) database::$database = new Database();
+        if (database::$database == null) database::$database = new Database();
 
-    return database::$database;
+        return database::$database;
 
     }
 

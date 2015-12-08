@@ -30,7 +30,7 @@ class teilnehmer{
 
     public static function newTeilnehmer($teilnehmerdaten){
 
-        if(array_key_exists('$teilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['TeilnehmerID'];
+        if(array_key_exists('TeilnehmerID', $teilnehmerdaten)) $id = $teilnehmerdaten['TeilnehmerID'];
 
         else $id = 'DEFAULT';
 

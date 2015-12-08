@@ -7,33 +7,42 @@ include("classes/reise.class.php");
 /* @var database $database*/
 $database = database::getDatabase();
 
+
 if(isset($_POST["ReiseID_R"])) {
 
     $reiseID = $_POST["ReiseID_R"];
     $reise = $database->fetchReise($reiseID);
 
-    $_SESSION["ReiseID_R"] = $reise->getReiseID();
-    $_SESSION["Ziel_R"] = $reise->getZiel();
-    $_SESSION["Beschreibung_R"] =$reise->getBeschreibung();
-    $_SESSION["Bezeichnung_R"] = $reise->getBezeichnung();
-    $_SESSION["Preis_R"] = $reise->getPreis();
-    $_SESSION["Hinreise_R"] = $reise->getHinreise();
-    $_SESSION["Rueckreise_R"] = $reise->getRueckreise();
+    $re = array();
+
+    $re["ReiseID_R"] = $reise->getReiseID();
+    $re["Ziel_R"] = $reise->getZiel();
+    $re["Beschreibung_R"] =$reise->getBeschreibung();
+    $re["Bezeichnung_R"] = $reise->getBezeichnung();
+    $re["Preis_R"] = $reise->getPreis();
+    $re["Hinreise_R"] = $reise->getHinreise();
+    $re["Rueckreise_R"] = $reise->getRueckreise();
+
+    echo json_encode($re);
 
 }
 
-if(isset($_POST["Ziel_R"])){
+else if(isset($_POST["Ziel_R"])){
 
     $ziel = $_POST["Ziel_R"];
     $reise = $database->fetchReise(null, $ziel);
 
-    $_SESSION["ReiseID_R"] = $reise->getReiseID();
-    $_SESSION["Ziel_R"] = $reise->getZiel();
-    $_SESSION["Beschreibung_R"] =$reise->getBeschreibung();
-    $_SESSION["Bezeichnung_R"] = $reise->getBezeichnung();
-    $_SESSION["Preis_R"] = $reise->getPreis();
-    $_SESSION["Hinreise_R"] = $reise->getHinreise();
-    $_SESSION["Rueckreise_R"] = $reise->getRueckreise();
+    $re = array();
+
+    $re["ReiseID_R"] = $reise->getReiseID();
+    $re["Ziel_R"] = $reise->getZiel();
+    $re["Beschreibung_R"] =$reise->getBeschreibung();
+    $re["Bezeichnung_R"] = $reise->getBezeichnung();
+    $re["Preis_R"] = $reise->getPreis();
+    $re["Hinreise_R"] = $reise->getHinreise();
+    $re["Rueckreise_R"] = $reise->getRueckreise();
+
+    echo json_encode($re);
 
 }
 
