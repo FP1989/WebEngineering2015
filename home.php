@@ -1,4 +1,4 @@
-<?php //include("includes/authentication.inc.php");?>
+<?php include("includes/authentication.inc.php");?>
     <!doctype html>
     <html lang="de">
     <head>
