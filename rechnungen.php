@@ -21,7 +21,7 @@
         function loeschen(button){
 
             var id = button.id;
-
+            //JQuery Befehl zum löschen
 
         }
 

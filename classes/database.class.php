@@ -666,7 +666,10 @@ class database
 
     public function verifyLogin($user, $pwdhash){
 
-        $link = $this->getLink();
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
         $query = "SELECT * FROM logindaten WHERE LoginID = ? AND Loghash = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('is', $user, $pwdhash);
@@ -678,7 +681,35 @@ class database
         return $result;
     }
 
+    public function insertUser($user, $pwhash) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "INSERT INTO logindaten VALUES (?, ?)";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('is', $user, $pwhash);
+
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->close();
+            return false;
+        }
+
+    }
+
     public function generateReport($type) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
 
         switch ($type) {
 
@@ -709,7 +740,7 @@ class database
         }
 
         if (!empty($query)) {
-            $result = $this->link->query($query);
+            $result = $link->query($query);
             return $result;
         }
         else return false;

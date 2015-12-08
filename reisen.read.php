@@ -7,7 +7,6 @@ include("classes/reise.class.php");
 /* @var database $database*/
 $database = database::getDatabase();
 
-
 if(isset($_POST["ReiseID_R"])) {
 
     $reiseID = $_POST["ReiseID_R"];
