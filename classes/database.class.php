@@ -1,6 +1,6 @@
 <?php
 
-
+include_once("beguenstigter.class.php");
 
 class database
 {
@@ -22,9 +22,9 @@ class database
 
     public static function getDatabase(){
 
-    if (database::$database == null) database::$database = new Database();
+        if (database::$database == null) database::$database = new Database();
 
-    return database::$database;
+        return database::$database;
 
     }
 
@@ -662,17 +662,20 @@ class database
         $res["bezahlt"] = $bezahlt;
 
         return $res;
-
     }
 
     public function verifyLogin($user, $pwdhash){
 
-        $query = "SELECT * FROM logindaten WHERE LoginID = '$user' AND Loghash = '$pwdhash'";
+        $link = $this->getLink();
+        $query = "SELECT * FROM logindaten WHERE LoginID = ? AND Loghash = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('is', $user, $pwdhash);
+        $stmt->execute();
+        $stmt->store_result();
 
-        $result = $this->link->query($query);
+        $result = $stmt->num_rows;
 
         return $result;
-
     }
 
     public function generateReport($type) {

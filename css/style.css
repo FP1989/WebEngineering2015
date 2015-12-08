@@ -27,6 +27,17 @@
     font-size: medium;
 }
 
+#reset
+{
+    font-size: small;
+    color: dodgerblue;
+}
+
+#loginwindow
+{
+    margin-top: 50%;
+}
+
 #content
 {
     margin-top: 0%;
@@ -53,7 +64,15 @@
     text-align: right;
 }
 
-td {
+/*.fa-spin-hover:hover*/
+/*{*/
+    /*-moz-animation: spin 2s infinite linear;*/
+    /*-o-animation: spin 2s infinite linear;*/
+    /*-webkit-animation: spin 2s infinite linear;*/
+    /*animation: spin 2s infinite linear;*/
+/*}*/
+
+td, th {
     padding: 8px;
     text-align: center;
 }
@@ -90,7 +109,7 @@ td {
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #000;
+    color: black;
     font-weight: bold;
 }
 

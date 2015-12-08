@@ -1,12 +1,13 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Home";
-    include_once("includes/header.inc.php");
-    ?>
+<?php include("includes/authentication.inc.php");?>
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Home";
+        include_once("includes/header.inc.php");
+        ?>
 
-</head>
+    </head>
 <body>
 <div id="wrapper">
     <?php
@@ -29,6 +30,12 @@
         if(empty($_POST['bezahlt'])) {
             $bezahlt_error = "Bitte 'Y' oder 'N' angeben";
             $valid = false;
+        }elseif(!preg_match("/[YNyn]/", $_POST['bezahlt'])) {
+            $bezahlt_error = "Bitte nur 'Y' oder 'N' angeben";
+            $valid = false;
+        }elseif(strlen($_POST['bezahlt']) > 1) {
+            $bezahlt_error = "Bitte nur 'Y' oder 'N' angeben";
+            $valid = false;
         }
         if($_POST['bezahlt'] == 'Y') $bezahlt = 1;
         else $bezahlt = 0;
@@ -38,15 +45,16 @@
             $verbindung = database::getDatabase();
             $successful = $verbindung->insertReservation($_POST['reiseid'], $_POST['teilnehmerid'], $bezahlt);
 
-            $success_alert = "<div class='alert alert-success' role='alert'>Teilnehmer erfolgreich zugewiesen.</div>";
+            $success_alert = "<div class='alert alert-success pull-right' role='alert'>Teilnehmer erfolgreich zugewiesen.</div>";
         }
-        else $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler/Unvollständigkeiten.</div>";
+        else $error_alert = "<div class='alert alert-warning pull-right' role='alert'>Das Formular enthält Fehler/Unvollständigkeiten.</div>";
     }
     ?>
     <div id="content" class="container">
 
         <div class="jumbotron">
             <h2>Herzlich willkommen zum Online-Planungstool der Star Reisen AG!</h2>
+            <?php if(isset($_SESSION['admintrue'])) echo '<h4><b>Sie sind als Administrator eingeloggt. Indem Sie links \'Users\' anklicken, k&ouml;nnen Sie die Anwender dieser Webseite bearbeiten.</b></h4>'; ?>
             <p>Verwenden Sie die Navigation links um Rechnungen, Reisen oder Teilnehmer einzusehen oder zu mutieren. Zus&auml;tzlich k&ouml;nnen Sie sich unter 'Reports' vorgefertigte Berichte ausstellen lassen.</p>
             <p>Auf dieser Seite finden Sie aktuelle Daten zu anstehenden Reisen sowie f&auml;llige Rechnungen. Weiter k&ouml;nnen Sie mit dem Schnellzugriff Kunden entsprechenden Reisen zuweisen.</p>
         </div>
@@ -100,7 +108,7 @@
                 ?>
             </div>
         </div>
-
+        <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
         <div class=" col-md pull-right jumbotron">
             <form action="" method="post" name="schnellzugriff">
                 <div class="form-group <?php echo (!empty($teilnehmerid_error)) ? 'has-error':''; ?>">
@@ -120,10 +128,9 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" name="gesendet" class="btn btn-primary pull-right" value="Hinzuf&uuml;gen"/><br>
-                    <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
                 </div>
+            </form>
         </div>
-        </form>
     </div>
 </div>
 <?php
