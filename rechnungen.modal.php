@@ -10,6 +10,10 @@
 
             <div class ="modal-body">
                 <form role="form" method="post" action="">
+
+                    <p class="alert alert-success" role="alert" id="feedback_positive"></p>
+                    <p class="alert alert-warning" role="alert" id="feedback_negative"></p>
+
                     <div class="form-group">
                         <label>Rechnungs-ID</label>
                         <input class="form-control" id="RechnungsID_R" type="text" readonly>
@@ -86,16 +90,16 @@
                     </div>
                     <div class="form-group">
                         <label>Reise</label>
-                        <input id="Reise_R" class="form-control" type="text" id="travel" name="travelid" value=""/>
+                        <input id="Reise_R" class="form-control" type="text" name="travelid" value=""/>
                     </div>
                     <div class="form-group">
                         <label>Rechnung bezahlt?</label> </br>
-                        <label class="radio-inline"><input type="radio" id="bez_y" name="paidBill">Ja</label>
-                        <label class="radio-inline"><input type="radio" id="bez_n" name="paidBill">Nein</label>
+                        <label class="radio-inline"><input type="radio" id="bez_y" value ="1" name="paidBill">Ja</label>
+                        <label class="radio-inline"><input type="radio" id="bez_n" value="0" name="paidBill">Nein</label>
                     </div>
 
                     <button type="submit" id="ButtonSpeichern" type="button" name="gesendet" class="btn btn-primary">&Auml;nderungen speichern</button>
-                    <button type="reset" id="ButtonLoeschen" class="btn btn-primary">Aendderungen verwerfen</button>
+                    <button type="reset" id="ButtonLoeschen" class="btn btn-primary">&Auml;nderungen verwerfen</button>
 
                 </form>
             </div>
@@ -108,45 +112,66 @@
     $(function (){
 
         $("#ButtonSpeichern").on("click", function(e){
+
             e.preventDefault();
 
             // get values from textboxs
             var rechnungsID = $("#RechnungsID_R").val();
             var rechnungsArt = $("input[name=paymentoption]:checked").val();
-            var
+            var betrag = $("#Betrag_R").val();
+            var waehrung = $("#Waehrung_R option:selected").val();
+            var iban = $("#IBAN_R").val();
+            var swift = $("#Swift_R").val();
+            var faelligkeit = $("#Faelligkeit_R").val();
+            var kostenart = $("#Kostenart_R option:selected").val();
+            var beguenstigter = $("#Beguenstigter_R").val();
+            var bemerkung = $("#Bemerkung_R").val();
+            var reise = $("#Reise_R").val();
+            var bez = $("input[name=paidBill]:checked").val();
+
 
 
             $.ajax({
-                url:"process.php",
+                url:"rechnungen.process.php",
                 type:"POST",
                 dataType:"json",
-                data:{type:"claim",Name:Name,Strasse:Strasse,Hausnummer:Hausnummer, PLZ:PLZ, Ort:Ort},
+                data:{
 
-                ContentType:"application/json",
+                    RechnungsID_P:rechnungsID,
+                    RechnungsArt_P:rechnungsArt,
+                    Betrag_P:betrag,
+                    Waehrung_P:waehrung,
+                    IBAN_P:iban,
+                    Swift_P:swift,
+                    Faelligkeit_P:faelligkeit,
+                    Kostenart_P:kostenart,
+                    Beguenstigter_P:beguenstigter,
+                    Bemerkung_P:bemerkung,
+                    Reise_P:reise,
+                    Bez_P:bez
+
+                },
+
                 success: function(response){
                     var status = response.flag;
-                    if(status==true){
-                        $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
-                        $('#name').val("");
-                        $('#strasse').val("");
-                        $('#hausnummer').val("");
-                        $('#plz').val("");
-                        $('#ort').val("");
-                        $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
-                    }else {
+                    if(status){
+                       $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+
+                       $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                    }
+
+                    else {
+
                         $('#feedback_negative').show().html(response.message);
-                        $('#newRecipient').effect( "shake", {times:4}, 1000 );
-                        var Name = $('#name').val();
-                        var Strasse = $('#strasse').val();
-                        var Hausnummer = $('#hausnummer').val();
-                        var PLZ = $('#plz').val();
-                        var Ort = $('#ort').val();
+                        $('#Mutationsformular').effect( "shake", {times:4}, 1000 );
+
                     }
                 },
                 error: function(err){
                     alert(JSON.stringify(err));
                 }
-            })
+            });
         });
 
     });

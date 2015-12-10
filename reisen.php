@@ -92,6 +92,7 @@
     <?php
     include_once("includes/navigation.inc.php");
     include_once("classes/database.class.php");
+    include_once("reisen.modal.php");
     ?>
 
 <div id="content" class="container">
@@ -109,80 +110,9 @@
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
 
                 <h3>Reise ausw&auml;hlen</h3>
-                <table id="Reise_mutieren" class='table table-striped'>
+                <table id="Reise_mutieren" class='table table-striped'></table>
 
 
-                </table>
-            <div class ="modal fade" id="Mutationsformular" tabindex="-1" role="dialog">
-
-                <div class="modal-dialog" role="document">
-
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h2>Reise mutieren</h2> </br></br>
-                        </div>
-
-                        <div class ="modal-body">
-
-                            <form role="form" method="post" action="">
-                                <div class="form-group">
-                                    <label>Reise-ID</label>
-                                    <input class="form-control" id="ReiseID_R" type="text" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Ziel</label>
-                                    <input class="form-control" name="destination" id="Ziel_R" type="text">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Beschreibung</label>
-                                    <textarea class="form-control" id="Beschreibung_R" name="description" rows="3"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Bezeichnung</label>
-                                    <input class="form-control" name="travelname" id="Bezeichnung_R" type="text">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Preis</label>
-                                    <input class="form-control" type="number" name="price" id="Preis_R">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Hinreise</label>
-                                    <div class="input-group date">
-                                        <input type='text' class="form-control" name="fromdate" id="Hinreise_R"/>
-
-                                        <span class="input-group-addon">
-                                                     <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>R&uuml;ckreise</label>
-                                    <div class="input-group date">
-                                        <input type='text' class="form-control" name="todate" id="Rueckreise_R"/>
-
-                                        <span class="input-group-addon">
-                                                     <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="submit" name="gesendet" class="btn btn-primary">Reise erfassen</button>
-                                    <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div> <!-- end tab-2 -->
     </div> <!-- end tabs -->
 </div> <!-- end content div -->

@@ -295,7 +295,7 @@ class database
         }
         else {
 
-            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE BeguenstigterID = ?";
+            $query = "UPDATE rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
 
@@ -475,9 +475,6 @@ class database
         $stmt->bind_result($teilnehmerID, $vorname, $nachname, $strasse, $hausnummer, $ort, $telefon, $mail);
         $stmt->fetch();
         $stmt->close();
-
-        echo "id ".$teilnehmerID."<br/>vorname ".$vorname."<br/>nachname ".$nachname."<br/>strasse ".$strasse."<br/>hausnummer ".$hausnummer."<br/>ort ".$ort."<br/>Telefon ".$telefon."<br/>mail".$mail;
-
 
         $teiln ["TeilnehmerID"] = $teilnehmerID;
         $teiln ['Vorname'] = $vorname;
