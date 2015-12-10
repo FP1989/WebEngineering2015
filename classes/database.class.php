@@ -70,7 +70,6 @@ class database
 
             $stmt->close();
             return false;
-
         }
 
     }
@@ -676,6 +675,27 @@ class database
         $result = $stmt->num_rows;
 
         return $result;
+    }
+
+    public function insertPassword($user, $pwdhash) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "UPDATE logindaten SET Loghash = ? WHERE LoginID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('si', $pwdhash, $user);
+
+        if($stmt->execute()) {
+            $stmt->close();
+            return true;
+        }
+
+        else {
+            $stmt->close();
+            return false;
+        }
     }
 
     public function insertUser($user, $pwhash) {
