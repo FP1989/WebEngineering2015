@@ -2,75 +2,72 @@
 include_once("classes/database.class.php");
 include_once("classes/rechnung.class.php");
 
-/*
-$name_error=$strasse_error=$hausnummer_error=$plz_error=$ort_error="";
+$betrag_error=$iban_error=$swift_error=$beguenstigter_error=$faelligkeit_error=$bemerkung_error=$reise_error="";
 $valid = true;
-$recipientData = array();
 
 
-$_POST["RechnungsID_P"] = 3;
-$_POST["RechnungsArt_P"] = "RoterES";
-$_POST["Betrag_P"] = 555;
-$_POST["Waehrung_P"] = "EUR";
-$_POST["IBAN_P"]="CH12 2345 1234 1243 3456 8";
-$_POST["Swift_P"] = "BLKBCH22";
-$_POST["Beguenstigter_P"] ="2";
-$_POST["Kostenart_P"] = "Hotel";
-$_POST["Faelligkeit_P"] ="2016-01-01";
-$_POST["Bemerkung_P"] = "12";
-$_POST["Reise_P"]=2;
-$_POST["Bez_P"]=0;
-*/
+
 
 $res = array();
 
 
-        /*
-        if (empty($_POST['Name'])) {
-            $name_error = "Bitte einen <strong>Namen</strong> eingeben.";
+
+        if (empty($_POST['Betrag_P']) OR $_POST['Betrag_P']<=0) {
+            $betrag_error = "Bitte einen <strong>Betrag</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Strasse'])) {
-            $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
+        if (!(preg_match("/[a-zA-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{1}|[a-zA-Z]{2}\d{22}/", $_POST['IBAN_P']))) {
+            $iban_error = "Bitte eine korrekte <strong>IBAN</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Hausnummer'])) {
-            $hausnummer_error = "Bitte eine <strong>Hausnummer</strong> eingeben.";
+        if (empty($_POST['Swift_P'])) {
+            $swift_error = "Bitte einen <strong>Swift-Code</strong> eingeben.";
+            $valid = false;
+        }elseif(!(preg_match('/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i', $_POST['Swift_P']))){
+            $swift_error = "Bitte ein korrektes Format eingeben";
             $valid = false;
         }
-        if (empty($_POST['PLZ'])) {
-            $plz_error = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
-            $valid = false;
-        }else if(!(is_numeric($_POST['PLZ']))){
-            $plz_error = $plz_error . " Beim Feld PLZ sind nur Zahlen sind erlaubt";
+        if (empty($_POST['Beguenstigter_P'])) {
+            $beguenstigter_error = "Bitte einen <strong>Begünstigten</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Ort'])) {
-            $ort_error = "Bitte einen <strong>Ort</strong> eingeben.";
+
+        if (empty($_POST['Hinreise_P'])){
+            $faelligkeit_error = "Bitte ein <strong>Fälligkeitsdatum</strong> eingeben.";
             $valid = false;
-        }else if(is_numeric($_POST['Ort'])){
-            $ort_error = $ort_error. " Beim Feld Ort sind nur Buchstaben erlaubt.";
+        }else if (is_valid_date($_POST['Hinreise_P'])==false) {
+            $faelligkeit_error = "Bitte ein korrektes Datumsformat ['dd.mm.jjjj'] eingeben";
+            $valid = false;
+        }
+
+        if (empty($_POST['Bemerkung_P'])) {
+            $bemerkung_error = "Bitte eine <strong>Bemerkung</strong> eingeben.";
+            $valid = false;
+        }
+
+        if (empty($_POST['Reise_P'])) {
+            $reise_error = "Bitte eine <strong>Reise</strong> eingeben.";
             $valid = false;
         }
 
         if($valid) {
-*/
-        $rechnungsdaten = array();
 
-        @$rechnungsdaten['RechnungsID'] = $_POST["RechnungsID_P"];
-        @$rechnungsdaten['Rechnungsart'] =$_POST["RechnungsArt_P"];
-        @$rechnungsdaten['Betrag']= $_POST["Betrag_P"];
-        @$rechnungsdaten['Waehrung']=$_POST["Waehrung_P"];
-        @$rechnungsdaten['IBAN']=$_POST["IBAN_P"];
-        @$rechnungsdaten['SWIFT'] = $_POST["Swift_P"];
-        @$rechnungsdaten['Beguenstigter']= $_POST["Beguenstigter_P"];
-        @$rechnungsdaten['Kostenart']= $_POST["Kostenart_P"];
-        @$rechnungsdaten['Faelligkeit']= $_POST["Faelligkeit_P"];
-        @$rechnungsdaten['Bemerkung']= $_POST["Bemerkung_P"];
-        @$rechnungsdaten['Reise']= $_POST["Reise_P"];
-        @$rechnungsdaten['bezahlt']= $_POST["Bez_P"];
+            $rechnungsdaten = array();
 
-        $rechnung = rechnung::newRechnung($rechnungsdaten);
+            @$rechnungsdaten['RechnungsID'] = $_POST["RechnungsID_P"];
+            @$rechnungsdaten['Rechnungsart'] = $_POST["RechnungsArt_P"];
+            @$rechnungsdaten['Betrag'] = $_POST["Betrag_P"];
+            @$rechnungsdaten['Waehrung'] = $_POST["Waehrung_P"];
+            @$rechnungsdaten['IBAN'] = $_POST["IBAN_P"];
+            @$rechnungsdaten['SWIFT'] = $_POST["Swift_P"];
+            @$rechnungsdaten['Beguenstigter'] = $_POST["Beguenstigter_P"];
+            @$rechnungsdaten['Kostenart'] = $_POST["Kostenart_P"];
+            @$rechnungsdaten['Faelligkeit'] = $_POST["Faelligkeit_P"];
+            @$rechnungsdaten['Bemerkung'] = $_POST["Bemerkung_P"];
+            @$rechnungsdaten['Reise'] = $_POST["Reise_P"];
+            @$rechnungsdaten['bezahlt'] = $_POST["Bez_P"];
+
+            $rechnung = rechnung::newRechnung($rechnungsdaten);
 
 
             /** @var database $verbindung */
@@ -85,21 +82,21 @@ $res = array();
             } else {
                 $res["flag"] = false;
                 $res["message"] = "Die Daten konnten nicht in die Datenbank geschrieben werden";
+            }
+        }
 
-
-                /*else {
+        else {
                         $res["flag"] = false;
                         $res["message"] = "Die eingegeben Daten sind unkorrekt/unvollständig. ";
                         $res["message"] = $res["message"] ."<ul>";
-                        if(!empty($name_error)){$res["message"] = $res["message"] ."<li>".$name_error."</li>";}
-                        if(!empty($strasse_error)){$res["message"] = $res["message"]."<li>".$strasse_error."</li>";}
-                        if(!empty($hausnummer_error)){$res["message"] = $res["message"]."<li>".$hausnummer_error."</li>";}
-                        if(!empty($plz_error)){$res["message"] = $res["message"] . "<li>".$plz_error."</li>";}
-                        if(!empty($ort_error)){$res["message"] = $res["message"] . "<li>".$ort_error."</li>";}
+                        if(!empty($betrag_error)){$res["message"] = $res["message"] ."<li>".$betrag_error."</li>";}
+                        if(!empty($iban_error)){$res["message"] = $res["message"]."<li>".$iban_error."</li>";}
+                        if(!empty($swift_error)){$res["message"] = $res["message"]."<li>".$swift_error."</li>";}
+                        if(!empty($beguenstigter_error)){$res["message"] = $res["message"] . "<li>".$beguenstigter_error."</li>";}
+                        if(!empty($faelligkeit_error)){$res["message"] = $res["message"] . "<li>".$faelligkeit_error."</li>";}
+                        if(!empty($bemerkung_error)){$res["message"] = $res["message"] . "<li>".$bemerkung_error."</li>";}
+                        if(!empty($reise_error)){$res["message"] = $res["message"] . "<li>".$reise_error."</li>";}
                         $res["message"] = $res["message"] ."</ul>";
-
-                    }
-                */
 
             }
 

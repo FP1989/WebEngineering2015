@@ -23,11 +23,11 @@ if(isset($_POST["RechnungsID_R"])) {
     $rg["SWIFT_R"] = $rechnung->getSwift();
     $rg["Beguenstigter_R"] = $rechnung->getBeguenstigter();
     $rg["Kostenart_R"] = $rechnung->getKostenart();
-    $rg["Faelligkeit_R"] = $rechnung->getFaelligkeit();
     $rg["Bemerkung_R"] = $rechnung->getBemerkung();
     $rg["Reise_R"] = $rechnung->getReise();
     $rg["bezahlt_R"] = $rechnung->isBezahlt();
-
+    $date = date("d-m-Y", strtotime($rechnung->getFaelligkeit()));
+    $rg["Faelligkeit_R"] = $date;
 
     echo json_encode($rg);
 
@@ -45,6 +45,9 @@ else if (isset($_POST["ReiseID_R"])){
         $beguenstigterID = $datensatz["Beguenstigter"];
         $beguenstigter = $database->fetchBeguenstigter($beguenstigterID)->getBeguenstigterName();
 
+        $faelligkeit = $datensatz["Faelligkeit"];
+        $date = date("d-m-Y", strtotime($faelligkeit));
+        $datensatz["Faelligkeit"] = $date;
         $datensatz["Beguenstigter"] = $beguenstigter;
 
         $returnRechnung [] = $datensatz;

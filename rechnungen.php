@@ -30,6 +30,7 @@
 
             var id = button.id;
 
+
             $.ajax({
 
                 url: 'rechnungen.read.php',
@@ -80,6 +81,9 @@
     <script id="source" language="javascript" type="text/javascript">
 
         $(function (){
+
+            $('#positive').hide();
+            $('#negative').hide();
 
             $.ajax({
 

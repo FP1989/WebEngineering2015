@@ -11,8 +11,8 @@
             <div class ="modal-body">
                 <form role="form" method="post" action="">
 
-                    <p class="alert alert-success" role="alert" id="feedback_positive"></p>
-                    <p class="alert alert-warning" role="alert" id="feedback_negative"></p>
+                    <p class="alert alert-success" role="alert" id="positive"></p>
+                    <p class="alert alert-warning" role="alert" id="negative"></p>
 
                     <div class="form-group">
                         <label>Rechnungs-ID</label>
@@ -155,16 +155,16 @@
                 success: function(response){
                     var status = response.flag;
                     if(status){
-                       $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+                       $('#positive').show().html(response.message).delay(2000).fadeOut();
 
-                       $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                       $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                     }
 
                     else {
 
-                        $('#feedback_negative').show().html(response.message);
-                        $('#Mutationsformular').effect( "shake", {times:4}, 1000 );
+                        $('#negative').show().html(response.message);
+                        $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                     }
                 },
