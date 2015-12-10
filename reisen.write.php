@@ -5,7 +5,7 @@ include_once("classes/reise.class.php");
 // define variables and set to empty values
 $destination_error = $description_error = $travelname_error = $price_error = $todate_error = $fromdate_error = "";
 $destination =  $description = $travelname = $price= $todate =$fromdate="";
-$valid = null;
+$valid = true;
 $success_alert="";
 $error_alert="";
 
@@ -23,34 +23,34 @@ function is_valid_date($enddatum) {
 if(isset($_POST['gesendet'])) {
     if (empty($_POST['destination'])) {
         $destination_error = "Bitte ein Ziel eingeben";
-        $valid="false";
+        $valid=false;
     }
     if (empty($_POST['description'])) {
         $description_error = "Bitte eine Beschreibung eingeben";
-        $valid="false";
+        $valid=false;
     }
     if (empty($_POST['travelname'])) {
         $travelname_error = "Bitte eine Bezeichnung eingeben";
-        $valid="false";
+        $valid=false;
     }
     if (empty($_POST['price'])) {
         $price_error = "Bitte einen Preis eingeben";
-        $valid="false";
+        $valid=false;
     }
     if (empty($_POST['fromdate'])) {
         $fromdate_error = "Bitte ein Hinreisedatum eingeben";
-        $valid="false";
+        $valid=false;
     }else if (is_valid_date($_POST['fromdate'])==false) {
         $fromdate_error = "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
-        $valid = "false";
+        $valid=false;
     }
 
     if (empty($_POST['todate'])) {
         $todate_error = "Bitte ein R&uuml;ckreisedatum eingeben";
-        $valid="false";
+        $valid=false;
     }else if (is_valid_date($_POST['todate'])==false) {
         $todate_error = "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
-        $valid = "false";
+        $valid=false;
     }
 
 
@@ -69,9 +69,9 @@ if(isset($_POST['gesendet'])) {
         //make insert-statement
         /** @var database $verbindung */
         $verbindung = database::getDatabase();
-        $successful = $verbindung->insertReise($reise);
-
-        //set all variables to default
+        $command = $verbindung->insertReise($reise);
+        $num_rows = $command->num_rows;
+        if($num_rows > 0){
         unset($_POST['destination']);
         unset($_POST['description']);
         unset($_POST['travelname']);
@@ -79,12 +79,14 @@ if(isset($_POST['gesendet'])) {
         unset($_POST['fromdate']);
         unset($_POST['fromdate']);
         unset($_POST['todate']);
-
-        $success_alert= "<div class='alert alert-success' role='alert'>Neue Reise erfasst.</div>";
+        }else{
+            $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
+        }
 
     }else{
         $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler/Unvollständigkeiten.</div>";
     }
+
 }
 
 ?>
