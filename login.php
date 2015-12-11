@@ -6,19 +6,9 @@ $_SESSION = array();
 <html lang="de">
 <head>
     <?php
-    $pagetitle = "Home";
+    $pagetitle = "Login";
     include_once("includes/header.inc.php");
     ?>
-    <!--    <meta charset="utf-8" />-->
-    <!--    <title>Login</title>-->
-    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
-    <!---->
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/font-awesome.min.css">-->
-    <!---->
-    <!--    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>-->
-    <!--    <script type="text/javascript" src="bootstrap.min.js"></script>-->
 </head>
 <body>
 <div class="container colored" >
@@ -32,14 +22,8 @@ $_SESSION = array();
                     <input type="text" name="userid" class="form-control" placeholder="UserID" required="required" autofocus="autofocus"/>
                     <label for="pwd" class="sr-only">Password</label>
                     <input type="password" name="pwd" class="form-control" placeholder="Password" required="required" />
-                    <br>
-                    <!--                    <div class="checkbox">-->
-                    <!--                        <label>-->
-                    <!--                            <input name="remember" type="checkbox" value="Remember Me"/>Remember Login</label>-->
-                    <!--                    </div>-->
-                    <button class="btn btn-sm btn-primary btn-block" type="submit">Einloggen</button>
+                    <br><button class="btn btn-sm btn-primary btn-block" type="submit">Einloggen</button>
                     <a href="#" id="reset" class="pull-right" data-toggle="modal" data-target="#resetmodal">Passwort vergessen?</a>
-                    <!--                    <div id="reset" class="pull-right">Passwort vergessen?</div>-->
                     <br>
                     <div><?php echo (isset($_SESSION['falselogin']) && !empty($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
                 </form>

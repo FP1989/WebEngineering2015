@@ -1,4 +1,4 @@
-<?php include("includes/authentication.inc.php");?>
+<?php //include("includes/authentication.inc.php");?>
     <!doctype html>
     <html lang="de">
     <head>
@@ -14,6 +14,7 @@
 
     include_once("includes/navigation.inc.php");
     include_once("classes/database.class.php");
+    include_once("passwort_modal.php");
 
     $bezahlt = $reiseid_error = $teilnehmerid_error = $bezahlt_error = $success_alert = $error_alert = "";
     $valid = true;
@@ -57,6 +58,7 @@
             <?php if(isset($_SESSION['admintrue'])) echo '<h4><b>Sie sind als Administrator eingeloggt. Indem Sie links \'Users\' anklicken, k&ouml;nnen Sie die Anwender dieser Webseite bearbeiten.</b></h4>'; ?>
             <p>Verwenden Sie die Navigation links um Rechnungen, Reisen oder Teilnehmer einzusehen oder zu mutieren. Zus&auml;tzlich k&ouml;nnen Sie sich unter 'Reports' vorgefertigte Berichte ausstellen lassen.</p>
             <p>Auf dieser Seite finden Sie aktuelle Daten zu anstehenden Reisen sowie f&auml;llige Rechnungen. Weiter k&ouml;nnen Sie mit dem Schnellzugriff Kunden entsprechenden Reisen zuweisen.</p>
+            <a href="" id="passreset" name="passreset" data-toggle="modal" data-target="#passresetmodal">Klicken Sie hier, um Ihr Zugangspasswort zu ändern.</a>
         </div>
 
         <div class="panel panel-primary col-md-4">
