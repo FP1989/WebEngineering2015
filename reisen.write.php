@@ -60,10 +60,18 @@ if(isset($_POST['gesendet'])) {
         $traveldata['Beschreibung'] = $_POST['description'];
         $traveldata['Bezeichnung'] = $_POST['travelname'];
         $traveldata['Preis'] = $_POST['price'];
-        $traveldata['Hinreise'] = $_POST['fromdate'];
-        $traveldata['Rueckreise']= $_POST['todate'];
-
-
+        @$enddatum_array = explode('.', $_POST['fromdate']);
+        @$tag = $enddatum_array[0];
+        @$monat = $enddatum_array[1];
+        @$jahr = $enddatum_array[2];
+        $newDate = $jahr . "-" . $monat . "-" . $tag;
+        $traveldata['Hinreise'] = $newDate;
+        @$datum_array = explode('.', $_POST['todate']);
+        @$tag = $datum_array[0];
+        @$monat = $datum_array[1];
+        @$jahr = $datum_array[2];
+        $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
+        $traveldata['Rueckreise'] = $NeuesDatum;
         $reise = reise::newReise($traveldata);
 
         //make insert-statement
@@ -79,6 +87,7 @@ if(isset($_POST['gesendet'])) {
         unset($_POST['fromdate']);
         unset($_POST['fromdate']);
         unset($_POST['todate']);
+        $success_alert = "<div class='alert alert-success' role='alert'>Neue Reise erfasst.</div>";
         }else{
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
         }
