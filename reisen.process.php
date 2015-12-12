@@ -2,81 +2,150 @@
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
 
+
+$ziel_error=$beschreibung_error=$bezeichnung_error=$preis_error=$hinreise_error=$rueckreise_error="";
+$valid = true;
+
 $res = array();
 
+function is_valid_date($enddatum) {
 
-/*
-if (empty($_POST['Name'])) {
-    $name_error = "Bitte einen <strong>Namen</strong> eingeben.";
+    $valid = true;
+
+    @$enddatum_array = explode('.',$enddatum);
+    @$tag=$enddatum_array[0];
+    @$monat=$enddatum_array[1];
+    @$jahr=$enddatum_array[2];
+
+    if (is_numeric($tag) && is_numeric($monat) && is_numeric($jahr)) $valid = checkdate($monat, $tag, $jahr);
+
+    return $valid;
+}
+
+function is_current_date($faelligkeit){
+
+    $valid = true;
+
+    $time = date("Y-m-d");
+
+    @$faelligkeit_array = explode('.', $faelligkeit);
+    @$tag = $faelligkeit_array[0];
+    @$monat = $faelligkeit_array[1];
+    @$jahr = $faelligkeit_array[2];
+    $newDate = $jahr . "-" . $monat . "-" . $tag;
+
+    if($newDate<= $time) $valid = false;
+
+    return $valid;
+}
+
+if (empty($_POST['Ziel_P'])) {
+    $ziel_error = "Bitte ein <strong>Ziel</strong> eingeben.";
+    $valid = false;
+}else if(preg_match('#[\d]#',$_POST["Ziel_P"])){
+    $ziel_error= "Bitte ein <strong>korrektes Ziel</strong> eingeben.";
     $valid = false;
 }
-if (empty($_POST['Strasse'])) {
-    $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
+
+if (empty($_POST['Beschreibung_P'])) {
+    $beschreibung_error = "Bitte eine <strong>Beschreibung</strong> eingeben.";
     $valid = false;
 }
-if (empty($_POST['Hausnummer'])) {
-    $hausnummer_error = "Bitte eine <strong>Hausnummer</strong> eingeben.";
+
+if (empty($_POST['Bezeichnung_P'])) {
+    $bezeichnung_error = "Bitte eine <strong>Bezeichnung</strong> eingeben.";
     $valid = false;
 }
-if (empty($_POST['PLZ'])) {
-    $plz_error = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
+
+if (empty($_POST['Preis_P'])) {
+    $preis_error= "Bitte einen <strong>Preis</strong> eingeben.";
     $valid = false;
-}else if(!(is_numeric($_POST['PLZ']))){
-    $plz_error = $plz_error . " Beim Feld PLZ sind nur Zahlen sind erlaubt";
+}else if(!(is_numeric($_POST['Preis_P'])) OR $_POST["Preis_P"] <= 0){
+    $preis_error= "Bitte einen <strong>korrekten Preis</strong> eingeben.";
     $valid = false;
 }
-if (empty($_POST['Ort'])) {
-    $ort_error = "Bitte einen <strong>Ort</strong> eingeben.";
+if (empty($_POST['Hinreise_P'])) {
+    $hinreise_error= "Bitte ein <strong>Hinreisedatum</strong> eingeben.";
     $valid = false;
-}else if(is_numeric($_POST['Ort'])){
-    $ort_error = $ort_error. " Beim Feld Ort sind nur Buchstaben erlaubt.";
+}else if (!is_valid_date($_POST['Hinreise_P'])) {
+    $hinreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Hinreise</strong> eingeben";
+    $valid = false;
+}else if (!is_current_date($_POST["Hinreise_P"])){
+    $hinreise_error= "Bitte ein <strong>aktuelles Hinreisedatum </strong> eingeben";
+    $valid = false;
+}
+
+if (empty($_POST['Rueckreise_P'])) {
+    $rueckreise_error= "Bitte ein <strong>Rückreisedatum</strong> eingeben.";
+    $valid = false;
+}else if (!is_valid_date($_POST['Rueckreise_P'])) {
+    $rueckreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Rückreise</strong> eingeben";
+    $valid = false;
+}else if($_POST["Rueckreise_P"]<$_POST["Hinreise_P"]){
+    $rueckreise_error= "Die <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
     $valid = false;
 }
 
 if($valid) {
-*/
-$reisesdaten = array();
 
-@$reisedaten['ReiseID'] = $_POST["ReiseID_P"];
-@$reisedaten['Ziel'] =$_POST["Ziel_P"];
-@$reisedaten['Beschreibung']= $_POST["Beschreibung_P"];
-@$reisedaten['Bezeichnung']=$_POST["Bezeichnung_P"];
-@$reisedaten['Preis']=$_POST["Preis_P"];
-@$reisedaten['Hinreise'] = $_POST["Hinreise_P"];
-@$reisedaten['Rueckreise']= $_POST["Rueckreise_P"];
+    $reisesdaten = array();
 
-$reise = reise::newReise($reisedaten);
+    @$reisedaten['ReiseID'] = $_POST["ReiseID_P"];
+    @$reisedaten['Ziel'] =$_POST["Ziel_P"];
+    @$reisedaten['Beschreibung']= $_POST["Beschreibung_P"];
+    @$reisedaten['Bezeichnung']=$_POST["Bezeichnung_P"];
+    @$reisedaten['Preis']=$_POST["Preis_P"];
+
+    @$hinreise_array = explode('.', $_POST['Hinreise_P']);
+    @$tag = $hinreise_array[0];
+    @$monat = $hinreise_array[1];
+    @$jahr = $hinreise_array[2];
+    $newDate = $jahr . "-" . $monat . "-" . $tag;
+    @$reisedaten['Hinreise'] = $newDate;
+
+    @$hinreise_array = explode('.', $_POST['Rueckreise_P']);
+    @$tag = $hinreise_array[0];
+    @$monat = $hinreise_array[1];
+    @$jahr = $hinreise_array[2];
+    $newDate = $jahr . "-" . $monat . "-" . $tag;
+    @$reisedaten['Rueckreise']= $newDate;
+
+    $reise = reise::newReise($reisedaten);
 
 
-/** @var database $verbindung */
-$verbindung = database::getDatabase();
-$successful = $verbindung->insertReise($reise);
+    /** @var database $verbindung */
+    $verbindung = database::getDatabase();
+    $successful = $verbindung->insertReise($reise);
 
-if ($successful) {
+    if ($successful) {
 
-    $res["flag"] = true;
-    $res["message"] = "Daten erfolgreich erfasst";
+        $res["flag"] = true;
+        $res["message"] = "Daten erfolgreich erfasst";
 
-} else {
+    } else {
+        $res["flag"] = false;
+        $res["message"] = "Die Daten konnten nicht in die Datenbank geschrieben werden";
+
+    }
+
+}
+
+else {
+
     $res["flag"] = false;
-    $res["message"] = "Die Daten konnten nicht in die Datenbank geschrieben werden";
-
-
-    /*else {
-            $res["flag"] = false;
-            $res["message"] = "Die eingegeben Daten sind unkorrekt/unvollständig. ";
-            $res["message"] = $res["message"] ."<ul>";
-            if(!empty($name_error)){$res["message"] = $res["message"] ."<li>".$name_error."</li>";}
-            if(!empty($strasse_error)){$res["message"] = $res["message"]."<li>".$strasse_error."</li>";}
-            if(!empty($hausnummer_error)){$res["message"] = $res["message"]."<li>".$hausnummer_error."</li>";}
-            if(!empty($plz_error)){$res["message"] = $res["message"] . "<li>".$plz_error."</li>";}
-            if(!empty($ort_error)){$res["message"] = $res["message"] . "<li>".$ort_error."</li>";}
-            $res["message"] = $res["message"] ."</ul>";
-
-        }
-    */
+    $res["message"] = "Die eingegeben Daten sind unkorrekt/unvollständig. ";
+    $res["message"] = $res["message"] ."<ul>";
+    if(!empty($ziel_error)){$res["message"] = $res["message"] ."<li>".$ziel_error."</li>";}
+    if(!empty($beschreibung_error)){$res["message"] = $res["message"]."<li>".$beschreibung_error."</li>";}
+    if(!empty($bezeichnung_error)){$res["message"] = $res["message"]."<li>".$bezeichnung_error."</li>";}
+    if(!empty($preis_error)){$res["message"] = $res["message"] . "<li>".$preis_error."</li>";}
+    if(!empty($hinreise_error)){$res["message"] = $res["message"] . "<li>".$hinreise_error."</li>";}
+    if(!empty($rueckreise_error)){$res["message"] = $res["message"] . "<li>".$rueckreise_error."</li>";}
+    $res["message"] = $res["message"] ."</ul>";
 
 }
 
 echo json_encode($res);
+
+
 

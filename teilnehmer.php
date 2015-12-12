@@ -6,68 +6,60 @@
     include_once("includes/header.inc.php");
     ?>
 
-<!--
-    <script type = text/javascript>
-
-        function deleteReiseID(button){
-
-            var id = button.id;
-
-            var div = document.getElementById("loeschen");
-
-            div.innerHTML("<button id= "+id+"class=\"btn btn-danger btn-sm\" onclick=\"loeschen(this)\" >Loeschen</button>");
-
-        }
-
-        function loeschen(button){
-
-            var id = button.id;
-
-
-        }
-
-
-    </script>-->
-
     <script type="text/javascript">
 
-        function searchName(){
+        $(function () {
 
-            var nachname = document.getElementById("usr").value;
+            $('#positive').hide();
+            $('#negative').hide();
+        });
 
-            $.ajax({
+            function searchName(){
 
-                url: 'teilnehmer.read.php',
-                type: "POST",
-                dataType: 'json',
-                data: {
-                    Nachname_R: nachname
-                },
+                var user = document.getElementById("usr");
 
+                user.style.backgroundColor="white";
+                var nachname = user.value;
 
-                success: function (data) {
+                $.ajax({
 
-                    document.getElementById("TeilnehmerID_R").value = data.TeilnehmerID_R;
-                    document.getElementById("Vorname_R").value = data.Vorname_R;
-                    document.getElementById("Nachname_R").value = nachname;
-                    document.getElementById("Strasse_R").value = data.Strasse_R;
-                    document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
-                    document.getElementById("PLZ_R").value = data.PLZ_R;
-                    document.getElementById("Ort_R").value = data.Ort_R;
-                    document.getElementById("Telefon_R").value = data.Telefon_R;
-                    document.getElementById("Mail_R").value = data.Mail_R;
-
-                }
-            });
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        Nachname_R: nachname
+                    },
 
 
+                    success: function (data) {
+
+
+
+                        document.getElementById("TeilnehmerID_R").value = data.TeilnehmerID_R;
+                        document.getElementById("Vorname_R").value = data.Vorname_R;
+                        document.getElementById("Nachname_R").value = nachname;
+                        document.getElementById("Strasse_R").value = data.Strasse_R;
+                        document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
+                        document.getElementById("PLZ_R").value = data.PLZ_R;
+                        document.getElementById("Ort_R").value = data.Ort_R;
+                        document.getElementById("Telefon_R").value = data.Telefon_R;
+                        document.getElementById("Mail_R").value = data.Mail_R;
+
+                    }
+                });
+
+                if(document.getElementById("TeilnehmerID_R").value !='') $("#Mutationsformular").modal('show');
+                else document.getElementById("usr").style.backgroundColor="red";
 
 
         }
 
         function searchNr() {
 
-            var id = document.getElementById("nr").value;
+            var user = document.getElementById("nr");
+
+            user.style.backgroundColor="white";
+            var id = user.value;
 
             $.ajax({
 
@@ -95,6 +87,9 @@
                 }
 
             });
+
+            if(document.getElementById("TeilnehmerID_R").value !='') $("#Mutationsformular").modal('show');
+            else document.getElementById("nr").style.backgroundColor="red";
         }
 
     </script>
@@ -129,7 +124,7 @@
                 <input type="number" class="form-control" id="nr">
             </div>
 
-            <button id="nr_suche" onclick="searchNr()" class="btn btn-success btn-md" data-toggle="modal" data-target="#Mutationsformular">Suchen</button>
+            <button id="nr_suche" onclick="searchNr()" class="btn btn-success btn-md">Suchen</button>
             <br/>
             <br/>
 
@@ -138,7 +133,7 @@
                 <input type="text" class="form-control" id="usr">
             </div>
 
-            <button id="usr_suche" onclick="searchName()" class="btn btn-success btn-md" data-toggle="modal" data-target="#Mutationsformular">Suchen</button>
+            <button id="usr_suche" onclick="searchName()" class="btn btn-success btn-md">Suchen</button>
 
 
 

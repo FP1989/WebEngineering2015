@@ -11,8 +11,8 @@
             <div class ="modal-body">
                 <form role="form" method="post" action="">
 
-                    <p class="alert alert-success" role="alert" id="positive"></p>
-                    <p class="alert alert-warning" role="alert" id="negative"></p>
+                    <p class="alert alert-success" role="alert" id="alterpositive"></p>
+                    <p class="alert alert-warning" role="alert" id="alternegative"></p>
 
                     <div class="form-group">
                         <label>Rechnungs-ID</label>
@@ -75,9 +75,6 @@
                         <label>Beg&uuml;nstigter</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="Beguenstigter_R" name="recipient" value=""/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#newRecipient">Neuen Beg&uuml;nstigten anlegen</button>
-                                    </span>
                         </div>
                     </div>
 
@@ -99,7 +96,7 @@
                     </div>
 
                     <button type="submit" id="ButtonSpeichern" type="button" name="gesendet" class="btn btn-primary">&Auml;nderungen speichern</button>
-                    <button type="reset" id="ButtonLoeschen" class="btn btn-primary">&Auml;nderungen verwerfen</button>
+                    <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">&Auml;nderungen verwerfen</button>
 
                 </form>
             </div>
@@ -155,15 +152,16 @@
                 success: function(response){
                     var status = response.flag;
                     if(status){
-                       $('#positive').show().html(response.message).delay(2000).fadeOut();
 
-                       $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                        $('#alterpositive').show().html(response.message).delay(2000).fadeOut();
+                        $('#alternegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
 
                     }
 
                     else {
 
-                        $('#negative').show().html(response.message);
+                        $('#alternegative').show().html(response.message);
                         $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                     }

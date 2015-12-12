@@ -70,8 +70,8 @@ if(isset($_POST['gesendet'])) {
         /** @var database $verbindung */
         $verbindung = database::getDatabase();
         $command = $verbindung->insertReise($reise);
-        $num_rows = $command->num_rows;
-        if($num_rows > 0){
+
+        if($command){
         unset($_POST['destination']);
         unset($_POST['description']);
         unset($_POST['travelname']);

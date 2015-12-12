@@ -8,21 +8,48 @@
 
     <script type = text/javascript>
 
-
         function deleteReiseID(button){
 
             var id = button.id;
 
-            var div = document.getElementById("loeschen");
-
-            div.innerHTML("<button id= "+id+"class=\"btn btn-danger btn-sm\" onclick=\"loeschen(this)\" >Loeschen</button>");
+            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss="modal">Abbrechen</button>");
 
         }
 
         function loeschen(button){
 
             var id = button.id;
+            $.ajax({
 
+                url:"reise.delete.php",
+                type:"POST",
+                dataType: "json",
+                data:{
+
+                    ReiseID_L: id
+                },
+
+                success: function(data){
+
+                    if(data.flag){
+
+                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                        $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                    }
+
+                    else {
+
+                        $('#deletenegative').show().html(data.message);
+                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+                    }
+
+
+                }
+
+
+            });
 
         }
 
@@ -59,6 +86,11 @@
 
         $(function(){
 
+            $('#positive').hide();
+            $('#negative').hide();
+            $('#deletepositive').hide();
+            $('#deletenegative').hide();
+
             $.ajax({
 
                 url: 'reisen.read.php',
@@ -66,11 +98,11 @@
                 dataType: 'json',
                 success: function (data) {
 
-                    var string = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th colspan=3>Abreise</th></tr>";
+                    var string = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Abreise</th><th colspan=2></th></tr>";
 
                     for (var i = 0; i < data.length; i++) {
 
-                        string += "<tr><td>"+data[i].ReiseID+"</td><td>"+data[i].Ziel+"</td><td>"+data[i].Bezeichnung+"</td><td>"+data[i].Hinreise+"</td><td align=\"right\"><button id="+data[i].ReiseID+" onclick=\"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Reiseloeschen\" >löschen</button></td></tr>";
+                        string += "<tr><td>"+data[i].ReiseID+"</td><td>"+data[i].Ziel+"</td><td>"+data[i].Bezeichnung+"</td><td>"+data[i].Hinreise+"</td><td align=\"right\"><button id="+data[i].ReiseID+" onclick=\"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button id= "+data[i].ReiseID +" onclick=\"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Reiseloeschen\" >löschen</button></td></tr>";
 
                     }
 
@@ -111,6 +143,27 @@
 
                 <h3>Reise ausw&auml;hlen</h3>
                 <table id="Reise_mutieren" class='table table-striped'></table>
+
+                <div class ="modal fade" id="Reiseloeschen" tabindex="-1" role="dialog">
+
+                    <div class="modal-dialog modal-sm" role="document">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h2>Sind Sie sicher?</h2>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <p class="alert alert-success" role="alert" id="deletepositive"></p>
+                                <p class="alert alert-warning" role="alert" id="deletenegative"></p>
+
+                                <div id="loeschen" class = "form-group"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
         </div> <!-- end tab-2 -->

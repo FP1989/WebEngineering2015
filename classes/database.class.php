@@ -75,7 +75,6 @@ class database
 
     }
 
-
     public function fetchBeguenstigter($beguenstigterID = null, $beguenstigterName = null){
 
         /* @var database $database*/
@@ -821,5 +820,47 @@ class database
 
             return $result;
         }
+    }
+
+    public function deleteRechnung($rechnungsID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+
+        $query= "DELETE FROM rechnung WHERE RechnungsID = $rechnungsID";
+        $result = $link->query($query);
+
+        return $result;
+
+    }
+
+    public function deleteReise($reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+
+        $query= "DELETE FROM reise WHERE ReiseID = $reiseID";
+        $result = $link->query($query);
+
+        return $result;
+
+    }
+
+    public function deleteTeilnehmer($teilnehmerID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+
+        $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = $teilnehmerID";
+        $result = $link->query($query);
+
+        return $result;
+
     }
 }

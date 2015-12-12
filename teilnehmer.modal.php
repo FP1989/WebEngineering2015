@@ -11,6 +11,10 @@
             <div class ="modal-body">
 
                 <form role="form" method="post" action="">
+
+                    <p class="alert alert-success" role="alert" id="positive"></p>
+                    <p class="alert alert-warning" role="alert" id="negative"></p>
+
                     <div class="form-group">
                         <label>Teilnehmer-ID</label>
                         <input class="form-control" id="TeilnehmerID_R" type="text" readonly>
@@ -65,7 +69,8 @@
 
                     <div class="form-group">
                         <button type="submit" id="ButtonSpeichern" name="gesendet" class="btn btn-primary">&Auml;nderungen erfassen</button>
-                        <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
+                        <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">&Auml;nderungen verwerfen</button>
+                        <button id="teilnehmerloeschen" class="btn btn-danger pull-right" >Teilnehmer l&ouml;schen</button>
                     </div>
                 </form>
             </div>
@@ -74,7 +79,27 @@
 </div>
 <script id="source" language="javascript" type="text/javascript">
 
+
+    function deleteTeilnehmer{
+
+        var id = button.id;
+
+        var div = document.getElementById("loeschen");
+
+        div.innerHTML("<button id= "+id+"class=\"btn btn-danger btn-sm\" onclick=\"loeschen(this)\" >Loeschen</button>");
+
+    }
+
+    function loeschen(button){
+
+        var id = button.id;
+
+
+    }
+
     $(function (){
+
+
 
         $("#ButtonSpeichern").on("click", function(e){
 
@@ -110,24 +135,19 @@
 
                 },
 
-                ContentType:"application/json",
                 success: function(response){
                     var status = response.flag;
                     if(status){
-                        $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
 
-                        $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
-
-                        alert(response.message);
+                        $('#positive').show().html(response.message).delay(2000).fadeOut();
+                        $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                     }
 
                     else {
 
-                        $('#feedback_negative').show().html(response.message);
-                        $('#Mutationsformular').effect( "shake", {times:4}, 1000 );
-
-                        alert(response.message);
+                        $('#negative').show().html(response.message);
+                        $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                     }
                 }

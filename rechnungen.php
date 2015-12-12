@@ -7,24 +7,50 @@
     ?>
     <script type = text/javascript>
 
-
         function deleteRechnungsID(button){
 
             var id = button.id;
 
-            var div = document.getElementById("loeschen");
-
-            div.innerHTML("<button id= "+id+"class=\"btn btn-danger btn-sm\" onclick=\"loeschen(this)\" >Loeschen</button>");
+            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
         }
 
         function loeschen(button){
 
             var id = button.id;
-            //JQuery Befehl zum löschen
+            $.ajax({
+
+                url:"rechnungen.delete.php",
+                type:"POST",
+                dataType: "json",
+                data:{
+
+                    RechnungsID_L: id
+                },
+
+                success: function(data){
+
+                    if(data.flag){
+
+                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                        $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                    }
+
+                    else {
+
+                        $('#deletenegative').show().html(data.message);
+                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+                    }
+
+
+                }
+
+
+            });
 
         }
-
 
         function getRechnungsID(button){
 
@@ -82,8 +108,10 @@
 
         $(function (){
 
-            $('#positive').hide();
-            $('#negative').hide();
+            $('#alterpositive').hide();
+            $('#alternegative').hide();
+            $("#deletenegative").hide();
+            $("#deletepositive").hide();
 
             $.ajax({
 
@@ -114,11 +142,11 @@
 
                     success: function (data) {
 
-                        var string = "<h3>Rechnung ausw&auml;hlen</h3><tr><th>RechnungsID</th><th>Beg&uuml;nstigter</th><th>Betrag</th><th colspan=3>F&auml;lligkeit</th></tr>";
+                        var string = "<h3>Rechnung ausw&auml;hlen</h3><tr><th>RechnungsID</th><th>Beg&uuml;nstigter</th><th>Betrag</th><th>F&auml;lligkeit</th><th colspan=2></th></tr>";
 
                         for (var i = 0; i < data.length; i++) {
 
-                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Rechnungloeschen\" >löschen</button></td></tr>";
+                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button id="+data[i].RechnungsID+" onclick=\"deleteRechnungsID(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Rechnungloeschen\" >löschen</button></td></tr>";
 
                         }
 
@@ -164,28 +192,28 @@ include_once("rechnungen.modal.php");
                             <option>--w&auml;hlen Sie eine Reise aus--</option>
                         </select>
 
-
-
-                        <table name="rechnung" id="rechnung" class='table table-striped'>
-
-                        </table>
-
+                        <table name="rechnung" id="rechnung" class='table table-striped'></table>
 
                 <div class ="modal fade" id="Rechnungloeschen" tabindex="-1" role="dialog">
 
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-sm" role="document">
 
                         <div class="modal-content">
 
                             <div class="modal-header">
-                                <h2>Sind Sie sicher?</h2> </br></br>
+                                <h2>Sind Sie sicher?</h2>
                             </div>
 
-                            <div id="loeschen" class ="modal-body">
+                            <div class="modal-body">
 
+                                <p class="alert alert-success" role="alert" id="deletepositive"></p>
+                                <p class="alert alert-warning" role="alert" id="deletenegative"></p>
+
+                                <div id="loeschen" class = "form-group"></div>
                             </div>
                         </div>
-
+                    </div>
+                </div>
             </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->

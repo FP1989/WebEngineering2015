@@ -5,38 +5,67 @@ include_once("classes/rechnung.class.php");
 $betrag_error=$iban_error=$swift_error=$beguenstigter_error=$faelligkeit_error=$bemerkung_error=$reise_error="";
 $valid = true;
 
+function is_valid_date($enddatum) {
 
+    $valid = true;
 
+    @$enddatum_array = explode('.',$enddatum);
+    @$tag=$enddatum_array[0];
+    @$monat=$enddatum_array[1];
+    @$jahr=$enddatum_array[2];
+
+    if (is_numeric($tag) && is_numeric($monat) && is_numeric($jahr)) $valid = checkdate($monat, $tag, $jahr);
+
+    return $valid;
+}
+
+function is_current_date($faelligkeit){
+
+    $valid = true;
+
+    $time = date("Y-m-d");
+
+    @$faelligkeit_array = explode('.', $faelligkeit);
+    @$tag = $faelligkeit_array[0];
+    @$monat = $faelligkeit_array[1];
+    @$jahr = $faelligkeit_array[2];
+    $newDate = $jahr . "-" . $monat . "-" . $tag;
+
+    if($newDate<= $time) $valid = false;
+
+    return $valid;
+
+}
 
 $res = array();
 
 
 
-        if (empty($_POST['Betrag_P']) OR $_POST['Betrag_P']<=0) {
+        if (empty($_POST['Betrag_P'])) {
             $betrag_error = "Bitte einen <strong>Betrag</strong> eingeben.";
+            $valid = false;
+        }else if (!is_numeric($_POST["Betrag_P"]) OR $_POST['Betrag_P']<=0) {
+            $betrag_error = "Bitte einen korrekten <strong>Betrag</strong> eingeben.";
             $valid = false;
         }
         if (!(preg_match("/[a-zA-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{1}|[a-zA-Z]{2}\d{22}/", $_POST['IBAN_P']))) {
             $iban_error = "Bitte eine korrekte <strong>IBAN</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Swift_P'])) {
-            $swift_error = "Bitte einen <strong>Swift-Code</strong> eingeben.";
-            $valid = false;
-        }elseif(!(preg_match('/^[a-z]{6}[0-9a-z]{2}([0-9a-z]{3})?\z/i', $_POST['Swift_P']))){
-            $swift_error = "Bitte ein korrektes Format eingeben";
-            $valid = false;
-        }
+
         if (empty($_POST['Beguenstigter_P'])) {
             $beguenstigter_error = "Bitte einen <strong>Begünstigten</strong> eingeben.";
             $valid = false;
         }
 
-        if (empty($_POST['Hinreise_P'])){
+        if (empty($_POST['Faelligkeit_P'])){
             $faelligkeit_error = "Bitte ein <strong>Fälligkeitsdatum</strong> eingeben.";
             $valid = false;
-        }else if (is_valid_date($_POST['Hinreise_P'])==false) {
-            $faelligkeit_error = "Bitte ein korrektes Datumsformat ['dd.mm.jjjj'] eingeben";
+        }else if (!is_valid_date($_POST['Faelligkeit_P'])) {
+            $faelligkeit_error = "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj']</strong> eingeben";
+            $valid = false;
+        }else if (!is_current_date($_POST["Faelligkeit_P"])){
+            $faelligkeit_error = "Bitte ein <strong>aktuelles Fälligkeitsdatum</strong> eingeben";
             $valid = false;
         }
 
@@ -62,7 +91,12 @@ $res = array();
             @$rechnungsdaten['SWIFT'] = $_POST["Swift_P"];
             @$rechnungsdaten['Beguenstigter'] = $_POST["Beguenstigter_P"];
             @$rechnungsdaten['Kostenart'] = $_POST["Kostenart_P"];
-            @$rechnungsdaten['Faelligkeit'] = $_POST["Faelligkeit_P"];
+            @$faelligkeit_array = explode('.', $_POST['Faelligkeit_P']);
+            @$tag = $faelligkeit_array[0];
+            @$monat = $faelligkeit_array[1];
+            @$jahr = $faelligkeit_array[2];
+            $newDate = $jahr . "-" . $monat . "-" . $tag;
+            @$rechnungsdaten['Faelligkeit'] = $newDate;
             @$rechnungsdaten['Bemerkung'] = $_POST["Bemerkung_P"];
             @$rechnungsdaten['Reise'] = $_POST["Reise_P"];
             @$rechnungsdaten['bezahlt'] = $_POST["Bez_P"];
