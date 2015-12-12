@@ -73,9 +73,7 @@
 
                     <div class="form-group">
                         <label>Beg&uuml;nstigter</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="Beguenstigter_R" name="recipient" value=""/>
-                        </div>
+                        <input type="text" class="form-control" id="Beguenstigter_R" name="recipient" value=""/>
                     </div>
 
 
