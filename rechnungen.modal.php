@@ -126,9 +126,8 @@
             var reise = $("#Reise_R").val();
             var bez = $("input[name=paidBill]:checked").val();
 
-
-
             $.ajax({
+
                 url:"rechnungen.process.php",
                 type:"POST",
                 dataType:"json",
@@ -150,6 +149,7 @@
                 },
 
                 success: function(response){
+
                     var status = response.flag;
                     if(status){
 

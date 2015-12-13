@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <button type="submit" id="ButtonSpeichern" name="gesendet" class="btn btn-primary">&Auml;nderungen erfassen</button>
                         <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">&Auml;nderungen verwerfen</button>
-                        <button id="teilnehmerloeschen" class="btn btn-danger pull-right" >Teilnehmer l&ouml;schen</button>
+                        <button type="button" id="teilnehmerloeschen" class="btn btn-danger pull-right" onclick="deleteTeilnehmer()" data-dismiss="modal">Teilnehmer l&ouml;schen</button>
                     </div>
                 </form>
             </div>
@@ -80,26 +80,44 @@
 <script id="source" language="javascript" type="text/javascript">
 
 
-    function deleteTeilnehmer{
+    function deleteTeilnehmer(){
 
-        var id = button.id;
+        alert("deleteTeilnehmer");
 
-        var div = document.getElementById("loeschen");
+        var id = document.getElementById("TeilnehmerID_R").value;
 
-        div.innerHTML("<button id= "+id+"class=\"btn btn-danger btn-sm\" onclick=\"loeschen(this)\" >Loeschen</button>");
+        $.ajax({
+
+            url:"teilnehmer.delete.php",
+            type:"POST",
+            dataType: "json",
+            data:{
+
+                TeilnehmerID_L: id
+            },
+
+            success: function(data){
+
+                if(data.flag){
+
+                    $('#positive').show().html(data.message).delay(2000).fadeOut();
+                    $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                }
+
+                else {
+
+                    $('#negative').show().html(data.message);
+                    $('#Mutationsformular').effect( "shake", {times:2}, 500 );
+
+                }
+            }
+        });
 
     }
 
-    function loeschen(button){
-
-        var id = button.id;
-
-
-    }
 
     $(function (){
-
-
 
         $("#ButtonSpeichern").on("click", function(e){
 
