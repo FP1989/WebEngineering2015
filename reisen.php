@@ -12,7 +12,7 @@
 
             var id = button.id;
 
-            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss="modal">Abbrechen</button>");
+            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
         }
 
@@ -132,18 +132,18 @@
     include_once("reisen.modal.php");
     ?>
 
-<div id="content" class="container">
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#createTravel">Neue Reise erfassen</a></li>
-        <li><a data-toggle="tab" href="#editTravel">Reise ansehen / editieren</a></li>
-    </ul>
+    <div id="content" class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#createTravel">Neue Reise erfassen</a></li>
+            <li><a data-toggle="tab" href="#editTravel">Reise ansehen / editieren</a></li>
+        </ul>
 
-    <div class="tab-content">
-        <div id="createTravel" class="tab-pane fade in active">
-            <?php include_once("reisen.write.php");?>
-        </div> <!-- end tab-1 -->
+        <div class="tab-content">
+            <div id="createTravel" class="tab-pane fade in active">
+                <?php include_once("reisen.write.php");?>
+            </div> <!-- end tab-1 -->
 
-        <div id="editTravel" class="tab-pane fade">
+            <div id="editTravel" class="tab-pane fade">
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
 
                 <h3>Reise ausw&auml;hlen</h3>
@@ -171,31 +171,31 @@
                 </div>
 
 
-        </div> <!-- end tab-2 -->
-    </div> <!-- end tabs -->
-</div> <!-- end content div -->
+            </div> <!-- end tab-2 -->
+        </div> <!-- end tabs -->
+    </div> <!-- end content div -->
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(function() {
-        $( "#hinreise" ).datepicker({
-            onClose: function( selectedDate ) {
-                $( "#rueckreise" ).datepicker( "option", "minDate", selectedDate );
-            }
+        $(function() {
+            $( "#hinreise" ).datepicker({
+                onClose: function( selectedDate ) {
+                    $( "#rueckreise" ).datepicker( "option", "minDate", selectedDate );
+                }
+            });
+            $( "#rueckreise" ).datepicker({
+                onClose: function( selectedDate ) {
+                    $( "#hinreise" ).datepicker( "option", "maxDate", selectedDate );
+                }
+            });
+
+            $.datepicker.setDefaults($.datepicker.regional["de"]);
         });
-        $( "#rueckreise" ).datepicker({
-            onClose: function( selectedDate ) {
-                $( "#hinreise" ).datepicker( "option", "maxDate", selectedDate );
-            }
-        });
-
-        $.datepicker.setDefaults($.datepicker.regional["de"]);
-    });
 
 
-</script>
+    </script>
 
 <?php
 include("includes/footer.inc.php");

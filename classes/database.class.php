@@ -697,6 +697,17 @@ class database
         }
     }
 
+    public function getAllUsers() {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT LoginID FROM logindaten WHERE loginID > 1";
+        $result = $link->query($query);
+        return $result;
+    }
+
     public function insertUser($user, $pwhash) {
 
         /* @var database $database*/
@@ -730,10 +741,11 @@ class database
         switch ($type) {
 
             case "Kreditoren":
-                $query = "";
+                $query = "SELECT Re.RechnungsID, Re.Rechnungsart, Re.Betrag, Re.Waehrung AS Währung, Re.Kostenart, Re.Faelligkeit AS Fälligkeit FROM Rechnung Re WHERE Re.bezahlt = 0";
                 break;
             case "Reiseteilnehmer":
-                $query = "SELECT R.ReiseID, R.Ziel, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ ORDER BY R.ReiseID ASC";
+//                $query = "SELECT R.ReiseID, R.Ziel, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ ORDER BY R.ReiseID ASC";
+                $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
                 break;
             case "Debitoren":
                 $query = "SELECT T.Nachname, T.Vorname, R.Ziel, R.Hinreise FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID WHERE Re.bezahlt = 0";
@@ -848,7 +860,6 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-
         $query= "DELETE FROM rechnung WHERE RechnungsID = $rechnungsID";
         $result = $link->query($query);
 
@@ -861,7 +872,6 @@ class database
         /* @var database $database */
         $database = database::getDatabase();
         $link = $database->getLink();
-
 
         $query= "DELETE FROM reise WHERE ReiseID = $reiseID";
         $result = $link->query($query);
@@ -876,11 +886,22 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-
         $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = $teilnehmerID";
         $result = $link->query($query);
 
         return $result;
 
+    }
+
+    public function deleteUser($userID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "DELETE FROM logindaten WHERE LoginID = $userID";
+        $result = $link->query($query);
+
+        return $result;
     }
 }

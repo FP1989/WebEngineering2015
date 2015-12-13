@@ -5,7 +5,6 @@ include("classes/reise.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
-$link = $database->getLink();
 
 $res = array();
 

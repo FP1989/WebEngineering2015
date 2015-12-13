@@ -6,17 +6,6 @@ $passold_error = $passnew_error = $passnew1_error = $error = "";
 $valid = true;
 $res = array();
 
-//echo $_SESSION['userid'] . "<br>";
-//echo $_POST['Passold'] . "<br>";
-//echo $_POST['Passnew'] . "<br>";
-//echo $_POST['Passnew1'] . "<br><br>";
-
-//$_SESSION['userid'] = 1010;
-//$_POST['Passold'] = 'starreisen1';
-//$_POST['Passnew'] = 'starreisen1';
-//$_POST['Passnew1'] = 'starreisen1';
-
-
 /** @var database $verbindung */
 $verbindung = database::getDatabase();
 $userid = $_SESSION['userid'];
