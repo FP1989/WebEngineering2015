@@ -1,11 +1,26 @@
 <?php session_start();?>
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Reports";
-    include_once("includes/header.inc.php");
-    ?>
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Reports";
+        include_once("includes/header.inc.php");
+        ?>
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#selectlistreports').change(function() {
+                    if($(this).val() == 'Reiseteilnehmer') {
+                        $('#reisenhidden').css("display", "inline");
+                        return false;
+                    } else {
+                        $('#reisenhidden').css("display", "none");
+                    }
+                });
+            });
+
+        </script>
     </head>
 <body>
 <div id="wrapper">
@@ -16,6 +31,7 @@ include_once("classes/database.class.php");
 
 if(isset($_POST['pdfbutton'])) {
     $_SESSION['type'] = $_POST['type'];
+    if(isset($_POST['radioreise'])) $_SESSION['radioreise'] = $_POST['radioreise'];
     header("Location:print_pdf.php");
 }
 ?>
@@ -25,19 +41,36 @@ if(isset($_POST['pdfbutton'])) {
             <form action="" method="post" role="form" id="report_form">
                 <h2>Reports</h2>
                 <div class="form-group">
-                    <label for="select1">Report auswählen:</label>
-                    <select name="type" id="select1" class="form-control">
+                    <label for="selectlistreports">Report auswählen:</label>
+                    <select name="type" id="selectlistreports" class="form-control">
                         <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
-                        <option value="Reiseteilnehmer" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseteilnehmer') ? "selected" : ""?>>Kunden pro Reise</option>
+                        <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kunden pro Reise (allgemein)</option>
+                        <option value="Reiseteilnehmer">Kunden pro Reise (konkrete Reise)</option>
                         <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
-                        <option value="Kundenuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenuebersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
-                        <option value="Reiseuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseuebersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
-                        <option value="Reisen demnaechst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'REisen demnaechst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
-                        <option value="Finanzuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzuebersicht') ? "selected" : ""?>>Finanzübersicht anzeigen</option>
+                        <option value="Kundenübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenübersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
+                        <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
+                        <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
+                        <option value="Finanzübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzübersicht') ? "selected" : ""?>>Finanzübersicht anzeigen</option>
                         <option value="Reisegruppen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisegruppen') ? "selected" : ""?>>Reisegruppen anzeigen</option>
                     </select><br>
                 </div>
-                <div class="form-group pull-right">
+                <div class="form-group">
+                    <div id="reisenhidden" style="display:none">
+                        <?php
+                        /** @var database $verbindung */
+                        $verbindung = database::getDatabase();
+                        $result = $verbindung->reportReisen();
+
+                        if($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+
+                                foreach($row as $value) {
+                                    echo "<input type=\"radio\" value=\"" . $value . "\" name=\"radioreise\"> Reise " . $value . "&nbsp;&nbsp;&nbsp;&nbsp;";
+                                }
+                            }
+                        } else echo "Keine Reisen erfasst";
+                        ?>
+                        <br><br></div>
                     <input type="submit" name="submit" class="btn btn-primary" value="Report generieren"/>
                     <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
                 </div>
@@ -49,7 +82,8 @@ if(isset($_POST['pdfbutton'])) {
 
             /** @var database $verbindung */
             $verbindung = database::getDatabase();
-            $result = $verbindung->generateReport($_POST['type']);
+            if(isset($_POST['radioreise'])) $result = $verbindung->generateReport($_POST['type'], $_POST['radioreise']);
+            else $result = $verbindung->generateReport($_POST['type']);
 
             if ($result->num_rows > 0) {
 
