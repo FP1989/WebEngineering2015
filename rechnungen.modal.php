@@ -73,9 +73,7 @@
 
                     <div class="form-group">
                         <label>Beg&uuml;nstigter</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="Beguenstigter_R" name="recipient" value=""/>
-                        </div>
+                        <input type="text" class="form-control" id="Beguenstigter_R" name="recipient" value=""/>
                     </div>
 
 
@@ -156,6 +154,11 @@
                         $('#alterpositive').show().html(response.message).delay(2000).fadeOut();
                         $('#alternegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
+                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                        $( "#alterpositive" ).promise().done(function() {
+                            setTimeout(function(){
+                                $('#Mutationsformular').modal('hide');}, 1000);
+                        });
 
                     }
 

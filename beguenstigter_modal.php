@@ -75,7 +75,7 @@
 
 
             $.ajax({
-                url:"process.php",
+                url:"beguenstigter.modal.process.php",
                 type:"POST",
                 dataType:"json",
                 data:{type:"claim",Name:Name,Strasse:Strasse,Hausnummer:Hausnummer, PLZ:PLZ, Ort:Ort},

@@ -160,6 +160,11 @@
                         $('#positive').show().html(response.message).delay(2000).fadeOut();
                         $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
+                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                        $( "#positive" ).promise().done(function() {
+                            setTimeout(function(){
+                                $('#Mutationsformular').modal('hide');}, 1000);
+                        });
                     }
 
                     else {
