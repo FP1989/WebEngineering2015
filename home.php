@@ -53,65 +53,16 @@
     ?>
     <div id="content" class="container">
 
-        <div class="jumbotron">
+        <div class="jumbotron col-md-8" id="margingiver">
             <h2>Herzlich willkommen zum Online-Planungstool der Star Reisen AG!</h2>
-            <?php if(isset($_SESSION['admintrue'])) echo '<h4><b>Sie sind als Administrator eingeloggt. Indem Sie links \'Users\' anklicken, k&ouml;nnen Sie die Anwender dieser Webseite bearbeiten.</b></h4>'; ?>
-            <p>Verwenden Sie die Navigation links um Rechnungen, Reisen oder Teilnehmer einzusehen oder zu mutieren. Zus&auml;tzlich k&ouml;nnen Sie sich unter 'Reports' vorgefertigte Berichte ausstellen lassen.</p>
-            <p>Auf dieser Seite finden Sie aktuelle Daten zu anstehenden Reisen sowie f&auml;llige Rechnungen. Weiter k&ouml;nnen Sie mit dem Schnellzugriff Kunden entsprechenden Reisen zuweisen.</p>
+            <p>Verwenden Sie die Navigation um Rechnungen, Reisen, Reservationen oder Teilnehmer einzusehen oder zu mutieren. Zusätzlich können Sie sich unter 'Reports' vorgefertigte Berichte ausstellen lassen.</p>
+            <p>Auf dieser Seite finden Sie aktuelle Daten zu anstehenden Reisen sowie fällige Rechnungen. Weiter können Sie mit dem Schnellzugriff rechts Kunden entsprechenden Reisen zuweisen.</p>
             <a href="" id="passreset" name="passreset" data-toggle="modal" data-target="#passresetmodal">Klicken Sie hier, um Ihr Zugangspasswort zu ändern.</a>
         </div>
 
-        <div class="panel panel-primary col-md-4">
-            <div class="panel-heading">Reisen demn&auml;chst</div>
-            <div class="panel-body">
+        <div class="jumbotron col-md-3 pull-right">
+            <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
 
-                <?php
-                /* @var database $database */
-                $database = database::getDatabase();
-                $result = $database->getNextReisen();
-
-                echo "<table>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    foreach($row as $value) {
-                        if (preg_match('/[0-9]+[-]+/', $value)) {
-                            $date = date("d-m-Y", strtotime($value));
-                            echo "<td><b>" . $date . "</b></td>";
-                        }
-                        else echo "<td>" . $value . "<td>";
-                    }
-                    echo "</tr>";
-                }
-                echo "</table>";
-                ?>
-            </div>
-        </div>
-        <div class="panel panel-primary col-md-4">
-            <div class="panel-heading">F&auml;llige Rechnungen</div>
-            <div class="panel-body">
-                <?php
-                /* @var database $database */
-                $database = database::getDatabase();
-                $result = $database->getNextRechnungen();
-
-                echo "<table>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    foreach($row as $value) {
-                        if (preg_match('/[0-9]+[-]+/', $value)) {
-                            $date = date("d-m-Y", strtotime($value));
-                            echo "<td><b>" . $date . "</b></td>";
-                        }
-                        else echo "<td>" . $value . "<td>";
-                    }
-                    echo "</tr>";
-                }
-                echo "</table>";
-                ?>
-            </div>
-        </div>
-        <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
-        <div class=" col-md pull-right jumbotron">
             <form action="" method="post" name="schnellzugriff">
                 <div class="form-group <?php echo (!empty($teilnehmerid_error)) ? 'has-error':''; ?>">
                     <label for="teilnehmerid">Teilnehmer ID</label>
@@ -132,6 +83,61 @@
                     <input type="submit" name="gesendet" class="btn btn-primary pull-right" value="Hinzuf&uuml;gen"/><br>
                 </div>
             </form>
+        </div>
+
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">Reisen demnächst</div>
+                <div class="panel-body">
+
+                    <?php
+                    /* @var database $database */
+                    $database = database::getDatabase();
+                    $result = $database->getNextReisen();
+
+                    echo "<table>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        foreach($row as $value) {
+                            if (preg_match('/[0-9]+[-]+/', $value)) {
+                                $date = date("d-m-Y", strtotime($value));
+                                echo "<td><b>" . $date . "</b></td>";
+                            }
+                            else echo "<td>" . $value . "<td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">Fällige Rechnungen</div>
+                <div class="panel-body">
+                    <?php
+                    /* @var database $database */
+                    $database = database::getDatabase();
+                    $result = $database->getNextRechnungen();
+
+                    echo "<table>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        foreach($row as $value) {
+                            if (preg_match('/[0-9]+[-]+/', $value)) {
+                                $date = date("d-m-Y", strtotime($value));
+                                echo "<td><b>" . $date . "</b></td>";
+                            }
+                            else echo "<td>" . $value . "<td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
