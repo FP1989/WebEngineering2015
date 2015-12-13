@@ -1,7 +1,7 @@
 <?php
 
 include("classes/database.class.php");
-include("classes/rechnung.class.php");
+include_once("classes/rechnung.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -45,24 +45,36 @@ else if (isset($_POST["ReiseID_R"])){
 
     $result = $database->getAllRechnungen($reiseID);
 
-    while($datensatz = $result->fetch_assoc()){
+    $returnRechnung = Array();
+
+    if($result->num_rows == 0 ){
+
+        $datensatz["RechnungsID"] = null;
+        $returnRechnung[] = $datensatz;
+
+    }
+
+    else {
+
+        while ($datensatz = $result->fetch_assoc()) {
 
 
-        $beguenstigterID = $datensatz["Beguenstigter"];
-        $beguenstigter = $database->fetchBeguenstigter($beguenstigterID)->getBeguenstigterName();
-        $datensatz["Beguenstigter"] = $beguenstigter;
+            $beguenstigterID = $datensatz["Beguenstigter"];
+            $beguenstigter = $database->fetchBeguenstigter($beguenstigterID)->getBeguenstigterName();
+            $datensatz["Beguenstigter"] = $beguenstigter;
 
-        $faelligkeit = $datensatz["Faelligkeit"];
-        $date = date("d-m-Y", strtotime($faelligkeit));
-        @$faelligkeit_array = explode('-', $date);
-        @$tag = $faelligkeit_array[0];
-        @$monat = $faelligkeit_array[1];
-        @$jahr = $faelligkeit_array[2];
-        $newDate = $tag. "." . $monat . "." . $jahr;
-        $datensatz["Faelligkeit"] = $newDate;
+            $faelligkeit = $datensatz["Faelligkeit"];
+            $date = date("d-m-Y", strtotime($faelligkeit));
+            @$faelligkeit_array = explode('-', $date);
+            @$tag = $faelligkeit_array[0];
+            @$monat = $faelligkeit_array[1];
+            @$jahr = $faelligkeit_array[2];
+            $newDate = $tag . "." . $monat . "." . $jahr;
+            $datensatz["Faelligkeit"] = $newDate;
 
-        $returnRechnung [] = $datensatz;
+            $returnRechnung [] = $datensatz;
 
+        }
     }
 
     echo json_encode($returnRechnung);

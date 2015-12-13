@@ -50,13 +50,8 @@
                         $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
 
                     }
-
-
                 }
-
-
             });
-
         }
 
         function getRechnungsID(button){
@@ -102,12 +97,7 @@
                 }
 
             });
-
-
-
         }
-
-
 
     </script>
 
@@ -149,13 +139,22 @@
 
                     success: function (data) {
 
-                        var string = "<h3>Rechnung ausw&auml;hlen</h3><tr><th>RechnungsID</th><th>Beg&uuml;nstigter</th><th>Betrag</th><th>F&auml;lligkeit</th><th colspan=2></th></tr>";
+                        var string = '';
 
-                        for (var i = 0; i < data.length; i++) {
+                        alert ("aadfdfdsfsdf"+data[0].RechnungsID);
 
-                            string += "<tr><td>"+data[i].RechnungsID+"</td><td>"+data[i].Beguenstigter+"</td><td>"+data[i].Betrag+"</td><td>"+data[i].Faelligkeit+"</td><td align=\"right\"><button id="+data[i].RechnungsID+" onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button id="+data[i].RechnungsID+" onclick=\"deleteRechnungsID(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Rechnungloeschen\" >löschen</button></td></tr>";
+                        if(data[0].RechnungsID != null) {
 
+                            string = "<h3>Rechnung ausw&auml;hlen</h3><tr><th>RechnungsID</th><th>Beg&uuml;nstigter</th><th>Betrag</th><th>F&auml;lligkeit</th><th colspan=2></th></tr>";
+
+                            for (var i = 0; i < data.length; i++) {
+
+                                string += "<tr><td>" + data[i].RechnungsID + "</td><td>" + data[i].Beguenstigter + "</td><td>" + data[i].Betrag + "</td><td>" + data[i].Faelligkeit + "</td><td align=\"right\"><button id=" + data[i].RechnungsID + " onclick=\"getRechnungsID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button id=" + data[i].RechnungsID + " onclick=\"deleteRechnungsID(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Rechnungloeschen\" >löschen</button></td></tr>";
+
+                            }
                         }
+
+                        else string = "<tr><th>Leider wurden keine entsprechenden Rechnungen gefunden</th></tr>";
 
                         $('#rechnung').html(string);
 
