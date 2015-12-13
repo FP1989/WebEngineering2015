@@ -1,5 +1,3 @@
-
-
 #wrapper
 {
     width: 100%;
@@ -13,18 +11,24 @@
     color:#f00;
 }
 
+#navbar-in{
+
+    margin: 0 0 0 5%;
+    text-align:center;
+}
+
 #navigation
 {
-    width: 105pt;
-    height: 100%;
-    margin-top: 0%;
-    margin-bottom: 2%;
-    border: 0pt;
-    background-color: slategrey;
-    padding: 0pt;
-    position: absolute;
-    color: white;
-    font-size: medium;
+    /*width: 105pt;*/
+    /*height: 100%;*/
+    /*margin-top: 0%;*/
+    /*margin-bottom: 2%;*/
+    /*border: 0pt;*/
+    /*!*background-color: slategrey;*!*/
+    /*padding: 0pt;*/
+    /*position: absolute;*/
+    /*color: white;*/
+    /*font-size: medium;*/
 }
 
 #reset
@@ -40,8 +44,7 @@
 
 #content
 {
-    margin-top: 0%;
-    margin-left: 100pt;
+    margin: 0 0 0 5%;
     float: left;
     padding: 10px 10px 50px 10px;
     position: relative;
@@ -50,8 +53,6 @@
 
 #content > div.panel
 {
-    padding-left: 0;
-    padding-right: 0;
     margin-left: 5pt;
     margin-right: 5pt;
 }
@@ -64,19 +65,12 @@
     text-align: right;
 }
 
-/*.fa-spin-hover:hover*/
-/*{*/
-    /*-moz-animation: spin 2s infinite linear;*/
-    /*-o-animation: spin 2s infinite linear;*/
-    /*-webkit-animation: spin 2s infinite linear;*/
-    /*animation: spin 2s infinite linear;*/
-/*}*/
-
 td, th {
     padding: 8px;
     text-align: center;
 }
 
+/*-----------------------------------------*/
 /*Following classes: Bootstrap override*/
 
 .panel{
@@ -103,14 +97,3 @@ td, th {
 {
     min-height: 1px !important
 }
-
-.navbar-default .navbar-nav > li > a {
-    color: white;
-}
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: black;
-    font-weight: bold;
-}
-
-
