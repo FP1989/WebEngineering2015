@@ -14,6 +14,7 @@ class PDF extends FPDF {
     private $imageloc = 'files/logo_report.png';
     private $white = 255;
     private $black = 0;
+
 //    Defines at what Y-Coordinate the page is broken
     private $maxheight = 160;
 
@@ -34,7 +35,8 @@ class PDF extends FPDF {
 
 //        Third Line
         $this->SetFillColor(190, 176, 255);
-        $this->Cell($this->hwidth-60, $this->cheight, "Report '" . $_SESSION['type'] . "'", '', 0, 'L', 1);
+        $title = utf8_decode($_SESSION['type']);
+        $this->Cell($this->hwidth-60, $this->cheight, "Report '" . $title . "'", '', 0, 'L', 1);
         $this->Ln(50);
     }
 
@@ -54,7 +56,7 @@ class PDF extends FPDF {
 
         if ($result->num_rows > 0) {
 
-            $this->cwidth = $_SESSION['type'] == 'Kundenuebersicht' ? 31 : 40;
+            $this->cwidth = $_SESSION['type'] == 'Kundenübersicht' ? 31 : 40;
 
 //  Table Header
             $this->SetFont($this->font, 'B', 12);

@@ -16,7 +16,7 @@ if(isset($_POST['userid']) AND isset($_POST['pwd'])) {
         if($user == 1) $_SESSION['admintrue'] = TRUE;
         header("Location:home.php");
     } else {
-        $_SESSION['falselogin'] = "<span style=\"color:#ff0100;font-weight:bolder\">Login Falsch, bitte nochmals versuchen.</span>";
+        $_SESSION['falselogin'] = "<span style=\"color:#ff0100;\">Login Falsch, bitte nochmals versuchen.</span>";
         header("Location:login.php");
     }
 }
