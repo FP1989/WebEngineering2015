@@ -82,7 +82,6 @@
 
     function deleteTeilnehmer(){
 
-        alert("deleteTeilnehmer");
 
         var id = document.getElementById("TeilnehmerID_R").value;
 
@@ -100,8 +99,14 @@
 
                 if(data.flag){
 
-                    $('#positive').show().html(data.message).delay(2000).fadeOut();
+                    $('#positive').show().html(data.message).delay(1000).fadeOut();
                     $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                    //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                    $( "#positive" ).promise().done(function() {
+                        setTimeout(function(){
+                            $('#Mutationsformular').modal('hide');});
+                    })
 
                 }
 

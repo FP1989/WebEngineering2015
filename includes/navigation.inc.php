@@ -11,7 +11,9 @@
         <li><a href="teilnehmer.php"><i class="fa fa-users fa-2x"></i><br>Teilnehmer</a></li>
         <li><a href="beguenstigter.php"><i class="fa fa-user fa-2x"></i><br>Begünstigter</a></li>
         <li><a href="reports.php"><i class="fa fa-table fa-2x"></i><br>Reports</a></li>
+        <li><a href="reservationen.php"><i class="fa fa-credit-card fa-2x"></i><br/>Reservationen</a></li>
         <li><a href="logout.php"><i class="fa fa-close fa-2x"></i><br>Logout</a></li>
+
 
     </ul>
 </div>

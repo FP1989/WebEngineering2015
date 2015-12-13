@@ -1,7 +1,7 @@
 <?php
 
 include("classes/database.class.php");
-include("classes/rechnung.class.php");
+include_once("classes/rechnung.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();

@@ -1,7 +1,7 @@
 <?php
 
 include("classes/database.class.php");
-include("classes/reise.class.php");
+include_once("classes/reise.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();

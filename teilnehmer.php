@@ -14,22 +14,58 @@
             $('#negative').hide();
         });
 
-            function searchName(){
+            function searchTeilnehmer(){
 
                 var user = document.getElementById("usr");
-                var nachname = user.value;
-                alert(nachname);
+                var val = user.value;
 
                 user.style.backgroundColor="white";
 
+                if(isNaN(val)) {
 
-                $.ajax({
+
+                    alert("Es ist ein String");
+
+                    $.ajax({
+
+                        url: 'teilnehmer.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            Nachname_R: val
+                        },
+
+                        success: function (data) {
+
+                            document.getElementById("TeilnehmerID_R").value = data.TeilnehmerID_R;
+                            document.getElementById("Vorname_R").value = data.Vorname_R;
+                            document.getElementById("Nachname_R").value = data.Nachname_R;
+                            document.getElementById("Strasse_R").value = data.Strasse_R;
+                            document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
+                            document.getElementById("PLZ_R").value = data.PLZ_R;
+                            document.getElementById("Ort_R").value = data.Ort_R;
+                            document.getElementById("Telefon_R").value = data.Telefon_R;
+                            document.getElementById("Mail_R").value = data.Mail_R;
+
+                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) $("#Mutationsformular").modal('show');
+                            else document.getElementById("usr").style.backgroundColor = "red";
+                        }
+                    });
+                }
+                else{
+
+                    alert("Es ist ein int");
+
+
+                    $.ajax({
 
                     url: 'teilnehmer.read.php',
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        Nachname_R: nachname
+
+                        TeilnehmerID_R: val
+
                     },
 
                     success: function (data) {
@@ -47,50 +83,15 @@
                         if(data.TeilnehmerID_R !='' && data.TeilnehmerID_R != null) $("#Mutationsformular").modal('show');
                         else document.getElementById("usr").style.backgroundColor="red";
                     }
-                });
 
-
-
-
-        }
-
-        function searchNr() {
-
-            var user = document.getElementById("nr");
-            var id = user.value;
-
-            user.style.backgroundColor="white";
-
-            $.ajax({
-
-                url: 'teilnehmer.read.php',
-                type: "POST",
-                dataType: 'json',
-                data: {
-
-                    TeilnehmerID_R: id
-
-                },
-
-                success: function (data) {
-
-                    document.getElementById("TeilnehmerID_R").value = data.TeilnehmerID_R;
-                    document.getElementById("Vorname_R").value = data.Vorname_R;
-                    document.getElementById("Nachname_R").value = data.Nachname_R;
-                    document.getElementById("Strasse_R").value = data.Strasse_R;
-                    document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
-                    document.getElementById("PLZ_R").value = data.PLZ_R;
-                    document.getElementById("Ort_R").value = data.Ort_R;
-                    document.getElementById("Telefon_R").value = data.Telefon_R;
-                    document.getElementById("Mail_R").value = data.Mail_R;
-
-                    if(data.TeilnehmerID_R !='' && data.TeilnehmerID_R != null) $("#Mutationsformular").modal('show');
-                    else document.getElementById("nr").style.backgroundColor="red";
+                    });
                 }
 
-            });
+
 
         }
+
+
 
     </script>
 </head>
@@ -120,20 +121,11 @@
             <h2>Teilnehmer ansehen / Teilnehmer editieren</h2> <br/><br/>
 
             <div class="form-group">
-                <label for="nr">Teilnehmer Nummer:</label>
-                <input type="number" class="form-control" id="nr">
-            </div>
-
-            <button id="nr_suche" onclick="searchNr()" class="btn btn-success btn-md">Suchen</button>
-            <br/>
-            <br/>
-
-            <div class="form-group">
-                <label for="usr">Teilnehmer Nachname:</label>
+                <label for="usr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
                 <input type="text" class="form-control" id="usr">
             </div>
 
-            <button id="usr_suche" onclick="searchName()" class="btn btn-success btn-md">Suchen</button>
+            <button id="usr_suche" onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button>
 
 
 

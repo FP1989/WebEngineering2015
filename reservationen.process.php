@@ -1,7 +1,6 @@
 <?php
 
 include("classes/database.class.php");
-include_once("classes/teilnehmer.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -10,12 +9,13 @@ $link = $database->getLink();
 $res = array();
 
 $teilnehmerID = $_POST["TeilnehmerID_L"];
+$reiseID = $_POST["ReiseID_L"];
 
-$success = $database->deleteTeilnehmer($teilnehmer);
+$success = $database->setBezahlt($teilnehmerID, $reiseID);
 
 if($success) {
 
-    $res["message"] = "Datensatz wurde gelöscht";
+    $res["message"] = "Rechnung wurde als bezahlt markiert";
     $res["flag"] = true;
 
 }
@@ -23,7 +23,7 @@ if($success) {
 else {
 
     $res["flag"] = false;
-    $res["message"] = "Datensatz konnte nicht gelöscht werden";
+    $res["message"] = "Rechnung konnte nicht als bezahlt markiert werden";
 
 }
 

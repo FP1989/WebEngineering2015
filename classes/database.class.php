@@ -1,6 +1,9 @@
 <?php
 
 include_once("beguenstigter.class.php");
+include_once("reise.class.php");
+include_once("rechnung.class.php");
+include_once("teilnehmer.class.php");
 
 class database
 {
@@ -622,6 +625,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
+
         $query = "INSERT INTO reservation (ReiseID, TeilnehmerID, bezahlt) VALUES (?, ?, ?)";
         $stmt = $link->prepare($query);
         $stmt->bind_param('iii', $reiseID, $teilnehmerID, $bezahlt);
@@ -639,28 +643,93 @@ class database
         }
     }
 
-    public function fetchReservation($reiseID, $teilnehmerID){
+    public function fetchReservation($reiseID = null, $teilnehmerID = null){
 
         /* @var database $database*/
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+        if(is_null($teilnehmerID) && is_null($reiseID)) return false;
 
-        $stmt = $link->prepare($query);
-        $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+        else if(is_null($reiseID)) {
 
-        $stmt->execute();
+            $query = "SELECT * FROM reservation WHERE TeilnehmerID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $teilnehmerID);
 
-        $stmt->bind_result($reiseID, $teilnehmerID, $bezahlt);
-        $stmt->fetch();
-        $stmt->close();
 
-        $res["ReiseID"] = $reiseID;
-        $res["TeilnehmerID"] = $teilnehmerID;
-        $res["bezahlt"] = $bezahlt;
+            $stmt->execute();
 
-        return $res;
+            $stmt->bind_result($reiseID, $teilnehmerID, $bezahlt);
+
+            $return = Array();
+
+            while($stmt->fetch()) {
+
+                $datensatz["ReiseID"] = $reiseID;
+                $datensatz["TeilnehmerID"] = $teilnehmerID;
+                $datensatz["bezahlt"] = $bezahlt;
+
+                $return [] = $datensatz;
+
+            }
+            $stmt->close();
+
+            return $return;
+
+
+        }
+
+        else if(is_null($teilnehmerID)) {
+
+            $query = "SELECT * FROM reservation WHERE ReiseID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $reiseID);
+
+
+            $stmt->execute();
+
+            $stmt->bind_result($reiseID, $teilnehmerID, $bezahlt);
+
+            $return = Array();
+
+            while($stmt->fetch()) {
+
+                $datensatz["ReiseID"] = $reiseID;
+                $datensatz["TeilnehmerID"] = $teilnehmerID;
+                $datensatz["bezahlt"] = $bezahlt;
+
+                $return [] = $datensatz;
+
+            }
+            $stmt->close();
+
+            return $return;
+
+
+        }
+
+        else {
+
+
+            $query = "SELECT * FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+
+            $stmt->execute();
+
+            $stmt->bind_result($reiseID, $teilnehmerID, $bezahlt);
+            $stmt->fetch();
+            $stmt->close();
+
+            $res["ReiseID"] = $reiseID;
+            $res["TeilnehmerID"] = $teilnehmerID;
+            $res["bezahlt"] = $bezahlt;
+
+            return $res;
+
+        }
     }
 
     public function verifyLogin($user, $pwdhash){
@@ -864,11 +933,21 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM rechnung WHERE RechnungsID = $rechnungsID";
-        $result = $link->query($query);
+        $query= "DELETE FROM rechnung WHERE RechnungsID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $rechnungsID);
 
-        return $result;
+        if($stmt->execute()){
 
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
     }
 
     public function deleteReise($reiseID){
@@ -877,11 +956,21 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM reise WHERE ReiseID = $reiseID";
-        $result = $link->query($query);
+        $query= "DELETE FROM reise WHERE ReiseID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $reiseID);
 
-        return $result;
+        if($stmt->execute()){
 
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
     }
 
     public function deleteTeilnehmer($teilnehmerID){
@@ -890,11 +979,21 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = $teilnehmerID";
-        $result = $link->query($query);
+        $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $teilnehmerID);
 
-        return $result;
+        if($stmt->execute()){
 
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
     }
 
     public function deleteUser($userID){
@@ -903,10 +1002,44 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "DELETE FROM logindaten WHERE LoginID = $userID";
-        $result = $link->query($query);
+        $query = "DELETE FROM logindaten WHERE LoginID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $userID);
 
-        return $result;
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
+    }
+
+    public function deleteReservation($teilnehmerID, $reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "DELETE FROM reservation WHERE ReiseID = ? and TeilnehmerID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
     }
 
     public function getAnzahlTeilnehmer($reiseID){
@@ -926,6 +1059,29 @@ class database
 
         return $anzahl;
 
+    }
+
+    public function setBezahlt($teilnehmerID, $reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "UPDATE reservation SET bezahlt = 1 WHERE ReiseID = ? and TeilnehmerID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
     }
 
     public function existingReservation($reiseID, $teilnehmerID){
@@ -983,7 +1139,5 @@ class database
         $stmt->close();
 
         return $anzahl;
-
     }
-
 }
