@@ -25,7 +25,7 @@ if(isset($_POST['pdfbutton'])) {
             <form action="" method="post" role="form" id="report_form">
                 <h2>Reports</h2>
                 <div class="form-group">
-                    <label for="select1">Report ausw&auml;hlen:</label>
+                    <label for="select1">Report auswählen:</label>
                     <select name="type" id="select1" class="form-control">
                         <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
                         <option value="Reiseteilnehmer" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseteilnehmer') ? "selected" : ""?>>Kunden pro Reise</option>
@@ -33,7 +33,7 @@ if(isset($_POST['pdfbutton'])) {
                         <option value="Kundenuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenuebersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
                         <option value="Reiseuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseuebersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
                         <option value="Reisen demnaechst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'REisen demnaechst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
-                        <option value="Finanzuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzuebersicht') ? "selected" : ""?>>Finanz&uuml;bersicht anzeigen</option>
+                        <option value="Finanzuebersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzuebersicht') ? "selected" : ""?>>Finanzübersicht anzeigen</option>
                         <option value="Reisegruppen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisegruppen') ? "selected" : ""?>>Reisegruppen anzeigen</option>
                     </select><br>
                 </div>
@@ -63,7 +63,10 @@ if(isset($_POST['pdfbutton'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr style='font-size:small'>";
                     foreach ($row as $value) {
-                        echo "<td>" . $value . "</td>";
+                        if (preg_match('/[0-9]+[-]+/', $value)) {
+                            $date = date("d-m-Y", strtotime($value));
+                            echo "<td>" . $date . "</td>";
+                        } else echo "<td>" . $value . "</td>";
                     }
                     echo "</tr>";
                 }
