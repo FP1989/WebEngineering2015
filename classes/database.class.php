@@ -154,6 +154,8 @@ class database
         $preis = $reise->getPreis();
         $hinreise = $reise->getHinreise();
         $rueckreise = $reise->getRueckreise();
+        $max = $reise->getMaxAnzahl();
+        $min = $reise->getMinAnzahl();
 
         /** @var database $database*/
         $database = database::getDatabase();
@@ -161,17 +163,17 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO reise (Ziel, Beschreibung, Bezeichnung, Preis, Hinreise, Rueckreise) VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO reise (Ziel, Beschreibung, Bezeichnung, Preis, Hinreise, Rueckreise, MaximaleAnzahlTeilnehmer, MindestAnzahlTeilnehmer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sssdss', $ziel,$beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise);
+            $stmt->bind_param('sssdssii', $ziel,$beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $max, $min);
 
         }
 
         else {
 
-            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preis = ?, Hinreise = ?, Rueckreise = ? WHERE ReiseID = ?";
+            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preis = ?, Hinreise = ?, Rueckreise = ?, MaximaleAnzahlTeilnehmer = ?, MindestAnzahlTeilnehmer = ? WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sssdssi', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $id);
+            $stmt->bind_param('sssdssiii', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $max, $min, $id);
 
         }
 
@@ -217,7 +219,7 @@ class database
         }
 
         $stmt->execute();
-        $stmt->bind_result($reiseID, $reiseZiel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise);
+        $stmt->bind_result($reiseID, $reiseZiel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $maxAnzahl, $minAnzahl);
 
         $stmt->fetch();
         $stmt->close();
@@ -229,6 +231,8 @@ class database
         $rei["Preis"] = $preis;
         $rei["Hinreise"] = $hinreise;
         $rei["Rueckreise"] = $rueckreise;
+        $rei["MaxAnzahl"] = $maxAnzahl;
+        $rei["MinAnzahl"] = $minAnzahl;
 
         $reise = reise::newReise($rei);
 
@@ -883,4 +887,82 @@ class database
         return $result;
 
     }
+
+    public function getAnzahlTeilnehmer($reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT COUNT(TeilnehmerID) FROM reservation WHERE ReiseID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $reiseID);
+
+        $stmt->execute();
+        $stmt->bind_result($anzahl);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $anzahl;
+
+    }
+
+    public function existingReservation($reiseID, $teilnehmerID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT COUNT(TeilnehmerID) FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+
+        $stmt->execute();
+        $stmt->bind_result($anzahl);
+        $stmt->fetch();
+        $stmt->close();
+
+        if($anzahl == 1) return true;
+        else return false;
+
+    }
+
+    public function getMaxAnzahlTeilnehmer($reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT MaximaleAnzahlTeilnehmer FROM reise WHERE ReiseID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $reiseID);
+
+        $stmt->execute();
+        $stmt->bind_result($anzahl);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $anzahl;
+
+    }
+
+    public function getMinAnzahlTeilnehmer($reiseID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT MindestAnzahlTeilnehmer FROM reise WHERE ReiseID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $reiseID);
+
+        $stmt->execute();
+        $stmt->bind_result($anzahl);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $anzahl;
+
+    }
+
 }

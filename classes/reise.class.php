@@ -2,13 +2,19 @@
 
 class reise{
 
-private $reiseID;
-private $ziel;
-private $beschreibung;
-private $bezeichnung;
-private $preis;
-private $hinreise;
-private $rueckreise;
+    private $reiseID;
+    private $ziel;
+    private $beschreibung;
+    private $bezeichnung;
+    private $preis;
+    private $hinreise;
+    private $rueckreise;
+    private $maxAnzahl;
+    private $minAnzahl;
+    const MAX = 20;
+    const MIN = 12;
+
+
 
    private function __construct($reisedaten, $id){
         $this->reiseID = $id;
@@ -18,6 +24,8 @@ private $rueckreise;
         $this->preis = $reisedaten['Preis'];
         $this->hinreise = $reisedaten['Hinreise'];
         $this->rueckreise = $reisedaten['Rueckreise'];
+        $this->maxAnzahl = $reisedaten['MaxAnzahl'];
+        $this->minAnzahl = $reisedaten['MinAnzahl'];
     }
 
    public static function newReise($reisedaten){
@@ -109,5 +117,30 @@ private $rueckreise;
         $this->bezeichnung = $bezeichnung;
 
     }
+
+    public function getMaxAnzahl(){
+
+        return $this->maxAnzahl;
+
+    }
+
+    public function setMaxAnzahl($maxAnzahl){
+
+        $this->maxAnzahl = $maxAnzahl;
+
+    }
+
+    public function getMinAnzahl(){
+
+        return $this->minAnzahl;
+
+    }
+
+    public function setMinAnzahl($minAnzahl){
+
+        $this->minAnzahl = $minAnzahl;
+
+    }
+
 
 }
