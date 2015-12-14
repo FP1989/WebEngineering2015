@@ -3,11 +3,13 @@ include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
 
 // define variables and set to empty values
-$destination_error = $description_error = $travelname_error = $price_error = $todate_error = $fromdate_error = "";
-$destination =  $description = $travelname = $price= $todate =$fromdate="";
+$destination_error = $description_error = $travelname_error = $price_error =
+$todate_error = $fromdate_error =$maxParticipant_error=$minParticipant_error= "";
+$destination =  $description = $travelname = $price= $todate =$fromdate=$minParticipant=$maxParticipant="";
 $valid = true;
 $success_alert="";
 $error_alert="";
+$today = strtotime(date("d.m.Y"));
 
 function is_valid_date($enddatum) {
     @$enddatum_array = explode('.',$enddatum);
@@ -24,6 +26,9 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['destination'])) {
         $destination_error = "Bitte ein Ziel eingeben";
         $valid=false;
+    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['destination'])) {
+        $destination_error = $destination_error . "Nur Buchstaben und Leerzeichen erlaubt.";
+        $valid = false;
     }
     if (empty($_POST['description'])) {
         $description_error = "Bitte eine Beschreibung eingeben";
@@ -36,12 +41,21 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['price'])) {
         $price_error = "Bitte einen Preis eingeben";
         $valid=false;
+    }else if(!(is_numeric($_POST['price']))){
+        $price_error = $price_error . "Bitte nur Zahlen als Eingabe.";
+        $valid = false;
     }
     if (empty($_POST['fromdate'])) {
         $fromdate_error = "Bitte ein Hinreisedatum eingeben";
         $valid=false;
     }else if (is_valid_date($_POST['fromdate'])==false) {
-        $fromdate_error = "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
+        $fromdate_error = $fromdate_error. "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
+        $valid=false;
+    }else if(strtotime($_POST['fromdate']) < $today){
+        $fromdate_error = $fromdate_error. "Das Datum muss gr&ouml;sser oder gleich sein dem heutigen Datum.";
+        $valid=false;
+    }else if(strtotime($_POST['fromdate']) > strtotime($_POST['todate'])){
+        $fromdate_error = $fromdate_error. "Das Hinreisedatum muss kleiner sein als das R&uml;ckreisedatum.";
         $valid=false;
     }
 
@@ -49,9 +63,42 @@ if(isset($_POST['gesendet'])) {
         $todate_error = "Bitte ein R&uuml;ckreisedatum eingeben";
         $valid=false;
     }else if (is_valid_date($_POST['todate'])==false) {
-        $todate_error = "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
+        $todate_error = $todate_error . "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
+        $valid=false;
+    }else if ($_POST['todate'] < $today) {
+        $todate_error = $todate_error . "Das Datum muss gr&ouml;sser sein als das heutige Datum.";
         $valid=false;
     }
+
+    if (empty($_POST['minParticipant'])) {
+        $minParticipant_error = "Bitte einen Mindestanzahl Teilnehmer eingeben.";
+        $valid = false;
+    }else if(!(is_numeric($_POST['minParticipant']))){
+        $minParticipant_error = $minParticipant_error . "Bitte nur Zahlen als Eingabe.";
+        $valid = false;
+    }else if($_POST['minParticipant'] < 12){
+        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer kleiner als zul&auml;ssiger Wert.";
+        $valid = false;
+    }else if($_POST['minParticipant'] > 20){
+        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer gr&uml;sser als zul&auml;ssiger Wert.";
+        $valid = false;
+    }
+
+    if (empty($_POST['maxParticipant'])) {
+        $maxParticipant_error = "Bitte einen Maximalanzahl Teilnehmer eingeben.";
+        $valid = false;
+    }else if(!(is_numeric($_POST['maxParticipant']))){
+        $maxParticipant_error = $maxParticipant_error . "Bitte nur Zahlen als Eingabe.";
+        $valid = false;
+    }else if($_POST['maxParticipant'] > 20){
+        $maxParticipant_error = $maxParticipant_error . "Maximalanzahl gr&ouml;sser als zul&auml;ssiger Wert.";
+        $valid = false;
+    }else if($_POST['maxParticipant'] < 12){
+        $maxParticipant_error = $maxParticipant_error . "Maximalanzahl darf nicht kleiner als Mindestanzahl sein.";
+        $valid = false;
+    }
+
+
 
 
     if ($valid) {
@@ -163,6 +210,21 @@ if(isset($_POST['gesendet'])) {
             <span class="input-group-addon">
                                      <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6 <?php echo (!empty($minParticipant_error)) ? 'has-error':''; ?>">
+                <label>Min. Teilnehmeranzahl</label>
+                <input type="number" name="minParticipant" value="<?php echo @$_POST['minParticipant'];?>" class="form-control"/>
+                <?php echo "<span class='help-block'>$minParticipant_error</span>";?>
+            </div>
+            <div class="col-md-6 <?php echo (!empty($maxParticipant_error)) ? 'has-error':''; ?>">
+                <label>Max. Teilnehmeranzahl</label>
+                <input type="number" name="maxParticipant" value="<?php echo @$_POST['maxParticipant'];?>" class="form-control"/>
+                <?php echo "<span class='help-block'>$maxParticipant_error</span>";?>
+            </div>
         </div>
     </div>
 

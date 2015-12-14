@@ -12,33 +12,43 @@ if(isset($_POST['gesendet'])) {
     if (empty($_POST['surname'])) {
         $surname_error = "Bitte einen Vornamen eingeben";
         $valid=false;
+    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['surname'])) {
+        $surname_error = $surname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
+        $valid = false;
     }
     if (empty($_POST['lastname'])) {
         $lastname_error = "Bitte einen Nachname eingeben";
         $valid=false;
+    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['lastname'])) {
+        $lastname_error = $lastname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
+        $valid = false;
     }
+
     if (empty($_POST['street'])) {
         $street_error = "Bitte eine Strasse eingeben";
         $valid=false;
     }
-    if (empty($_POST['housenumber'])) {
-        $housenumber_error = "Bitte eine Strasse eingeben";
-        $valid=false;
-    }
+
     if (empty($_POST['plz'])) {
         $plz_error = "Bitte eine PLZ eingeben";
         $valid=false;
+    }else if(!(is_numeric($_POST['plz']))){
+        $plz_error = $plz_error . "Bitte nur Zahlen als Eingabe.";
+        $valid = false;
     }
     if (empty($_POST['town'])) {
         $town_error = "Bitte eine Stadt eingeben";
         $valid=false;
     }
     if (empty($_POST['telefon'])) {
-        $telefon_error = "Bitte eine Strasse eingeben";
+        $telefon_error = "Bitte eine Telefon-Nr. eingeben";
         $valid=false;
     }
     if (empty($_POST['email'])) {
-        $email_error = "Bitte eine E-Mail Adresse eingeben";
+        $email_error = "Bitte eine E-Mail-Adresse eingeben";
+        $valid=false;
+    }if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
+        $email_error = $email_error . "Bitte eine korrekte E-Mail-Adresse eingeben";
         $valid=false;
     }
     if ($valid) {
@@ -122,7 +132,7 @@ if(isset($_POST['gesendet'])) {
             </div>
             <div class="col-md-4 <?php echo (!empty($housenumber_error)) ? 'has-error':''; ?>">
                 <label>Hausnummer</label>
-                <input class="form-control" name="housenumber" type="number" value="<?php echo @$_POST['housenumber'];?>">
+                <input class="form-control" name="housenumber" type="text" value="<?php echo @$_POST['housenumber'];?>">
                 <?php echo "<span class='help-block'>$housenumber_error</span>";?>
             </div>
         </div>
