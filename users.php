@@ -94,19 +94,24 @@
                     <h2>User erfassen</h2><br><br>
                     <div class="form-group">
                         <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
-                        <label for="userid">User-ID</label>
-                        <input class="form-control" id="userid" name="userid" type="text" <?php
-                        /** @var database $database*/
-                        $database = database::getDatabase();
-                        $link = $database->getLink();
-                        $query = 'SELECT MAX(LoginID) as id FROM logindaten';
-                        $result = $link->query($query);
-                        while ($row = mysqli_fetch_assoc($result)){
-                            settype($row['id'], "int");
-                            $id = $row['id'] + 10;
-                            echo "value=".$id;
-                        }
-                        ?> readonly>
+                        <label for="userid">User Login</label>
+                        <input class="form-control" id="userid" name="userid" type="text">
+                        <?php echo "<span class='help-block'>$userid_error</span>";?>
+
+
+
+<!--                            --><?php
+//                        /** @var database $database*/
+//                        $database = database::getDatabase();
+//                        $link = $database->getLink();
+//                        $query = 'SELECT MAX(LoginID) as id FROM logindaten';
+//                        $result = $link->query($query);
+//                        while ($row = mysqli_fetch_assoc($result)){
+//                            settype($row['id'], "int");
+//                            $id = $row['id'] + 10;
+//                            echo "value=".$id;
+//                        }
+//                        ?><!-- readonly>-->
                     </div>
 
                     <!--                    <div class="form-group --><?php //echo (!empty($userid_error)) ? 'has-error':''; ?><!--">-->

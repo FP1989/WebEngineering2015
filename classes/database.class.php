@@ -751,7 +751,7 @@ class database
 
         $query = "SELECT * FROM logindaten WHERE LoginID = ? AND Loghash = ?";
         $stmt = $link->prepare($query);
-        $stmt->bind_param('is', $user, $pwdhash);
+        $stmt->bind_param('ss', $user, $pwdhash);
         $stmt->execute();
         $stmt->store_result();
 
@@ -768,7 +768,7 @@ class database
 
         $query = "UPDATE logindaten SET Loghash = ? WHERE LoginID = ?";
         $stmt = $link->prepare($query);
-        $stmt->bind_param('si', $pwdhash, $user);
+        $stmt->bind_param('ss', $pwdhash, $user);
 
         if($stmt->execute()) {
             $stmt->close();
@@ -787,7 +787,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT LoginID FROM logindaten WHERE loginID > 1";
+        $query = "SELECT LoginID FROM logindaten WHERE loginID != 'admin'";
         $result = $link->query($query);
         return $result;
     }
@@ -798,9 +798,9 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "INSERT INTO logindaten VALUES (?, ?)";
+        $query = "INSERT INTO logindaten (LoginID, Loghash) VALUES (?, ?)";
         $stmt = $link->prepare($query);
-        $stmt->bind_param('is', $user, $pwhash);
+        $stmt->bind_param('ss', $user, $pwhash);
 
         if($stmt->execute()){
 
@@ -1016,7 +1016,7 @@ class database
 
         $query = "DELETE FROM logindaten WHERE LoginID = ?";
         $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $userID);
+        $stmt->bind_param('s', $userID);
 
         if($stmt->execute()){
 

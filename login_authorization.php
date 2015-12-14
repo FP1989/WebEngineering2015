@@ -13,7 +13,8 @@ if(isset($_POST['userid']) AND isset($_POST['pwd'])) {
     /** @var database $verbindung */
     if($verbindung->verifyLogin($user, $pwdhash) > 0) {
         $_SESSION['logged'] = TRUE;
-        if($user == 1) $_SESSION['admintrue'] = TRUE;
+        if($user == 'admin') $_SESSION['admintrue'] = TRUE;
+        $_SESSION['user_activity'] = time();
         header("Location:home.php");
     } else {
         $_SESSION['falselogin'] = "<span style=\"color:#ff0100;\">Login Falsch, bitte nochmals versuchen.</span>";
