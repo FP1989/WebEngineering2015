@@ -754,9 +754,8 @@ class database
         $stmt->bind_param('ss', $user, $pwdhash);
         $stmt->execute();
         $stmt->store_result();
-
         $result = $stmt->num_rows;
-
+        $stmt->close();
         return $result;
     }
 
@@ -789,6 +788,21 @@ class database
 
         $query = "SELECT LoginID FROM logindaten WHERE loginID != 'admin'";
         $result = $link->query($query);
+        return $result;
+    }
+
+    public function existsUser($user) {
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT * FROM logindaten WHERE loginID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $user);
+        $stmt->execute();
+        $stmt->store_result();
+        $result = $stmt->num_rows;
+        $stmt->close();
         return $result;
     }
 

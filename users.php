@@ -53,12 +53,17 @@
     include_once("includes/navigation.inc.php");
     include_once("classes/database.class.php");
 
+    /* @var database $verbindung */
+    $verbindung = database::getDatabase();
     $userid_error = $pw_error = $success_alert = $error_alert = "";
     $valid = true;
 
     if(isset($_POST['gesendet'])) {
         if(empty($_POST['userid'])) {
-            $userid_error = "Bitte User-ID eingeben";
+            $userid_error = "Bitte Login eingeben";
+            $valid = false;
+        } elseif($verbindung->existsUser($_POST['userid']) != 0) {
+            $userid_error = "Dieser Login ist bereits vergeben";
             $valid = false;
         }
         if(empty($_POST['passwort'])) {
@@ -72,13 +77,12 @@
         if($valid) {
             $user = $_POST['userid'];
             $pwhash = sha1($_POST['passwort']);
-            /* @var database $verbindung */
-            $verbindung = database::getDatabase();
+
             $successful = $verbindung->insertUser($user, $pwhash);
 
-            $success_alert = "<div class='alert alert-success pull-right' role='alert'>User erfolgreich erstellt.</div>";
+            $success_alert = "<div class='alert alert-success' role='alert'>User erfolgreich erstellt.</div>";
         }
-        else $error_alert = "<div class='alert alert-warning pull-right' role='alert'>Das Formular enthält Fehler, User wurde nicht erfasst.</div>";
+        else $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler, User wurde nicht erfasst.</div>";
     }
     ?>
 
@@ -92,26 +96,27 @@
             <div id="createUser" class="tab-pane fade in active">
                 <form role="form" method="post" action="">
                     <h2>User erfassen</h2><br><br>
-                    <div class="form-group">
-                        <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
+                    <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
+
+                    <div class="form-group <?php echo (!empty($userid_error)) ? 'has-error':''; ?>">
                         <label for="userid">User Login</label>
                         <input class="form-control" id="userid" name="userid" type="text">
                         <?php echo "<span class='help-block'>$userid_error</span>";?>
 
 
 
-<!--                            --><?php
-//                        /** @var database $database*/
-//                        $database = database::getDatabase();
-//                        $link = $database->getLink();
-//                        $query = 'SELECT MAX(LoginID) as id FROM logindaten';
-//                        $result = $link->query($query);
-//                        while ($row = mysqli_fetch_assoc($result)){
-//                            settype($row['id'], "int");
-//                            $id = $row['id'] + 10;
-//                            echo "value=".$id;
-//                        }
-//                        ?><!-- readonly>-->
+                        <!--                            --><?php
+                        //                        /** @var database $database*/
+                        //                        $database = database::getDatabase();
+                        //                        $link = $database->getLink();
+                        //                        $query = 'SELECT MAX(LoginID) as id FROM logindaten';
+                        //                        $result = $link->query($query);
+                        //                        while ($row = mysqli_fetch_assoc($result)){
+                        //                            settype($row['id'], "int");
+                        //                            $id = $row['id'] + 10;
+                        //                            echo "value=".$id;
+                        //                        }
+                        //                        ?><!-- readonly>-->
                     </div>
 
                     <!--                    <div class="form-group --><?php //echo (!empty($userid_error)) ? 'has-error':''; ?><!--">-->

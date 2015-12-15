@@ -53,6 +53,37 @@ td, th
     text-align: center;
 }
 
+/*******/
+/*The following animation was inspired by 'font-awesome-animation', which can be found under the following information.
+  Certain changes were made. */
+
+/*font-awesome-animation - v0.0.7*/
+/*https://github.com/l-lin/font-awesome-animation*/
+/*License: MIT*/
+
+
+@-webkit-keyframes
+burst
+{
+    0%{opacity:.6}
+    50%{-webkit-transform:scale(1.8);transform:scale(1.8);opacity:0}
+    100%{opacity:0}
+}
+
+@keyframes
+burst
+{
+    0%{opacity:1}
+    50%{-webkit-transform:scale(1.8);-ms-transform:scale(1.8);transform:scale(1.8);opacity:0.25}
+    100%{opacity:1}
+}
+
+.verschwinden:hover
+{
+    -webkit-animation: burst 1s 1 alternate;
+    animation:burst 1s 1 alternate
+}
+
 /*-----------------------------------------*/
 /*Following classes: Bootstrap override*/
 
