@@ -18,6 +18,9 @@ if(isset($_POST['type']))
         if (empty($_POST['Strasse'])) {
             $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
             $valid = false;
+        } else if (is_numeric($_POST['Strasse'])) {
+            $strasse_error = "Bitte eine korrekte<strong>Strasse</strong> eingeben.";
+            $valid = false;
         }
         if (empty($_POST['Hausnummer'])) {
             $hausnummer_error = "Bitte eine <strong>Hausnummer</strong> eingeben.";
@@ -40,6 +43,7 @@ if(isset($_POST['type']))
 
         if($valid) {
 
+            if(isset($_POST["BeguenstigterID_R"])) @$recipientData["BeguenstigterID"] = $_POST["BeguenstigterID_R"];
             @$recipientData['BeguenstigterName'] = $_POST['Name'];
             @$recipientData['Strasse'] = $_POST['Strasse'];
             @$recipientData['Hausnummer'] = $_POST['Hausnummer'];
@@ -86,5 +90,3 @@ else{
 
 echo json_encode($res);
 
-
-?>

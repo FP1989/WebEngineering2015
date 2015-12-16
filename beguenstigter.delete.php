@@ -1,7 +1,7 @@
 <?php
 
 include("classes/database.class.php");
-include_once("classes/teilnehmer.class.php");
+include_once("classes/beguenstigter.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -9,9 +9,9 @@ $link = $database->getLink();
 
 $res = array();
 
-$teilnehmerID = $_POST["TeilnehmerID_L"];
+$begID = $_POST["BeguenstigterID_L"];
 
-$success = $database->deleteTeilnehmer($beguenstigter);
+$success = $database->deleteBeguenstigter($begID);
 
 if($success) {
 

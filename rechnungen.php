@@ -226,7 +226,12 @@ include_once("rechnungen.modal.php");
 
 
             <div id="editBill" class="tab-pane fade">
-                <h2>Rechnung ansehen / Rechnung editieren</h2> <br/>
+                <h2>Rechnung ansehen / Rechnung editieren</h2>
+
+                <h3>Reise ausw&auml;hlen</h3>
+                <select name="reise" id="reise" class="form-control"></select>
+
+                <br/>
 
                 <input type="radio" value=0 name="zeitraum" checked="checked"> aktuell &nbsp; &nbsp; &nbsp;
                 <input type="radio" value=30 name="zeitraum"> 30 Tage zur&uuml;ck &nbsp; &nbsp; &nbsp;
@@ -234,13 +239,9 @@ include_once("rechnungen.modal.php");
                 <input type="radio" value=180 name="zeitraum"> 180 Tage zur&uuml;ck &nbsp; &nbsp; &nbsp;
                 <input type="radio" value=all name="zeitraum"> alle Reisen
 
+                <br/>
 
-                <br/><br/>
-
-                        <h3>Reise ausw&auml;hlen</h3>
-                        <select name="reise" id="reise" class="form-control"></select>
-
-                        <table name="rechnung" id="rechnung" class='table table-striped'></table>
+                <table name="rechnung" id="rechnung" class='table table-striped'></table>
 
                 <div class ="modal fade" id="Rechnungloeschen" tabindex="-1" role="dialog">
 

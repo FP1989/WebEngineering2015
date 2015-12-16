@@ -97,7 +97,7 @@ class database
 
             $query = "SELECT * FROM beguenstigter WHERE BeguenstigterName = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('i',$beguenstigterName);
+            $stmt->bind_param('s',$beguenstigterName);
 
         }
 
@@ -893,9 +893,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-
-
-        if(is_nan($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise";
+        if(!is_numeric($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise";
 
         else {
 
@@ -1040,6 +1038,29 @@ class database
         $query = "DELETE FROM logindaten WHERE LoginID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('s', $userID);
+
+        if($stmt->execute()){
+
+            $stmt->close();
+            return true;
+
+        }
+        else {
+
+            $stmt->close();
+            return false;
+        }
+    }
+
+    public function deleteBeguenstigter($begID){
+
+        /* @var database $database */
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "DELETE FROM beguenstigter WHERE BeguenstigterID = ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('i', $begID);
 
         if($stmt->execute()){
 
