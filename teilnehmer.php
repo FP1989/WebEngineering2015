@@ -23,9 +23,6 @@
 
                 if(isNaN(val)) {
 
-
-                    alert("Es ist ein String");
-
                     $.ajax({
 
                         url: 'teilnehmer.read.php',
@@ -53,9 +50,6 @@
                     });
                 }
                 else{
-
-                    alert("Es ist ein int");
-
 
                     $.ajax({
 

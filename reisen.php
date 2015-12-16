@@ -49,13 +49,8 @@
                         $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
 
                     }
-
-
                 }
-
-
             });
-
         }
 
         function getReiseID(button) {
@@ -80,6 +75,8 @@
                     document.getElementById("Preis_R").value = data.Preis_R;
                     document.getElementById("Hinreise_R").value = data.Hinreise_R;
                     document.getElementById("Rueckreise_R").value = data.Rueckreise_R;
+                    document.getElementById("Maximalanzahl_R").value = data.Maximalanzahl_R;
+                    document.getElementById("Mindestanzahl_R").value = data.Mindestanzahl_R;
 
                 }
 
@@ -95,7 +92,7 @@
             $('#negative').hide();
             $('#deletepositive').hide();
             $('#deletenegative').hide();
-
+/*
             $.ajax({
 
                 url: 'reisen.read.php',
@@ -116,7 +113,7 @@
                 }
             });
 
-
+*/
 
 
         });
@@ -147,7 +144,38 @@
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
 
                 <h3>Reise ausw&auml;hlen</h3>
-                <table id="Reise_mutieren" class='table table-striped'></table>
+                <table id="Reise_mutieren" class='table table-striped'>
+                   <?php
+                   /** @var database $verbindung */
+                    $verbindung = database::getDatabase();
+                    $result = $verbindung->getAllReisen(0);
+
+                    if($result->num_rows > 0) {
+
+                        echo "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Abreise</th><th>R&uuml;ckreise</th><th colspan=2></th></tr>";
+
+                        while ($row = $result->fetch_assoc()) {
+
+                            echo "<tr>";
+
+                            foreach($row as $value){
+
+                                if (preg_match('/[0-9]+[-]+/', $value)) {
+                                    $date = date("d.m.Y", strtotime($value));
+                                    echo "<td>" . $date . "</td>";
+                                } else echo "<td>".$value."</td>";
+                            }
+
+                            echo "<td align=\"right\"><button id=\"".$row["ReiseID"]."\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button><td ><button id = \"".$row["ReiseID"]."\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td>";
+
+                            echo "</tr>";
+                        }
+                    }
+
+                    else echo "<tr><th>Keine Reisen erfasst</th></tr>";
+                    ?>
+
+                </table>
 
                 <div class ="modal fade" id="Reiseloeschen" tabindex="-1" role="dialog">
 

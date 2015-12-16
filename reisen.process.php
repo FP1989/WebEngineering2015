@@ -2,8 +2,10 @@
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
 
+/** @var database $verbindung */
+$verbindung = database::getDatabase();
 
-$ziel_error=$beschreibung_error=$bezeichnung_error=$preis_error=$hinreise_error=$rueckreise_error="";
+$ziel_error=$beschreibung_error=$bezeichnung_error=$preis_error=$hinreise_error=$rueckreise_error=$min_error=$max_error="";
 $valid = true;
 
 $res = array();
@@ -42,7 +44,7 @@ function is_current_date($faelligkeit){
 if (empty($_POST['Ziel_P'])) {
     $ziel_error = "Bitte ein <strong>Ziel</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$_POST["Ziel_P"])){
+} else if(preg_match('#[\d]#',$_POST["Ziel_P"])){
     $ziel_error= "Bitte ein <strong>korrektes Ziel</strong> eingeben.";
     $valid = false;
 }
@@ -86,6 +88,27 @@ if (empty($_POST['Rueckreise_P'])) {
     $valid = false;
 }
 
+if(empty($_POST["Maximalanzahl_P"])){
+    $max_error= "Bitte eine <strong>maximale Anzahl Teilnehmer</strong> eingeben";
+    $valid = false;
+}else if($_POST["Maximalanzahl_P"]<$_POST["Mindestanzahl_P"] AND isset($_POST["Mindestanzahl_P"])){
+    $max_error= "Die <strong>maximale Anzahl Teilnehmer </strong> muss grösser sein als die Mindestanzahl";
+    $valid = false;
+}else if($_POST["Maximalanzahl_P"]> reise::MAX OR $_POST["Maximalanzahl_P"]<reise::MIN){
+    $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben";
+    $valid = false;
+}
+
+if(empty($_POST["Mindestanzahl_P"])){
+    $min_error = "Bitte eine <strong>Mindestanzahl Teilnehmer</strong> eingeben";
+    $valid = false;
+}else if($_POST["Mindestanzahl_P"]<reise::MIN OR $_POST["Mindestanzahl_P"]>reise::MAX){
+    $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben";
+    $valid = false;
+}
+
+
+
 if($valid) {
 
     $reisesdaten = array();
@@ -109,12 +132,11 @@ if($valid) {
     @$jahr = $hinreise_array[2];
     $newDate = $jahr . "-" . $monat . "-" . $tag;
     @$reisedaten['Rueckreise']= $newDate;
+    @$reisedaten['MaxAnzahl'] = $_POST["Maximalanzahl_P"];
+    @$reisedaten['MinAnzahl'] = $_POST["Mindestanzahl_P"];
 
     $reise = reise::newReise($reisedaten);
 
-
-    /** @var database $verbindung */
-    $verbindung = database::getDatabase();
     $successful = $verbindung->insertReise($reise);
 
     if ($successful) {
@@ -141,6 +163,8 @@ else {
     if(!empty($preis_error)){$res["message"] = $res["message"] . "<li>".$preis_error."</li>";}
     if(!empty($hinreise_error)){$res["message"] = $res["message"] . "<li>".$hinreise_error."</li>";}
     if(!empty($rueckreise_error)){$res["message"] = $res["message"] . "<li>".$rueckreise_error."</li>";}
+    if(!empty($max_error)){$res["message"] = $res["message"] . "<li>".$max_error."</li>";}
+    if(!empty($min_error)){$res["message"] = $res["message"] . "<li>".$min_error."</li>";}
     $res["message"] = $res["message"] ."</ul>";
 
 }

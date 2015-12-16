@@ -189,7 +189,6 @@ class database
 
         else {
 
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             $stmt->close();
             return false;
 
@@ -888,13 +887,23 @@ class database
         return $this->dbname;
     }
 
-    public function getAllReisen(){
+    public function getAllReisen($timespan){
 
         /* @var database $database */
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM reise";
+
+
+        if(is_nan($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise";
+
+        else {
+
+            $timespan = intval($timespan);
+            $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise WHERE Rueckreise >= CURDATE() - INTERVAL $timespan DAY";
+
+        }
+
         $result = $link->query($query);
 
         return $result;

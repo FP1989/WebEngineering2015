@@ -43,22 +43,43 @@
                     <div class="form-group">
                         <label>Hinreise</label>
                         <div class="input-group date">
+
                             <input type='text' class="form-control" name="fromdate" id="Hinreise_R"/>
 
-                                        <span class="input-group-addon">
-                                                     <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
+                            <span class="input-group-addon">
+                                 <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>R&uuml;ckreise</label>
                         <div class="input-group date">
+
                             <input type='text' class="form-control" name="todate" id="Rueckreise_R"/>
 
-                                        <span class="input-group-addon">
-                                                     <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
+                            <span class="input-group-addon">
+                                 <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label>Min. Teilnehmeranzahl</label>
+                                <input type="number" id="Mindestanzahl_R" value="" class="form-control"/>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label>Max. Teilnehmeranzahl</label>
+                                <input type="number" id="Maximalanzahl_R" value="" class="form-control"/>
+
+                            </div>
                         </div>
                     </div>
 
@@ -91,6 +112,8 @@
             var preis = $("#Preis_R").val();
             var hinreise = $("#Hinreise_R").val();
             var rueckreise = $("#Rueckreise_R").val();
+            var max = $("#Maximalanzahl_R").val();
+            var min = $("#Mindestanzahl_R").val();
 
             $.ajax({
                 url:"reisen.process.php",
@@ -104,7 +127,9 @@
                     Bezeichnung_P:bezeichnung,
                     Preis_P:preis,
                     Hinreise_P:hinreise,
-                    Rueckreise_P:rueckreise
+                    Rueckreise_P:rueckreise,
+                    Maximalanzahl_P:max,
+                    Mindestanzahl_P:min
 
                 },
 
@@ -130,11 +155,9 @@
                     }
                 },
                 error: function(err){
-                    alert(JSON.stringify(err));
                 }
             });
         });
-
     });
 
 </script>

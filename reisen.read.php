@@ -19,6 +19,8 @@ if(isset($_POST["ReiseID_R"])) {
     $re["Beschreibung_R"] =$reise->getBeschreibung();
     $re["Bezeichnung_R"] = $reise->getBezeichnung();
     $re["Preis_R"] = $reise->getPreis();
+    $re["Maximalanzahl_R"] = $reise->getMaxAnzahl();
+    $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
 
     $date = date("d-m-Y", strtotime($reise->getHinreise()));
     @$rueckreise_array = explode('-', $date);
@@ -52,6 +54,8 @@ else if(isset($_POST["Ziel_R"])){
     $re["Beschreibung_R"] =$reise->getBeschreibung();
     $re["Bezeichnung_R"] = $reise->getBezeichnung();
     $re["Preis_R"] = $reise->getPreis();
+    $re["Maximalanzahl_R"] = $reise->getMaxAnzahl();
+    $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
 
     $date = date("d-m-Y", strtotime($reise->getHinreise()));
     @$hinreise_array = explode('-', $date);
@@ -75,7 +79,7 @@ else if(isset($_POST["Ziel_R"])){
 
 else {
 
-    $result = $database->getAllReisen();
+     $result = $database->getAllReisen($_POST["timespan"]);
 
     while($datensatz = $result->fetch_assoc()){
 

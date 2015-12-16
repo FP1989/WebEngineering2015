@@ -17,8 +17,6 @@
 
         function setBezahlt(button){
 
-            alert("setBezahlt: " +button.id);
-
             var id = button.id;
 
             $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"setBezahltDB(this)\">Rechnung bezahlt</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
@@ -29,8 +27,6 @@
 
             var reiseID = button.id;
             var teilnehmerID = document.getElementById("readonlyID").value;
-
-            alert("setBezahlt: " +reiseID+" "+teilnehmerID);
 
             $.ajax({
 
@@ -44,8 +40,6 @@
                 },
 
                 success: function(data){
-
-                    alert("success setbezahlt");
 
                     if(data.flag){
 
@@ -78,8 +72,6 @@
             var reiseID = button.id;
             var teilnehmerID = document.getElementById("readonlyID").value;
 
-            alert ("deleteReservationDB: " + reiseID+ " "+ teilnehmerID);
-
             $.ajax({
 
                 url:"reservationen.delete.php",
@@ -92,8 +84,6 @@
                 },
 
                 success: function(data){
-
-                    alert("success deleteReservation");
 
                     if(data.flag){
 
@@ -119,8 +109,6 @@
 
         function deleteReservation(button){
 
-            alert("DeleteReservation: " +button.id);
-
             var id = button.id;
 
             $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"deleteReservationDB(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
@@ -142,8 +130,6 @@
                 success: function (data) {
 
                     var string = '';
-
-                    alert ("datentyp von data in showReservationen success: "+data[0].TeilnehmerID);
 
                     if(data[0].TeilnehmerID != null && data[0].TeilnehmerID != '') {
 
@@ -168,15 +154,10 @@
 
         function searchTeilnehmer(){
 
-            alert("searchTeilnehmer");
-
             var user = document.getElementById("usr");
             var val = user.value;
 
             if (isNaN(val)) {
-
-
-                alert("var ist ein String");
 
                 user.style.backgroundColor = "white";
 
@@ -208,8 +189,6 @@
 
             else{
 
-                alert("var ist ein Int: "+ val);
-
                 user.style.backgroundColor = "white";
 
                 $.ajax({
@@ -222,8 +201,6 @@
                     },
 
                     success: function (data) {
-
-                    alert(data.TeilnehmerID_R);
 
                         if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
 

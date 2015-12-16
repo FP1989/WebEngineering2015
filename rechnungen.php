@@ -110,19 +110,56 @@
             $("#deletenegative").hide();
             $("#deletepositive").hide();
 
+            var zeitspanne = document.querySelector('input[name="zeitraum"]:checked').value;
+
             $.ajax({
 
                 url: 'reisen.read.php',
-                data: "",
+                type: "POST",
+                data: {
+
+                    timespan: zeitspanne
+                },
                 dataType: 'json',
                 success: function (data) {
 
+                    var reisen = "<option>--w&auml;hlen Sie eine Reise aus--</option>";
+
                     for (var i = 0; i < data.length; i++) {
 
-                        $('#reise').append("<option value= \""+ data[i].ReiseID +"\">Reise-ID: "+ data[i].ReiseID +", Reiseziel: " + data[i].Ziel+ ", Abreise: "+ data[i].Hinreise+ "</option>");
+                        reisen += "<option value= \"" + data[i].ReiseID + "\">Reise-ID: " + data[i].ReiseID + ", Reiseziel: " + data[i].Ziel + ", Abreise: " + data[i].Hinreise + "</option>";
 
                     }
+                    $('#reise').html(reisen);
                 }
+            });
+
+            $("input[name=zeitraum]:radio").change(function () {
+
+                var zeitspanne = document.querySelector('input[name="zeitraum"]:checked').value;
+
+                $.ajax({
+
+                    url: 'reisen.read.php',
+                    type: "POST",
+                    data: {
+
+                        timespan: zeitspanne
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        var reisen = "<option>--w&auml;hlen Sie eine Reise aus--</option>";
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            reisen += "<option value= \"" + data[i].ReiseID + "\">Reise-ID: " + data[i].ReiseID + ", Reiseziel: " + data[i].Ziel + ", Abreise: " + data[i].Hinreise + "</option>";
+
+                        }
+
+                        $('#reise').html(reisen);
+                    }
+                });
             });
 
             $("#reise").change(function(){
@@ -140,8 +177,6 @@
                     success: function (data) {
 
                         var string = '';
-
-                        alert ("aadfdfdsfsdf"+data[0].RechnungsID);
 
                         if(data[0].RechnungsID != null) {
 
@@ -191,12 +226,19 @@ include_once("rechnungen.modal.php");
 
 
             <div id="editBill" class="tab-pane fade">
-                <h2>Rechnung ansehen / Rechnung editieren</h2> <br/><br/>
+                <h2>Rechnung ansehen / Rechnung editieren</h2> <br/>
+
+                <input type="radio" value=0 name="zeitraum" checked="checked"> aktuell &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=30 name="zeitraum"> 30 Tage zur&uuml;ck &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=90 name="zeitraum"> 90 Tage zur&uuml;ck &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=180 name="zeitraum"> 180 Tage zur&uuml;ck &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=all name="zeitraum"> alle Reisen
+
+
+                <br/><br/>
 
                         <h3>Reise ausw&auml;hlen</h3>
-                        <select name="reise" id="reise" class="form-control">
-                            <option>--w&auml;hlen Sie eine Reise aus--</option>
-                        </select>
+                        <select name="reise" id="reise" class="form-control"></select>
 
                         <table name="rechnung" id="rechnung" class='table table-striped'></table>
 
