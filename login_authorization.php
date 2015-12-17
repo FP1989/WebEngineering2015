@@ -18,6 +18,6 @@ if(isset($_POST['userid']) AND isset($_POST['pwd'])) {
         header("Location:home.php");
     } else {
         $_SESSION['falselogin'] = "<span style=\"color:#ff0100;\">Login Falsch, bitte nochmals versuchen.</span>";
-        header("Location:login.php");
+        header("Location:index.php");
     }
 }

@@ -14,6 +14,15 @@ class database
     private $dbname;
     private $link;
 
+//    private function __construct(){
+//
+//        $this->host = '127.0.0.1';
+//        $this->benutzer = 'starreisen';
+//        $this->passwort ='webengineering2015';
+//        $this->dbname = 'starreisen';
+//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+//    }
+
     private function __construct(){
 
         $this->host = '127.0.0.1';
@@ -233,8 +242,8 @@ class database
         $rei["Preis"] = $preis;
         $rei["Hinreise"] = $hinreise;
         $rei["Rueckreise"] = $rueckreise;
-        $rei["MaxAnzahl"] = $maxAnzahl;
         $rei["MinAnzahl"] = $minAnzahl;
+        $rei["MaxAnzahl"] = $maxAnzahl;
 
         $reise = reise::newReise($rei);
 
@@ -742,13 +751,35 @@ class database
         }
     }
 
+    public function existsReservation($reiseID, $teilnehmerID){
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT ReiseID, TeilnehmerID FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('ii', $reiseID, $teilnehmerID);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if($stmt->num_rows > 0) {
+            $stmt->close();
+            return TRUE;
+        } else {
+            $stmt->close();
+            return FALSE;
+        }
+    }
+
     public function verifyLogin($user, $pwdhash){
 
         /* @var database $database*/
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM logindaten WHERE LoginID = ? AND Loghash = ?";
+        $query = "SELECT * FROM Logindaten WHERE LoginID = ? AND Loghash = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ss', $user, $pwdhash);
         $stmt->execute();
@@ -859,11 +890,39 @@ class database
                 $query = "SELECT R.Ziel, R.Hinreise, T.Nachname, T.Vorname FROM Reise R JOIN Reservation Re ON R.ReiseID=Re.ReiseID JOIN Teilnehmer T ON Re.TeilnehmerID=T.TeilnehmerID WHERE R.Hinreise > CURDATE()";
                 break;
             case "Finanzübersicht":
-                $query = "";
+                $query = "
+SELECT
+R.ReiseID,
+R.Ziel,
+R.Hinreise,
+A.Ausgaben,
+E.Einnahmen,
+(E.Einnahmen - A.Ausgaben) AS Gewinn
+
+FROM (
+SELECT Rg.Reise,
+SUM(Rg.Betrag) AS Ausgaben
+FROM Rechnung Rg
+GROUP BY Rg.Reise) AS A
+
+JOIN
+
+(SELECT Rs.ReiseID,
+(COUNT(RE.TeilnehmerID) * Rs.Preis) AS Einnahmen
+FROM Reise Rs JOIN Reservation RE
+ON Rs.ReiseID = RE.ReiseID
+GROUP BY Rs.ReiseID) AS E
+
+ON A.Reise = E.ReiseID
+
+JOIN Reise R
+ON R.ReiseID = A.Reise
+GROUP BY R.ReiseID
+ORDER BY Gewinn DESC;";
                 break;
-            case "Reisegruppen":
-                $query = "";
-                break;
+//            case "Reisegruppen":
+//                $query = "";
+//                break;
         }
 
         if (!empty($query)) {

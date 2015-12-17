@@ -43,15 +43,20 @@ if(isset($_POST['pdfbutton'])) {
                 <div class="form-group">
                     <label for="selectlistreports">Report auswählen:</label>
                     <select name="type" id="selectlistreports" class="form-control">
+                        <optgroup label="Kunden Reports">
+                            <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kunden pro Reise anzeigen (alle)</option>
+                            <option value="Reiseteilnehmer">Kunden pro Reise anzeigen (konkrete Reise)</option>
+                        </optgroup>
+                        <optgroup label=""
                         <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
-                        <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kunden pro Reise (allgemein)</option>
-                        <option value="Reiseteilnehmer">Kunden pro Reise (konkrete Reise)</option>
+
                         <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
                         <option value="Kundenübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenübersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
                         <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
                         <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
-                        <option value="Finanzübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzübersicht') ? "selected" : ""?>>Finanzübersicht anzeigen</option>
-                        <option value="Reisegruppen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisegruppen') ? "selected" : ""?>>Reisegruppen anzeigen</option>
+                        <optgroup label="Finanzen">
+                            <option value="Finanzübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzübersicht') ? "selected" : ""?>>Finanzübersicht pro Reise anzeigen</option>
+                        </optgroup>
                     </select><br>
                 </div>
                 <div class="form-group">

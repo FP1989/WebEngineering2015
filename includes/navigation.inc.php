@@ -1,13 +1,10 @@
 <nav class="navbar">
     <div class="container-fluid">
-        <!--        <div class="navbar-header">-->
-        <!--        <a href="home.php" class="pull-left"><img src="files/logo_pagetry.png" id="image" alt="logo"></a>-->
-        <!--        </div>-->
         <div id="navbar-in">
             <ul class="nav navbar-nav">
                 <a href="home.php" class="pull-left"><img src="files/logo_home.png" id="image" alt="logo"></a>
                 <li><a href="home.php"><i class="fa fa-home fa-2x verschwinden"></i><br>Home</a></li>
-                <?php if(isset($_SESSION['admintrue'])) echo '<li><a href="users.php"><span style="color:#ff000e;font-weight:bold;"><i class="fa fa-cog fa-2x verschwinden"></i><br>Users</span></a></li>';?>
+                <?php if(isset($_SESSION['admintrue'])) echo '<li><a href="users.php"><span style="color:black;font-weight:bold;"><i class="fa fa-cog fa-2x verschwinden"></i><br>Users</span></a></li>';?>
                 <li><a href="rechnungen.php"><i class="fa fa-calculator fa-2x verschwinden"></i><br>Rechnungen</a></li>
                 <li><a href="reisen.php"><i class="fa fa-plane fa-2x verschwinden"></i><br>Reisen</a></li>
                 <li><a href="teilnehmer.php"><i class="fa fa-users fa-2x verschwinden"></i><br>Teilnehmer</a></li>
