@@ -226,6 +226,142 @@
 
         }
 
+        function sucheTeilnehmer(){
+
+            var user = document.getElementById("teilnehmerNr");
+            var val = user.value;
+
+            if (isNaN(val)) {
+
+                user.style.backgroundColor = "white";
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        Nachname_R: val
+                    },
+
+                    success: function (data) {
+
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+            else{
+
+                user.style.backgroundColor = "white";
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        TeilnehmerID_R: val
+                    },
+
+                    success: function (data) {
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
+
+                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+
+            }
+
+
+
+
+        }
+
+        function sucheReise(){
+
+
+            var reise = document.getElementById("reiseNr");
+            var val = reise.value;
+
+            if (isNaN(val)) {
+
+
+                reise.style.backgroundColor = "white";
+
+                $.ajax({
+
+                    url: 'reisen.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        Ziel_R: val
+                    },
+
+                    success: function (data) {
+
+
+                        if (data.ReiseID_R != '' && data.ReiseID_R != null) {
+
+                            document.getElementById("reiseID").value = data.ReiseID_R;
+                            document.getElementById("reiseZiel").value = data.Ziel_R;
+
+                        }
+
+                        else document.getElementById("reiseNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+            else{
+
+
+                reise.style.backgroundColor = "white";
+
+                $.ajax({
+
+                    url: 'reisen.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        ReiseID_R: val
+                    },
+
+                    success: function (data) {
+
+
+
+                        if (data.ReiseID_R != '' && data.ReiseID_R != null){
+
+                            document.getElementById("reiseID").value = data.ReiseID_R;
+                            document.getElementById("reiseZiel").value = data.Ziel_R;
+
+                        }
+
+                        else document.getElementById("reiseNr").style.backgroundColor = "red";
+                    }
+                });
+
+            }
+
+
+
+
+        }
     </script>
 
     <script id="source" language="javascript" type="text/javascript">

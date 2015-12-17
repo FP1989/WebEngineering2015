@@ -77,11 +77,11 @@ else if(isset($_POST["Ziel_R"])){
 
 }
 
-else {
+else if(isset($_POST["timespan"])){
 
-     $result = $database->getAllReisen($_POST["timespan"]);
+        $result = $database->getAllReisen($_POST["timespan"]);
 
-    while($datensatz = $result->fetch_assoc()){
+        while($datensatz = $result->fetch_assoc()){
 
 
         $date = date("d-m-Y", strtotime($datensatz["Hinreise"]));

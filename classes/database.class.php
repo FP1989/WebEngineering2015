@@ -216,12 +216,12 @@ class database
 
             $query = "SELECT * FROM reise WHERE Ziel = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('i', $reiseZiel);
+            $stmt->bind_param('s', $reiseZiel);
 
         }
 
         $stmt->execute();
-        $stmt->bind_result($reiseID, $reiseZiel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $maxAnzahl, $minAnzahl);
+        $stmt->bind_result($reiseID, $reiseZiel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $minAnzahl, $maxAnzahl);
 
         $stmt->fetch();
         $stmt->close();
