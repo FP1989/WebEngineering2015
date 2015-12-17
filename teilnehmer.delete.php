@@ -11,7 +11,7 @@ $res = array();
 
 $teilnehmerID = $_POST["TeilnehmerID_L"];
 
-$success = $database->deleteTeilnehmer($beguenstigter);
+$success = $database->deleteTeilnehmer($teilnehmerID);
 
 if($success) {
 

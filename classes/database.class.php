@@ -989,20 +989,37 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM reise WHERE ReiseID = ?";
-        $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $reiseID);
+        $allowed = true;
 
-        if($stmt->execute()){
+        $queryRes = "SELECT * FROM reservation WHERE ReiseID = $reiseID";
+        $result = $link->query($queryRes);
 
-            $stmt->close();
-            return true;
+        if($result->num_rows>0) $allowed =  false;
 
-        }
+        $queryRes = "SELECT * FROM rechnung WHERE Reise = $reiseID";
+        $result = $link->query($queryRes);
+
+        if($result->num_rows>0) $allowed =  false;
+
+
+        if(!$allowed) return false;
+
         else {
 
-            $stmt->close();
-            return false;
+            $query = "DELETE FROM reise WHERE ReiseID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $reiseID);
+
+            if ($stmt->execute()) {
+
+                $stmt->close();
+                return true;
+
+            } else {
+
+                $stmt->close();
+                return false;
+            }
         }
     }
 
@@ -1012,20 +1029,28 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = ?";
-        $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $teilnehmerID);
+        $queryRes = "SELECT * FROM reservation WHERE TeilnehmerID = $teilnehmerID";
+        $result = $link->query($queryRes);
 
-        if($stmt->execute()){
+        if($result->num_rows>0) return false;
 
-            $stmt->close();
-            return true;
+        else{
 
-        }
-        else {
+            $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $teilnehmerID);
 
-            $stmt->close();
-            return false;
+            if($stmt->execute()){
+
+                $stmt->close();
+                return true;
+
+            }
+            else {
+
+                $stmt->close();
+                return false;
+            }
         }
     }
 
@@ -1058,20 +1083,28 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "DELETE FROM beguenstigter WHERE BeguenstigterID = ?";
-        $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $begID);
+        $queryRe = "SELECT * FROM rechnung WHERE Beguenstigter = $begID";
+        $result = $link->query($queryRe);
 
-        if($stmt->execute()){
+        if($result->num_rows>0) return false;
 
-            $stmt->close();
-            return true;
+        else{
 
-        }
-        else {
+            $query = "DELETE FROM beguenstigter WHERE BeguenstigterID = ?";
+            $stmt = $link->prepare($query);
+            $stmt->bind_param('i', $begID);
 
-            $stmt->close();
-            return false;
+            if($stmt->execute()){
+
+                $stmt->close();
+                return true;
+
+            }
+            else {
+
+                $stmt->close();
+                return false;
+            }
         }
     }
 

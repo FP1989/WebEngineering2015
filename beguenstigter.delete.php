@@ -13,6 +13,8 @@ $begID = $_POST["BeguenstigterID_L"];
 
 $success = $database->deleteBeguenstigter($begID);
 
+echo $success;
+
 if($success) {
 
     $res["message"] = "Datensatz wurde gelöscht";

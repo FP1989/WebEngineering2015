@@ -5,103 +5,8 @@
     $pagetitle = "Rechnungen";
     include_once("includes/header.inc.php");
     ?>
-    <script type = text/javascript>
 
-        function deleteRechnungsID(button){
-
-            var id = button.id;
-
-            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
-
-        }
-
-        function loeschen(button){
-
-            var id = button.id;
-            $.ajax({
-
-                url:"rechnungen.delete.php",
-                type:"POST",
-                dataType: "json",
-                data:{
-
-                    RechnungsID_L: id
-                },
-
-                success: function(data){
-
-                    if(data.flag){
-
-                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
-                        $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
-
-                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
-                        $( "#deletepositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#Rechnungloeschen').modal('hide');}, 1000);
-                        });
-
-
-                    }
-
-                    else {
-
-                        $('#deletenegative').show().html(data.message);
-                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
-
-                    }
-                }
-            });
-        }
-
-        function getRechnungsID(button){
-
-            var id = button.id;
-
-
-            $.ajax({
-
-                url: 'rechnungen.read.php',
-                type: "POST",
-                dataType: 'json',
-                data:{
-                    RechnungsID_R: id
-                },
-
-                success: function (data) {
-
-                    document.getElementById("RechnungsID_R").value = id;
-                    document.getElementById("Betrag_R").value = data.Betrag_R;
-                    document.getElementById("IBAN_R").value = data.IBAN_R;
-                    document.getElementById("Swift_R").value = data.SWIFT_R;
-                    document.getElementById("Faelligkeit_R").value = data.Faelligkeit_R;
-                    document.getElementById("Beguenstigter_R").value = data.Beguenstigter_R;
-                    document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
-                    document.getElementById("Reise_R").value = data.Reise_R;
-
-
-                    var waehrung = document.getElementById("Waehrung_R");
-                    waehrung.value = data.Waehrung_R;
-
-                    var kostenart = document.getElementById("Kostenart_R");
-                    kostenart.value = data.Kostenart_R;
-
-                    if(data.Rechnungsart_R=="ESR") document.getElementById("RA_ESR").checked = true;
-                    else if (data.Rechnungsart_R=="RoterES") document.getElementById("RA_RES").checked = true;
-                    else if (data.Rechnungsart_R=="Ausland") document.getElementById("RA_A").checked = true;
-
-                    if(data.bezahlt_R == 0) document.getElementById("bez_n").checked = true;
-                    else if(data.bezahlt_R == 1) document.getElementById("bez_y").checked = true;
-
-
-                }
-
-            });
-        }
-
-    </script>
-
-    <script id="source" language="javascript" type="text/javascript">
+    <script type="text/javascript">
 
         $(function (){
 
@@ -130,7 +35,9 @@
                         reisen += "<option value= \"" + data[i].ReiseID + "\">Reise-ID: " + data[i].ReiseID + ", Reiseziel: " + data[i].Ziel + ", Abreise: " + data[i].Hinreise + "</option>";
 
                     }
+
                     $('#reise').html(reisen);
+
                 }
             });
 
@@ -198,6 +105,98 @@
             });
 
 
+            function deleteRechnungsID(button){
+
+                var id = button.id;
+
+                $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+
+            }
+
+            function loeschen(button){
+
+                var id = button.id;
+                $.ajax({
+
+                    url:"rechnungen.delete.php",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+
+                        RechnungsID_L: id
+                    },
+
+                    success: function(data){
+
+                        if(data.flag){
+
+                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                            //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                            $( "#deletepositive" ).promise().done(function() {
+
+                                setTimeout(function(){
+                                    $('#Rechnungloeschen').modal('hide');});
+                            });
+
+
+                        }
+
+                        else {
+
+                            $('#deletenegative').show().html(data.message);
+                            $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+                        }
+                    }
+                });
+            }
+
+            function getRechnungsID(button){
+
+                var id = button.id;
+
+
+                $.ajax({
+
+                    url: 'rechnungen.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data:{
+                        RechnungsID_R: id
+                    },
+
+                    success: function (data) {
+
+                        document.getElementById("RechnungsID_R").value = id;
+                        document.getElementById("Betrag_R").value = data.Betrag_R;
+                        document.getElementById("IBAN_R").value = data.IBAN_R;
+                        document.getElementById("Swift_R").value = data.SWIFT_R;
+                        document.getElementById("Faelligkeit_R").value = data.Faelligkeit_R;
+                        document.getElementById("Beguenstigter_R").value = data.Beguenstigter_R;
+                        document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
+                        document.getElementById("Reise_R").value = data.Reise_R;
+
+
+                        var waehrung = document.getElementById("Waehrung_R");
+                        waehrung.value = data.Waehrung_R;
+
+                        var kostenart = document.getElementById("Kostenart_R");
+                        kostenart.value = data.Kostenart_R;
+
+                        if(data.Rechnungsart_R=="ESR") document.getElementById("RA_ESR").checked = true;
+                        else if (data.Rechnungsart_R=="RoterES") document.getElementById("RA_RES").checked = true;
+                        else if (data.Rechnungsart_R=="Ausland") document.getElementById("RA_A").checked = true;
+
+                        if(data.bezahlt_R == 0) document.getElementById("bez_n").checked = true;
+                        else if(data.bezahlt_R == 1) document.getElementById("bez_y").checked = true;
+
+
+                    }
+
+                });
+            }
 
         });
 

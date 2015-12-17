@@ -12,6 +12,9 @@
 
             var id = button.id;
 
+            $('#deletepositive').hide();
+            $('#deletenegative').hide();
+
             $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
         }
@@ -33,20 +36,20 @@
 
                     if(data.flag){
 
-                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                        $('#deletepositive').show().html(data.message).delay(500).fadeOut();
                         $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#deletepositive" ).promise().done(function() {
                             setTimeout(function(){
-                                $('#Reiseloeschen').modal('hide');}, 1000);
+                                $('#Reiseloeschen').modal('hide');});
                         });
                     }
 
                     else {
 
                         $('#deletenegative').show().html(data.message);
-                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+                        $('#Reiseloeschen').effect( "shake", {times:2}, 500 );
 
                     }
                 }

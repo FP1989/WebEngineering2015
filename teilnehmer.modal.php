@@ -70,7 +70,12 @@
                     <div class="form-group">
                         <button type="submit" id="ButtonSpeichern" name="gesendet" class="btn btn-primary">&Auml;nderungen erfassen</button>
                         <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">&Auml;nderungen verwerfen</button>
-                        <button type="button" id="teilnehmerloeschen" class="btn btn-danger pull-right" onclick="deleteTeilnehmer()" data-dismiss="modal">Teilnehmer l&ouml;schen</button>
+                        <div class="btn-group pull-right">
+                            <button type="button" id="teilnehmerloeschen" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teilnehmer l&ouml;schen <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:deleteTeilnehmer()" id="TNloeschen">Klicken Sie hier um den Teilnehmer definitiv zu l&ouml;schen</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -82,6 +87,7 @@
 
     function deleteTeilnehmer(){
 
+        alert("delete Teilnehmer");
 
         var id = document.getElementById("TeilnehmerID_R").value;
 
