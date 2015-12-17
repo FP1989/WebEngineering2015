@@ -19,7 +19,7 @@ if(isset($_POST['type']))
             $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
             $valid = false;
         } else if (is_numeric($_POST['Strasse'])) {
-            $strasse_error = "Bitte eine korrekte<strong>Strasse</strong> eingeben.";
+            $strasse_error = $strasse_error. "Bitte eine korrekte<strong>Strasse</strong> eingeben.";
             $valid = false;
         }
         if (empty($_POST['Hausnummer'])) {

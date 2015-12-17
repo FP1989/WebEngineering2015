@@ -73,6 +73,7 @@ include_once("classes/database.class.php");
 
 <div class="form-group pull-right">
     <button type="submit" type="button" id="send" name="gesendet" class="btn btn-primary">Reservation buchen</button>
+    <button type="reset" type="button" id="clear" name="gesendet" class="btn btn-primary">Felder l&ouml;schen</button>
 </div>
 
 <script type="text/javascript">
@@ -102,6 +103,15 @@ include_once("classes/database.class.php");
                 }
 
             })
+        });
+        $("#clear").on("click", function(e){
+            e.preventDefault();
+            $("#reiseNr").val("");
+            $("#reiseID").val("");
+            $("#reiseZiel").val("");
+            $("#teilnehmerNr").val("");
+            $("#teilnehmerID").val("");
+            $("#teilnehmerName").val("");
         });
     });
 
