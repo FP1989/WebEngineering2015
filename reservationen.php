@@ -137,7 +137,12 @@
 
                         for (var i = 0; i < data.length; i++) {
 
-                            string += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].bezahlt + "</td><td align=\"right\"><button id=" + data[i].ReiseID + " onclick=\"setBezahlt(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\">Rechnung bezahlt</button><td><button id= " + data[i].ReiseID + " onclick=\"deleteReservation(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\" >löschen</button></td></tr>";
+                            string+= "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Hinreise + "</td>";
+
+                            if(data[i].bezahlt ==1) string += "<td>Ja</td><td align=\"right\"></td>";
+                            else string += "<td>Nein</td><td align=\"right\"><button id=" + data[i].ReiseID + " onclick=\"setBezahlt(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\">Rechnung bezahlt</button></td>"
+
+                            string += "<td><button id= " + data[i].ReiseID + " onclick=\"deleteReservation(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\" >löschen</button></td></tr>";
 
                         }
                     }

@@ -50,9 +50,6 @@ else if(isset($_POST["TeilnehmerID_R"])) {
 
             $res[$i]["Nachname"] = $teilnehmer->getNachname();
 
-            if($res[$i]["bezahlt"]==1) $res[$i]["bezahlt"] = "Ja";
-            else $res[$i]["bezahlt"] = "Nein";
-
             $date = date("d-m-Y", strtotime($res[$i]["Hinreise"]));
             @$hinreise_array = explode('-', $date);
             @$tag = $hinreise_array[0];
