@@ -38,7 +38,8 @@ class reise{
 
        return $reise;
 
-}
+    }
+
 
     public function getZiel(){
 
