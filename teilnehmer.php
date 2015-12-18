@@ -14,6 +14,7 @@
             $('#negative').hide();
         });
 
+
             function searchTeilnehmer(){
 
                 var user = document.getElementById("usr");
@@ -80,12 +81,7 @@
 
                     });
                 }
-
-
-
         }
-
-
 
     </script>
 </head>

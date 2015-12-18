@@ -7,6 +7,7 @@ include_once("classes/reise.class.php");
 /* @var database $database*/
 $database = database::getDatabase();
 
+
 if(isset($_POST["ReiseID_R"])) {
 
     $reiseID = $_POST["ReiseID_R"];
@@ -21,6 +22,7 @@ if(isset($_POST["ReiseID_R"])) {
     $re["Preis_R"] = $reise->getPreis();
     $re["Maximalanzahl_R"] = $reise->getMaxAnzahl();
     $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
+
 
     $date = date("d-m-Y", strtotime($reise->getHinreise()));
     @$rueckreise_array = explode('-', $date);
@@ -102,10 +104,6 @@ else if(isset($_POST["timespan"])){
 
         $return [] = $datensatz;
     }
-
-
-
-
 
     echo json_encode($return);
 

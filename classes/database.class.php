@@ -153,6 +153,7 @@ class database
             break;
 
         }
+
         $stmt->close();
         return $enthalten;
 
@@ -965,7 +966,6 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-//        if($timespan == 'all') $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM Reise";
 
         if(!is_numeric($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM Reise";
 //

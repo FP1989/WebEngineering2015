@@ -17,6 +17,7 @@
 
             var zeitspanne = document.querySelector('input[name="zeitraum"]:checked').value;
 
+
             $.ajax({
 
                 url: 'reisen.read.php',
@@ -201,7 +202,6 @@
 
 
                 }
-
             });
         }
 

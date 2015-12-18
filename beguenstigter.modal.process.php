@@ -13,11 +13,6 @@ function format_input($data) {
     return $data;
 }
 
-
-if(isset($_POST['type']))
-{
-    if($_POST['type'] =="claim") {
-
         if (empty(format_input($_POST['Name']))) {
             $name_error = "Bitte einen <strong>Namen</strong> eingeben.";
             $valid = false;
@@ -66,8 +61,6 @@ if(isset($_POST['type']))
             $successful = $verbindung->insertBeguenstigter($recipient);
 
             if ($successful) {
-
-
                 $res["flag"] = true;
                 $res["message"] = "Daten erfolgreich erfasst";
             } else {
@@ -86,14 +79,6 @@ if(isset($_POST['type']))
             $res["message"] = $res["message"] ."</ul>";
 
         }
-
-
-    }
-}
-else{
-    $res["flag"] = false;
-    $res["message"] = "Invalid format";
-}
 
 echo json_encode($res);
 

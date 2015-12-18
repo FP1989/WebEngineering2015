@@ -14,6 +14,19 @@ function format_input($data) {
     return $data;
 }
 
+if(isset($_POST["zuruecksetzen"])){
+
+    unset($_POST['surname']);
+    unset($_POST['lastname']);
+    unset($_POST['street']);
+    unset($_POST['housenumber']);
+    unset($_POST['plz']);
+    unset($_POST['town']);
+    unset($_POST['telefon']);
+    unset($_POST['email']);
+
+}
+
 if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['surname']))) {
         $surname_error = "Bitte einen Vornamen eingeben";
@@ -33,6 +46,9 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['street']))) {
         $street_error = "Bitte eine Strasse eingeben";
         $valid=false;
+    }elseif(is_numeric($_POST['street'])) {
+        $street_error = "Bitte eine korrekte Strasse eingeben";
+        $valid=false;
     }
 
     if (empty(format_input($_POST['plz']))) {
@@ -45,9 +61,15 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['town']))) {
         $town_error = "Bitte eine Stadt eingeben";
         $valid=false;
+    }elseif(is_numeric($_POST['town'])) {
+        $town_error = "Bitte eine Stadt eingeben";
+        $valid=false;
     }
     if (empty(format_input($_POST['telefon']))) {
         $telefon_error = "Bitte eine Telefon-Nr. eingeben";
+        $valid=false;
+    }else if($_POST['telefon']>999999999999) {
+        $telefon_error = "Bitte eine korrekte Telefon-Nr. eingeben";
         $valid=false;
     }
     if (empty(format_input($_POST['email']))) {
@@ -84,7 +106,6 @@ if(isset($_POST['gesendet'])) {
             unset($_POST['town']);
             unset($_POST['telefon']);
             unset($_POST['email']);
-
             $success_alert= "<div class='alert alert-success' role='alert'>Neuen Teilnehmer erfasst.</div>";
         }else{
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
@@ -174,6 +195,6 @@ if(isset($_POST['gesendet'])) {
 
     <div class="form-group pull-right">
         <button type="submit" name="gesendet" class="btn btn-primary">Teilnehmer erfassen</button>
-        <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
+        <button type="submit" name="zuruecksetzen" class="btn btn-primary">Felder l&ouml;schen</button>
     </div>
 </form>

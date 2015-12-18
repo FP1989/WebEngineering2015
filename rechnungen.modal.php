@@ -5,7 +5,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h2>Rechnung mutieren</h2> </br></br>
+                <h2>Rechnung mutieren</h2> <br><br>
             </div>
 
             <div class ="modal-body">
@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Rechnungsart</label> </br>
+                        <label>Rechnungsart</label> <br>
                         <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_ESR" value="ESR">ESR</label>
                         <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_RES" value="RoterES">Roter Einzahlungsschein</label>
                         <label class="radio-inline"><input type="radio" name="paymentoption" id="RA_A" value="Ausland">Auslandzahlung</label>
@@ -88,7 +88,7 @@
                         <input id="Reise_R" class="form-control" type="text" name="travelid" value=""/>
                     </div>
                     <div class="form-group">
-                        <label>Rechnung bezahlt?</label> </br>
+                        <label>Rechnung bezahlt?</label> <br>
                         <label class="radio-inline"><input type="radio" id="bez_y" value ="1" name="paidBill">Ja</label>
                         <label class="radio-inline"><input type="radio" id="bez_n" value="0" name="paidBill">Nein</label>
                     </div>
@@ -151,13 +151,13 @@
                     var status = response.flag;
                     if(status){
 
-                        $('#alterpositive').show().html(response.message).delay(2000).fadeOut();
+                        $('#alterpositive').show().html(response.message).delay(500).fadeOut();
                         $('#alternegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#alterpositive" ).promise().done(function() {
                             setTimeout(function(){
-                                $('#Mutationsformular').modal('hide');}, 1000);
+                                $('#Mutationsformular').modal('hide');});
                         });
 
                     }

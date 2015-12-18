@@ -36,73 +36,89 @@ function is_current_date($faelligkeit){
     @$jahr = $faelligkeit_array[2];
     $newDate = $jahr . "-" . $monat . "-" . $tag;
 
-    if($newDate<= $time) $valid = false;
+    if($newDate< $time) $valid = false;
 
     return $valid;
 }
 
-if (empty($_POST['Ziel_P'])) {
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
+
+$ziel = format_input($_POST["Ziel_P"]);
+$beschreibung = format_input($_POST["Beschreibung_P"]);
+$bezeichnung = format_input($_POST["Bezeichnung_P"]);
+$preis = format_input($_POST["Preis_P"]);
+$hinreise = format_input($_POST["Hinreise_P"]);
+$rueckreise = format_input($_POST["Rueckreise_P"]);
+$max = format_input($_POST["Maximalanzahl_P"]);
+$min = format_input($_POST["Mindestanzahl_P"]);
+
+
+if (empty($ziel)) {
     $ziel_error = "Bitte ein <strong>Ziel</strong> eingeben.";
     $valid = false;
-} else if(preg_match('#[\d]#',$_POST["Ziel_P"])){
+} else if(preg_match('#[\d]#',$ziel)){
     $ziel_error= "Bitte ein <strong>korrektes Ziel</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Beschreibung_P'])) {
+if (empty($beschreibung)) {
     $beschreibung_error = "Bitte eine <strong>Beschreibung</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Bezeichnung_P'])) {
+if (empty($bezeichnung)) {
     $bezeichnung_error = "Bitte eine <strong>Bezeichnung</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Preis_P'])) {
+if (empty($preis)) {
     $preis_error= "Bitte einen <strong>Preis</strong> eingeben.";
     $valid = false;
-}else if(!(is_numeric($_POST['Preis_P'])) OR $_POST["Preis_P"] <= 0){
+}else if(!(is_numeric($preis)) OR $preis <= 0){
     $preis_error= "Bitte einen <strong>korrekten Preis</strong> eingeben.";
     $valid = false;
 }
-if (empty($_POST['Hinreise_P'])) {
+if (empty($hinreise)) {
     $hinreise_error= "Bitte ein <strong>Hinreisedatum</strong> eingeben.";
     $valid = false;
-}else if (!is_valid_date($_POST['Hinreise_P'])) {
+}else if (!is_valid_date($hinreise)) {
     $hinreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Hinreise</strong> eingeben";
     $valid = false;
-}else if (!is_current_date($_POST["Hinreise_P"])){
+}else if (!is_current_date($hinreise)){
     $hinreise_error= "Bitte ein <strong>aktuelles Hinreisedatum </strong> eingeben";
     $valid = false;
 }
 
-if (empty($_POST['Rueckreise_P'])) {
+if (empty($rueckreise)) {
     $rueckreise_error= "Bitte ein <strong>Rückreisedatum</strong> eingeben.";
     $valid = false;
-}else if (!is_valid_date($_POST['Rueckreise_P'])) {
+}else if (!is_valid_date($rueckreise)) {
     $rueckreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Rückreise</strong> eingeben";
     $valid = false;
-}else if($_POST["Rueckreise_P"]<$_POST["Hinreise_P"]){
-    $rueckreise_error= "Die <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
+}else if($rueckreise < $hinreise){
+    $rueckreise_error= "Das <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
     $valid = false;
 }
 
-if(empty($_POST["Maximalanzahl_P"])){
+if(empty($max)){
     $max_error= "Bitte eine <strong>maximale Anzahl Teilnehmer</strong> eingeben";
     $valid = false;
-}else if($_POST["Maximalanzahl_P"]<$_POST["Mindestanzahl_P"] AND isset($_POST["Mindestanzahl_P"])){
+}else if($max<$min AND isset($min)){
     $max_error= "Die <strong>maximale Anzahl Teilnehmer </strong> muss grösser sein als die Mindestanzahl";
     $valid = false;
-}else if($_POST["Maximalanzahl_P"]> reise::MAX OR $_POST["Maximalanzahl_P"]<reise::MIN){
+}else if($max> reise::MAX OR $max<reise::MIN){
     $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben";
     $valid = false;
 }
 
-if(empty($_POST["Mindestanzahl_P"])){
+if(empty($min)){
     $min_error = "Bitte eine <strong>Mindestanzahl Teilnehmer</strong> eingeben";
     $valid = false;
-}else if($_POST["Mindestanzahl_P"]<reise::MIN OR $_POST["Mindestanzahl_P"]>reise::MAX){
+}else if($min<reise::MIN OR $min>reise::MAX){
     $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben";
     $valid = false;
 }

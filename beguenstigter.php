@@ -12,8 +12,8 @@
 
             $('#positive').hide();
             $('#negative').hide();
-
         });
+
 
         function searchBeguenstigter(){
 
@@ -42,8 +42,12 @@
                         document.getElementById("PLZ_R").value = data.PLZ_R;
                         document.getElementById("Ort_R").value = data.Ort_R;
 
-                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) $("#Mutationsformular").modal('show');
-                        else document.getElementById("recipient").style.backgroundColor = "red";
+                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
+
+                            $("#Mutationsformular").modal('show');
+                            $("#beguenstigter").val("");
+                        }
+                        else document.getElementById("beguenstigter").style.backgroundColor = "red";
                     }
                 });
             }
@@ -67,7 +71,11 @@
                         document.getElementById("PLZ_R").value = data.PLZ_R;
                         document.getElementById("Ort_R").value = data.Ort_R;
 
-                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) $("#Mutationsformular").modal('show');
+                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
+
+                            $("#Mutationsformular").modal('show');
+                            $("#beguenstigter").val("");
+                        }
                         else document.getElementById("beguenstigter").style.backgroundColor = "red";
                     }
                 });
@@ -81,7 +89,6 @@
 <div id="wrapper">
     <?php
     include_once("includes/navigation.inc.php");
-    include_once("beguenstigter_modal.php");
     include_once("beguenstigter.modal.php");
     ?>
 

@@ -7,6 +7,16 @@ $valid = true;
 
 $res = array();
 
+$id = format_input($_POST["TeilnehmerID_P"]);
+$vorname = format_input($_POST["Vorname_P"]);
+$nachname = format_input($_POST["Nachname_P"]);
+$strasse = format_input($_POST["Strasse_P"]);
+$hausnummer = format_input($_POST["Hausnummer_P"]);
+$plz = format_input($_POST["PLZ_P"]);
+$ort = format_input($_POST["Ort_P"]);
+$tel = format_input($_POST["Telefon_P"]);
+$mail = format_input($_POST["Mail_P"]);
+
 if (empty($_POST['Vorname_P'])) {
     $vornamen_error = "Bitte einen <strong>Vornamen</strong> eingeben.";
     $valid = false;
@@ -53,6 +63,9 @@ if (empty($_POST['Telefon_P'])) {
 }else if(!is_numeric($_POST['Telefon_P'])){
     $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
     $valid = false;
+}else if(($_POST['Telefon_P'])>999999999999){
+    $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
+    $valid = false;
 }
 
 if (empty($_POST['Mail_P'])) {
@@ -67,15 +80,15 @@ if($valid) {
 
     $teilnehmerdaten = array();
 
-    @$teilnehmerdaten['TeilnehmerID'] = $_POST["TeilnehmerID_P"];
-    @$teilnehmerdaten['Vorname'] = $_POST["Vorname_P"];
-    @$teilnehmerdaten['Nachname'] = $_POST["Nachname_P"];
-    @$teilnehmerdaten['Strasse'] = $_POST["Strasse_P"];
-    @$teilnehmerdaten['Hausnummer'] = $_POST["Hausnummer_P"];
-    @$teilnehmerdaten['PLZ'] = $_POST["PLZ_P"];
-    @$teilnehmerdaten['Ort'] = $_POST["Ort_P"];
-    @$teilnehmerdaten['Telefon'] = $_POST["Telefon_P"];
-    @$teilnehmerdaten['Mail'] = $_POST["Mail_P"];
+    @$teilnehmerdaten['TeilnehmerID'] = $id;
+    @$teilnehmerdaten['Vorname'] = $vorname;
+    @$teilnehmerdaten['Nachname'] = $nachname;
+    @$teilnehmerdaten['Strasse'] = $strasse;
+    @$teilnehmerdaten['Hausnummer'] = $hausnummer;
+    @$teilnehmerdaten['PLZ'] = $plz;
+    @$teilnehmerdaten['Ort'] = $ort;
+    @$teilnehmerdaten['Telefon'] = $tel;
+    @$teilnehmerdaten['Mail'] = $mail;
 
     $teilnehmer = teilnehmer::newTeilnehmer($teilnehmerdaten);
 
