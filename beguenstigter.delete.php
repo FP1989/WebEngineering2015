@@ -3,6 +3,8 @@
 include("classes/database.class.php");
 include_once("classes/beguenstigter.class.php");
 
+//jkllj
+
 /* @var database $database*/
 $database = database::getDatabase();
 $link = $database->getLink();
