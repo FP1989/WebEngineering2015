@@ -1,4 +1,4 @@
-<?php session_start();
+<?php include("includes/authentication.inc.php");
 
 //Executed first to avoid any information sent by client, which prevents FPDF from creating PDF
 if(isset($_POST['pdfbutton'])) {

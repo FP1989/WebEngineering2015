@@ -11,7 +11,7 @@
 
             function intermediary(button){
                 var id = button.id;
-                $("#goodbye").html("<button id="+id +" class=\"btn btn-primary pull-left\" onclick=\"deleteUsers(this)\">User löschen</button>");
+                $("#goodbye").html("<button id = " + id + " class=\"btn btn-primary pull-left\" onclick=\"deleteUsers(this)\">User löschen</button><button class=\"btn btn-primary pull-left\" data-dismiss=\"modal\">Abbrechen</button>");
             }
 
             function deleteUsers(button) {
@@ -28,7 +28,7 @@
                     success: function(data) {
 
                         if(data.flag) {
-                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
                         } else {
                             $('#deletenegative').show().html(data.message);
                             $('#userdeletemodal').effect("shake", {times:2}, 500);
