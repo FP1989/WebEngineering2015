@@ -97,7 +97,7 @@ if(isset($_POST['gesendet'])) {
     <h2>Beg&uuml;nstigten erfassen</h2> </br></br>
     <?php echo (!empty($valid)) ? $success_alert: $error_alert; ?>
     <div class="form-group">
-        <label>Rechnungs-ID</label>
+        <label>Begünstigter-ID</label>
         <input class="form-control" name="id" type="text"<?php
         /** @var database $database*/
         $database = database::getDatabase();
