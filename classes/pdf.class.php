@@ -37,7 +37,7 @@ class PDF extends FPDF {
         $this->SetFillColor(160, 160, 160);
         $title = utf8_decode($_SESSION['type']);
         $this->Cell($this->hwidth, $this->cheight, "Report '" . $title . "'", '', 0, 'L', 1);
-        $this->Ln(20);
+        $this->Ln(50);
     }
 
 //    Override FPDF Footer
