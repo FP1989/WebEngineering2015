@@ -124,8 +124,8 @@ if(isset($_POST['gesendet'])) {
         @$jahr = $datum_array[2];
         $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
         $traveldata['Rueckreise'] = $NeuesDatum;
-        $traveldata['minAnzahl'] = format_input($_POST['minParticipant']);
-        $traveldata['maxAnzahl'] = format_input($_POST['maxParticipant']);
+        $traveldata['MinAnzahl'] = format_input($_POST['minParticipant']);
+        $traveldata['MaxAnzahl'] = format_input($_POST['maxParticipant']);
         $reise = reise::newReise($traveldata);
 
         //make insert-statement
@@ -163,9 +163,8 @@ if(isset($_POST['gesendet'])) {
         <input class="form-control" type="text" <?php
         /** @var database $database*/
         $database = database::getDatabase();
-        $link = $database->getLink();
-        $query = 'SELECT MAX(ReiseID) as id FROM reise';
-        $result = $link->query($query);
+        $result = $database->getID('ReiseID', 'Reise');
+
         while ($row = mysqli_fetch_assoc($result)){
             settype($row['id'], "int");
             $id = $row['id'] +1;

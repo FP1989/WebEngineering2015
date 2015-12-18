@@ -1353,8 +1353,8 @@ function _parsepngstream($f, $file)
 			}
 		}
 		unset($data);
-		$data = gzcompress($color);
-		$info['smask'] = gzcompress($alpha);
+		$data = gzencode($color);
+		$info['smask'] = gzencode($alpha);
 		if($this->PDFVersion<'1.4')
 			$this->PDFVersion = '1.4';
 	}
