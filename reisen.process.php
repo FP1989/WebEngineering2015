@@ -100,7 +100,7 @@ if (empty($rueckreise)) {
     $rueckreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Rückreise</strong> eingeben";
     $valid = false;
 }else if($rueckreise < $hinreise){
-    $rueckreise_error= "Die <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
+    $rueckreise_error= "Das <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
     $valid = false;
 }
 

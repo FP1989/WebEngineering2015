@@ -63,7 +63,7 @@ if (empty($_POST['Telefon_P'])) {
 }else if(!is_numeric($_POST['Telefon_P'])){
     $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
     $valid = false;
-}else if(($_POST['Telefon_P'])>9999999999){
+}else if(($_POST['Telefon_P'])>999999999999){
     $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
     $valid = false;
 }

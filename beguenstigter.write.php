@@ -73,6 +73,13 @@ if(isset($_POST['gesendet'])) {
 
         if ($successful) {
             $success_alert = "<div class='alert alert-success' role='alert'>Neuen Beguenstigten erfasst.</div>";
+
+            unset($_POST['Name']);
+            unset($_POST['Strasse']);
+            unset($_POST['Hausnummer']);
+            unset($_POST['PLZ']);
+            unset($_POST['Ort']);
+
         } else {
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
         }
