@@ -80,6 +80,20 @@ if(isset($_POST['gesendet'])) {
 <form method="post" action="">
     <h2>Beg&uuml;nstigten erfassen</h2> </br></br>
     <?php echo (!empty($valid)) ? $success_alert: $error_alert; ?>
+    <div class="form-group">
+        <label>Rechnungs-ID</label>
+        <input class="form-control" name="id" type="text"<?php
+        /** @var database $database*/
+        $database = database::getDatabase();
+        $result = $database->getID('BeguenstigterID', 'beguenstigter');
+
+        while ($row = mysqli_fetch_assoc($result)){
+            settype($row['id'], "int");
+            $id = $row['id'] +1;
+            echo "value=".$id;
+        }
+        ?> readonly>
+    </div>
     <div class="form-group <?php echo (!empty($name_err)) ? 'has-error':''; ?>">
         <label>Name</label>
         <input type="text" name="Name" id="name" value="<?php echo @$_POST['Name'];?>" class="form-control" />
@@ -115,6 +129,6 @@ if(isset($_POST['gesendet'])) {
     </div>
     <div class="form-group pull-right">
         <button type="submit" name ="gesendet" id="send" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
-        <button type="reset" class="btn btn-default" data-dismiss="modal">Felder l&ouml;schen</button>
+        <button type="reset" class="btn btn-primary" data-dismiss="modal">Felder l&ouml;schen</button>
     </div>
 </form>

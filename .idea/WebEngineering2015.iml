@@ -15,5 +15,7 @@
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="jquery-ui-i18n" level="application" />
     <orderEntry type="library" name="bootstrap3-typeahead" level="application" />
+    <orderEntry type="library" name="jquery ui" level="project" />
+    <orderEntry type="library" name="jquery" level="project" />
   </component>
 </module>

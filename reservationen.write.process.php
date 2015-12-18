@@ -17,7 +17,11 @@ $verbindung = database::getDatabase();
 $res["flag"] = true;
 $valid = true;
 
-
+    if((empty($_POST['ReiseID'])) || empty($_POST['TeilnehmerID'])){
+        $res["flag"] = false;
+        $res["message"] = "Bitte ReiseID/TeilnehmerID ausw&auml;hlen.";
+        $valid = false;
+    }else{
     if(!$verbindung->existsTeilnehmer($teilnehmerID) || !$verbindung->existsReise($reiseID)) {
         $res["flag"] = false;
         $res["message"] = "Reise oder Teilnehmer existiert nicht.";
@@ -49,7 +53,7 @@ $valid = true;
     }
 
 
-
+    }
 
 echo json_encode($res);
 
