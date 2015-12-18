@@ -101,7 +101,7 @@ if(isset($_POST['gesendet'])) {
         <input class="form-control" name="id" type="text"<?php
         /** @var database $database*/
         $database = database::getDatabase();
-        $result = $database->getID('BeguenstigterID', 'beguenstigter');
+        $result = $database->getID('BeguenstigterID', 'Beguenstigter');
 
         while ($row = mysqli_fetch_assoc($result)){
             settype($row['id'], "int");

@@ -1,9 +1,9 @@
 <?php
-include("config.php");
-include("db_connect.php");
+//include("config.php");
+//include("db_connect.php");
 
 $term = trim(strip_tags($_GET['term']));
-$mysqlquery = "SELECT * from reise where Bezeichnung like '%{$term}%'";
+$mysqlquery = "SELECT * FROM Reise WHERE Bezeichnung LIKE '%{$term}%'";
 $resultat = mysqli_query($conn, $mysqlquery);
 
 

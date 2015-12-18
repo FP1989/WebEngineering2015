@@ -14,7 +14,7 @@ class database
     private $dbname;
     private $link;
 
-/*    private function __construct(){
+    private function __construct(){
 
         $this->host = '127.0.0.1';
         $this->benutzer = 'starreisen';
@@ -22,16 +22,16 @@ class database
         $this->dbname = 'starreisen';
         $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
         $this->link->set_charset("utf8");
-    }*/
-
-    private function __construct(){
-
-        $this->host = '127.0.0.1';
-        $this->benutzer = 'root';
-        $this->passwort ='';
-        $this->dbname = 'reiseunternehmen';
-        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
     }
+
+//    private function __construct(){
+//
+//        $this->host = '127.0.0.1';
+//        $this->benutzer = 'root';
+//        $this->passwort ='';
+//        $this->dbname = 'reiseunternehmen';
+//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+//    }
 
     public static function getDatabase(){
 
@@ -159,6 +159,38 @@ class database
 
     }
 
+    public function autosuggestBeguenstigter($term) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT * FROM Beguenstigter WHERE BeguenstigterName LIKE '%{$term}%'";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $term);
+        $stmt->execute();
+
+        $stmt->bind_result($BegID, $BegName, $BegStrasse, $BegHausnummer, $BegOrt);
+
+        $return = Array();
+
+        while($stmt->fetch()) {
+
+            $datensatz["BegID"] = $BegID;
+            $datensatz["BegName"] = $BegName;
+            $datensatz["BegStrasse"] = $BegStrasse;
+            $datensatz["BegHausnummer"] = $BegHausnummer;
+            $datensatz["BegOrt"] = $BegOrt;
+
+            $return [] = $datensatz;
+
+        }
+        $stmt->close();
+
+        return $return;
+
+    }
+
     public function insertReise(reise $reise){
 
         $id = $reise->getReiseID();
@@ -277,7 +309,6 @@ class database
         }
         $stmt->close();
         return $enthalten;
-
     }
 
     public function reportReisen() {
@@ -905,6 +936,9 @@ class database
                 break;
             case "Reisen demnächst":
                 $query = "SELECT R.Ziel, R.Hinreise, T.Nachname, T.Vorname FROM Reise R JOIN Reservation Re ON R.ReiseID=Re.ReiseID JOIN Teilnehmer T ON Re.TeilnehmerID=T.TeilnehmerID WHERE R.Hinreise > CURDATE()";
+                break;
+            case "Begünstigte":
+                $query = "SELECT BeguenstigterID AS BegünstigterID, BeguenstigterName AS BegünstigterName, Strasse, Hausnummer, Ort FROM Beguenstigter";
                 break;
             case "Finanzübersicht":
                 $query = "

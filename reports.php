@@ -51,6 +51,7 @@ include_once("classes/database.class.php");
                             <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
                             <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
                             <option value="Finanzübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzübersicht') ? "selected" : ""?>>Finanzübersicht pro Reise anzeigen</option>
+                            <option value="Begünstigte" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Begünstigte') ? "selected" : ""?>>Alle Begünstigte anzeigen</option>
                         </optgroup>
                         <optgroup label="Reisereports">
                             <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>

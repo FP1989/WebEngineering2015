@@ -1,16 +1,17 @@
 <?php
+include_once("classes/database.class.php");
 
-include("config.php");
-include("db_connect.php");
+/* @var database $database*/
+$database = database::getDatabase();
+$_GET['$term'] = 'Beate';
 
 $term = trim(strip_tags($_GET['term']));
-$mysqlquery = "SELECT * from beguenstigter where beguenstigter.BeguenstigterName like '%{$term}%'";
-$resultat = mysqli_query($conn, $mysqlquery);
+$result[] = $database->autosuggestBeguenstigter($term);
 
 $informationen = array();
-    while ($row = mysqli_fetch_assoc($resultat)){
-        array_push($informationen, array('label' => $row['BeguenstigterName'], 'value' => $row['BeguenstigterID']));
-    }
+
+for($i = 0; $i < sizeof($result); $i++) {
+    array_push($informationen, array('label' => $result[$i]['BegName'], 'value' => $result[$i]['BegID']));
+}
 
 echo json_encode($informationen);
-?>
