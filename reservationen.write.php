@@ -6,8 +6,8 @@ include_once("classes/database.class.php");
 <br/>
 
 
-<p class="alert alert-success" role="alert" id="feedback_positive" style="display:none;"></p>
-<p class="alert alert-warning" role="alert" id="feedback_negative" style="display:none;"></p>
+<p class="alert alert-success" role="alert" id="feedback_positive"></p>
+<p class="alert alert-warning" role="alert" id="feedback_negative"></p>
 
 <div class="form-group">
     <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
@@ -78,6 +78,8 @@ include_once("classes/database.class.php");
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#feedback_negative').hide();
+        $('#feedback_positive').hide();
 
         $("#send").on("click", function(e){
             e.preventDefault();
@@ -96,9 +98,17 @@ include_once("classes/database.class.php");
                 success: function(response){
                     var status = response.flag;
                     if(status){
+                        $('#feedback_negative').hide();
                         $('#feedback_positive').show().html(response.message).delay(500).fadeOut();
+
+                        $("#reiseNr").val("");
+                        $("#reiseID").val("");
+                        $("#reiseZiel").val("");
+                        $("#teilnehmerNr").val("");
+                        $("#teilnehmerID").val("");
+                        $("#teilnehmerName").val("");
                     }else {
-                        $('#feedback_negative').show().html(response.message);
+                        $('#feedback_negative').show().html(response.message).delay(2000).fadeOut();
                     }
                 }
 

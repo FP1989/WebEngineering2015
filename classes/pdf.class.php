@@ -24,20 +24,20 @@ class PDF extends FPDF {
         $this->SetFont($this->font, 'B', $this->fsize + 10);
         $this->SetDrawColor($this->black, $this->black, $this->black);
         $this->SetTextColor($this->black, $this->black, $this->black);
-        $this->SetFillColor(104, 74, 255);
+        $this->SetFillColor(224, 224, 224);
         $this->Cell($this->hwidth, $this->cheight, '', '', 0, 'L', 1);
         $this->Ln(2);
 
 //        Second Line
-        $this->SetFillColor(149, 128, 255);
-        $this->Cell($this->hwidth-30, $this->cheight, '', '', 0, 'L', 1);
+        $this->SetFillColor(192, 192, 192);
+        $this->Cell($this->hwidth, $this->cheight, '', '', 0, 'L', 1);
         $this->Ln(2);
 
 //        Third Line
-        $this->SetFillColor(190, 176, 255);
+        $this->SetFillColor(160, 160, 160);
         $title = utf8_decode($_SESSION['type']);
-        $this->Cell($this->hwidth-60, $this->cheight, "Report '" . $title . "'", '', 0, 'L', 1);
-        $this->Ln(50);
+        $this->Cell($this->hwidth, $this->cheight, "Report '" . $title . "'", '', 0, 'L', 1);
+        $this->Ln(20);
     }
 
 //    Override FPDF Footer
@@ -56,12 +56,10 @@ class PDF extends FPDF {
 
         if ($result->num_rows > 0) {
 
-            $this->cwidth = $_SESSION['type'] == 'Kundenübersicht' ? 31 : 40;
-
 //  Table Header
             $this->SetFont($this->font, 'B', 12);
             $this->SetDrawColor($this->black, $this->black, $this->black);
-            $this->SetFillColor(206, 212, 236);
+            $this->SetFillColor(192, 192, 192);
             $this->SetTextColor($this->black, $this->black, $this->black);
 
             while ($finfo = $result->fetch_field()) {

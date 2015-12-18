@@ -191,13 +191,25 @@
 
         $(function() {
             $( "#hinreise" ).datepicker({
+                numberOfMonths: 3,
                 onClose: function( selectedDate ) {
                     $( "#rueckreise" ).datepicker( "option", "minDate", selectedDate );
                 }
             });
             $( "#rueckreise" ).datepicker({
+                numberOfMonths: 3,
                 onClose: function( selectedDate ) {
                     $( "#hinreise" ).datepicker( "option", "maxDate", selectedDate );
+                }
+            });
+            $( "#Hinreise_R" ).datepicker({
+                onClose: function( selectedDate ) {
+                    $( "#Rueckreise_R" ).datepicker( "option", "minDate", selectedDate );
+                }
+            });
+            $( "#Rueckreise_R" ).datepicker({
+                onClose: function( selectedDate ) {
+                    $( "#Hinreise_R" ).datepicker( "option", "maxDate", selectedDate );
                 }
             });
 

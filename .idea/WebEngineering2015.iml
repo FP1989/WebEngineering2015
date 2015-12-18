@@ -9,5 +9,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jQuery" level="project" />
     <orderEntry type="library" name="bootstrap" level="project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="jquery-1.10.2" level="application" />
+    <orderEntry type="library" name="jquery-ui" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery-ui-i18n" level="application" />
+    <orderEntry type="library" name="bootstrap3-typeahead" level="application" />
   </component>
 </module>

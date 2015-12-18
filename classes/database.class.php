@@ -14,23 +14,24 @@ class database
     private $dbname;
     private $link;
 
-//    private function __construct(){
-//
-//        $this->host = '127.0.0.1';
-//        $this->benutzer = 'starreisen';
-//        $this->passwort ='webengineering2015';
-//        $this->dbname = 'starreisen';
-//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
-//    }
-
     private function __construct(){
 
         $this->host = '127.0.0.1';
-        $this->benutzer = 'root';
-        $this->passwort ='';
-        $this->dbname = 'reiseunternehmen';
+        $this->benutzer = 'starreisen';
+        $this->passwort ='webengineering2015';
+        $this->dbname = 'starreisen';
         $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+        $this->link->set_charset("utf8");
     }
+
+//    private function __construct(){
+//
+//        $this->host = '127.0.0.1';
+//        $this->benutzer = 'root';
+//        $this->passwort ='';
+//        $this->dbname = 'reiseunternehmen';
+//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+//    }
 
     public static function getDatabase(){
 
@@ -40,14 +41,14 @@ class database
 
     }
 
-    public function insertBeguenstigter(beguenstigter $beguenstigter){
+    public function insertBeguenstigter(Beguenstigter $Beguenstigter){
 
-        $id = $beguenstigter->getBeguenstigterID();
-        $name = $beguenstigter->getBeguenstigterName();
-        $strasse = $beguenstigter->getStrasse();
-        $hausnummer = $beguenstigter->getHausnummer();
-        $ort = $beguenstigter->getOrt();
-        $plz = $beguenstigter->getPlz();
+        $id = $Beguenstigter->getBeguenstigterID();
+        $name = $Beguenstigter->getBeguenstigterName();
+        $strasse = $Beguenstigter->getStrasse();
+        $hausnummer = $Beguenstigter->getHausnummer();
+        $ort = $Beguenstigter->getOrt();
+        $plz = $Beguenstigter->getPlz();
 
         if(!$this->existsOrt($plz)) $this->insertOrt($plz, $ort);
 
@@ -57,7 +58,7 @@ class database
 
         if($id == "DEFAULT"){
 
-            $query = "INSERT INTO beguenstigter (BeguenstigterName, Strasse, Hausnummer, Ort) VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO Beguenstigter (BeguenstigterName, Strasse, Hausnummer, Ort) VALUES (?, ?, ?, ?)";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sssi', $name, $strasse, $hausnummer, $plz);
 
@@ -65,7 +66,7 @@ class database
 
         else {
 
-            $query = "UPDATE beguenstigter SET BeguenstigterName = ?, Strasse = ?, Hausnummer = ?, Ort = ?  WHERE BeguenstigterID = ?";
+            $query = "UPDATE Beguenstigter SET BeguenstigterName = ?, Strasse = ?, Hausnummer = ?, Ort = ?  WHERE BeguenstigterID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sssii',$name, $strasse, $hausnummer, $plz, $id);
 
@@ -86,63 +87,63 @@ class database
 
     }
 
-    public function fetchBeguenstigter($beguenstigterID = null, $beguenstigterName = null){
+    public function fetchBeguenstigter($BeguenstigterID = null, $BeguenstigterName = null){
 
         /* @var database $database*/
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        if(is_null($beguenstigterID)&& is_null($beguenstigterName)) return false;
+        if(is_null($BeguenstigterID)&& is_null($BeguenstigterName)) return false;
 
-        else if(!is_null($beguenstigterID)) {
+        else if(!is_null($BeguenstigterID)) {
 
-            $query = "SELECT * FROM beguenstigter WHERE BeguenstigterID = ?";
+            $query = "SELECT * FROM Beguenstigter WHERE BeguenstigterID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('i',$beguenstigterID);
+            $stmt->bind_param('i',$BeguenstigterID);
 
         }
 
         else {
 
-            $query = "SELECT * FROM beguenstigter WHERE BeguenstigterName = ?";
+            $query = "SELECT * FROM Beguenstigter WHERE BeguenstigterName = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('s',$beguenstigterName);
+            $stmt->bind_param('s',$BeguenstigterName);
 
         }
 
         $stmt->execute();
-        $stmt->bind_result($beguenstigterID, $beguenstigterName, $strasse, $hausnummer, $ort);
+        $stmt->bind_result($BeguenstigterID, $BeguenstigterName, $strasse, $hausnummer, $ort);
 
         $stmt->fetch();
         $stmt->close();
 
-        $beg["BeguenstigterID"] = $beguenstigterID;
-        $beg["BeguenstigterName"] = $beguenstigterName;
+        $beg["BeguenstigterID"] = $BeguenstigterID;
+        $beg["BeguenstigterName"] = $BeguenstigterName;
         $beg["Strasse"] = $strasse;
         $beg["Hausnummer"] = $hausnummer;
         $beg["PLZ"] = $ort;
         $beg["Ort"] = $this->fetchOrt($ort)["Ort"];
 
-        $beguenstigter = beguenstigter::newBeguenstigter($beg);
+        $Beguenstigter = Beguenstigter::newBeguenstigter($beg);
 
-        return $beguenstigter;
+        return $Beguenstigter;
 
     }
 
-    public function existsBeguenstigter($beguenstigterID){
+    public function existsBeguenstigter($BeguenstigterID){
 
         /* @var database $database*/
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT BeguenstigterID, BeguenstigterName FROM beguenstigter WHERE BeguenstigterID = ?";
+        $query = "SELECT BeguenstigterID, BeguenstigterName FROM Beguenstigter WHERE BeguenstigterID = ?";
 
         $stmt = $link->prepare($query);
-        $stmt->bind_param('i', $beguenstigterID);
+        $stmt->bind_param('i', $BeguenstigterID);
 
         $stmt->execute();
 
-        $stmt->bind_result($beguenstigterID,$beguenstigterName);
+        $stmt->bind_result($BeguenstigterID,$BeguenstigterName);
 
         $enthalten = false;
 
@@ -176,7 +177,7 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO reise (Ziel, Beschreibung, Bezeichnung, Preis, Hinreise, Rueckreise, MaximaleAnzahlTeilnehmer, MindestAnzahlTeilnehmer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO Reise (Ziel, Beschreibung, Bezeichnung, Preis, Hinreise, Rueckreise, MaximaleAnzahlTeilnehmer, MindestAnzahlTeilnehmer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sssdssii', $ziel,$beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $max, $min);
 
@@ -184,7 +185,7 @@ class database
 
         else {
 
-            $query = "UPDATE reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preis = ?, Hinreise = ?, Rueckreise = ?, MaximaleAnzahlTeilnehmer = ?, MindestAnzahlTeilnehmer = ? WHERE ReiseID = ?";
+            $query = "UPDATE Reise SET Ziel = ?, Beschreibung = ?, Bezeichnung = ?, Preis = ?, Hinreise = ?, Rueckreise = ?, MaximaleAnzahlTeilnehmer = ?, MindestAnzahlTeilnehmer = ? WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('sssdssiii', $ziel, $beschreibung, $bezeichnung, $preis, $hinreise, $rueckreise, $max, $min, $id);
 
@@ -216,7 +217,7 @@ class database
 
         else if(!is_null($reiseID)) {
 
-            $query = "SELECT * FROM reise WHERE ReiseID = ?";
+            $query = "SELECT * FROM Reise WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $reiseID);
 
@@ -224,7 +225,7 @@ class database
 
         else {
 
-            $query = "SELECT * FROM reise WHERE Ziel = ?";
+            $query = "SELECT * FROM Reise WHERE Ziel = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('s', $reiseZiel);
 
@@ -257,7 +258,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT ReiseID, Ziel FROM reise WHERE ReiseID = ?";
+        $query = "SELECT ReiseID, Ziel FROM Reise WHERE ReiseID = ?";
 
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $reiseID);
@@ -285,7 +286,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT Ziel FROM reise";
+        $query = "SELECT Ziel FROM Reise";
         $result = $link->query($query);
         return $result;
     }
@@ -298,12 +299,14 @@ class database
         $waehrung = $rechnung->getWaehrung();
         $iban = $rechnung->getIban();
         $swift = $rechnung->getSwift();
-        $beguenstigter = $rechnung->getBeguenstigter();
+        $Beguenstigter = $rechnung->getBeguenstigter();
         $kostenart = $rechnung->getKostenart();
         $faelligkeit = $rechnung->getFaelligkeit();
         $bemerkung = $rechnung->getBemerkung();
         $reise = $rechnung->getReise();
         $bezahlt = $rechnung->isBezahlt();
+
+        if(!$this->existsBeguenstigter($Beguenstigter)) $this->insertBeguenstigter($Beguenstigter);
 
         /** @var database $database */
         $database = database::getDatabase();
@@ -311,16 +314,16 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO Rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
 
         }
         else {
 
-            $query = "UPDATE rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
+            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
+            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
 
         }
 
@@ -352,7 +355,7 @@ class database
 
         else if(!is_null($rechnungsID)) {
 
-            $query = "SELECT * FROM rechnung WHERE RechnungsID = ?";
+            $query = "SELECT * FROM Rechnung WHERE RechnungsID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $rechnungsID);
 
@@ -360,7 +363,7 @@ class database
 
         else {
 
-            $query = "SELECT * FROM rechnung WHERE ReiseID = ?";
+            $query = "SELECT * FROM Rechnung WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i',$reiseID);
 
@@ -368,7 +371,7 @@ class database
 
 
         $stmt->execute();
-        $stmt->bind_result($rechnungsID, $rechnungsart, $betrag, $waehrung, $iban, $swift, $beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+        $stmt->bind_result($rechnungsID, $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
         $stmt->fetch();
         $stmt->close();
 
@@ -378,7 +381,7 @@ class database
         $rg ["Waehrung"] = $waehrung;
         $rg ["IBAN"] = $iban;
         $rg ["SWIFT"] = $swift;
-        $rg ["Beguenstigter"] = $beguenstigter;
+        $rg ["Beguenstigter"] = $Beguenstigter;
         $rg ["Kostenart"] = $kostenart;
         $rg ["Faelligkeit"] = $faelligkeit;
         $rg ["Bemerkung"] = $bemerkung;
@@ -397,7 +400,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT RechnungsID FROM rechnung WHERE RechnungsID = ?";
+        $query = "SELECT RechnungsID FROM Rechnung WHERE RechnungsID = ?";
 
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $rechnungsID);
@@ -439,7 +442,7 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO teilnehmer (Vorname, Nachname, Strasse, Hausnummer, Ort, Telefon, Mail) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO Teilnehmer (Vorname, Nachname, Strasse, Hausnummer, Ort, Telefon, Mail) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
             $stmt->bind_param('ssssiis', $vorname, $nachname, $strasse, $hausnummer, $plz, $telefon, $mail);
 
@@ -447,7 +450,7 @@ class database
 
         else {
 
-            $query = "UPDATE teilnehmer SET Vorname = ?, Nachname = ?, Strasse = ?, Hausnummer = ?, Ort = ?, Telefon = ?, Mail = ? WHERE TeilnehmerID = ?";
+            $query = "UPDATE Teilnehmer SET Vorname = ?, Nachname = ?, Strasse = ?, Hausnummer = ?, Ort = ?, Telefon = ?, Mail = ? WHERE TeilnehmerID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('ssssiisi', $vorname, $nachname, $strasse, $hausnummer, $plz, $telefon, $mail, $id);
 
@@ -480,7 +483,7 @@ class database
 
         else if(!is_null($teilnehmerID)) {
 
-            $query = "SELECT * FROM teilnehmer WHERE TeilnehmerID = ?";
+            $query = "SELECT * FROM Teilnehmer WHERE TeilnehmerID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $teilnehmerID);
 
@@ -488,7 +491,7 @@ class database
 
         else {
 
-            $query = "SELECT * FROM teilnehmer WHERE Nachname = ?";
+            $query = "SELECT * FROM Teilnehmer WHERE Nachname = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('s', $teilnehmerName);
 
@@ -521,7 +524,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT TeilnehmerID, Nachname FROM teilnehmer WHERE TeilnehmerID = ?";
+        $query = "SELECT TeilnehmerID, Nachname FROM Teilnehmer WHERE TeilnehmerID = ?";
 
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $teilnehmerID);
@@ -550,7 +553,7 @@ class database
 
         if (!$this->existsOrt($plz)) {
 
-            $query = "INSERT INTO ort (PLZ, Ortname) VALUES (?, ?)";
+            $query = "INSERT INTO Ort (PLZ, Ortname) VALUES (?, ?)";
 
             $stmt = $link->prepare($query);
             $stmt->bind_param('is', $plz, $ort);
@@ -559,7 +562,7 @@ class database
 
         else{
 
-            $query = "UPDATE ort SET Ortname = ? WHERE PLZ = ?";
+            $query = "UPDATE Ort SET Ortname = ? WHERE PLZ = ?";
 
             $stmt = $link->prepare($query);
             $stmt->bind_param('si', $ort, $plz);
@@ -589,7 +592,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM ort WHERE PLZ = ?";
+        $query = "SELECT * FROM Ort WHERE PLZ = ?";
         $stmt = $link->prepare($query);
         if ( false===$stmt ) {
 
@@ -616,7 +619,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT PLZ FROM ort WHERE PLZ = ?";
+        $query = "SELECT PLZ FROM Ort WHERE PLZ = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $plz);
 
@@ -644,7 +647,7 @@ class database
         $link = $database->getLink();
 
 
-        $query = "INSERT INTO reservation (ReiseID, TeilnehmerID, bezahlt) VALUES (?, ?, ?)";
+        $query = "INSERT INTO Reservation (ReiseID, TeilnehmerID, bezahlt) VALUES (?, ?, ?)";
         $stmt = $link->prepare($query);
         $stmt->bind_param('iii', $reiseID, $teilnehmerID, $bezahlt);
 
@@ -671,7 +674,7 @@ class database
 
         else if(is_null($reiseID)) {
 
-            $query = "SELECT * FROM reservation WHERE TeilnehmerID = ?";
+            $query = "SELECT * FROM Reservation WHERE TeilnehmerID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $teilnehmerID);
 
@@ -700,7 +703,7 @@ class database
 
         else if(is_null($teilnehmerID)) {
 
-            $query = "SELECT * FROM reservation WHERE ReiseID = ?";
+            $query = "SELECT * FROM Reservation WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $reiseID);
 
@@ -730,7 +733,7 @@ class database
         else {
 
 
-            $query = "SELECT * FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+            $query = "SELECT * FROM Reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
 
             $stmt = $link->prepare($query);
             $stmt->bind_param('ii', $reiseID, $teilnehmerID);
@@ -756,7 +759,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT ReiseID, TeilnehmerID FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+        $query = "SELECT ReiseID, TeilnehmerID FROM Reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
 
         $stmt = $link->prepare($query);
         $stmt->bind_param('ii', $reiseID, $teilnehmerID);
@@ -770,6 +773,18 @@ class database
             $stmt->close();
             return FALSE;
         }
+    }
+
+    public function getID($id, $id_table){
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT MAX($id) AS id FROM $id_table";
+        $result = $link->query($query);
+        return $result;
+
     }
 
     public function verifyLogin($user, $pwdhash){
@@ -794,7 +809,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "UPDATE logindaten SET Loghash = ? WHERE LoginID = ?";
+        $query = "UPDATE Logindaten SET Loghash = ? WHERE LoginID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ss', $pwdhash, $user);
 
@@ -815,7 +830,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT LoginID FROM logindaten WHERE loginID != 'admin'";
+        $query = "SELECT LoginID FROM Logindaten WHERE loginID != 'admin'";
         $result = $link->query($query);
         return $result;
     }
@@ -825,7 +840,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT * FROM logindaten WHERE loginID = ?";
+        $query = "SELECT * FROM Logindaten WHERE loginID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('s', $user);
         $stmt->execute();
@@ -841,7 +856,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "INSERT INTO logindaten (LoginID, Loghash) VALUES (?, ?)";
+        $query = "INSERT INTO Logindaten (LoginID, Loghash) VALUES (?, ?)";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ss', $user, $pwhash);
 
@@ -868,7 +883,7 @@ class database
         switch ($type) {
 
             case "Kreditoren":
-                $query = "SELECT Re.RechnungsID, Re.Rechnungsart, Re.Betrag, Re.Waehrung AS Währung, Re.Kostenart, Re.Faelligkeit AS Fälligkeit FROM Rechnung Re WHERE Re.bezahlt = 0";
+                $query = "SELECT Re.RechnungsID, Re.Rechnungsart, Re.Betrag, Re.Waehrung AS Währung, Re.Kostenart, Re.Faelligkeit AS Fälligkeit FROM Rechnung Re WHERE Re.bezahlt = 0 ORDER BY Re.RechnungsID ASC";
                 break;
             case "Reisebuchungen":
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
@@ -879,8 +894,11 @@ class database
             case "Debitoren":
                 $query = "SELECT T.Nachname, T.Vorname, R.Ziel, R.Hinreise FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID WHERE Re.bezahlt = 0";
                 break;
-            case "Kundenübersicht":
-                $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Strasse, T.Hausnummer, O.PLZ, O.Ortname, T.Telefon, T.Mail FROM Teilnehmer T JOIN Ort O ON T.Ort= O.PLZ ORDER BY T.TeilnehmerID ASC";
+            case "Kundenadressen":
+                $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Strasse, T.Hausnummer, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Ort O ON T.Ort= O.PLZ ORDER BY T.TeilnehmerID ASC";
+                break;
+            case "Kundenkontakt":
+                $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Telefon, T.Mail FROM Teilnehmer T ORDER BY T.TeilnehmerID ASC";
                 break;
             case "Reiseübersicht":
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Preis, R.Hinreise, R.Rueckreise FROM Reise R";
@@ -919,9 +937,6 @@ ON R.ReiseID = A.Reise
 GROUP BY R.ReiseID
 ORDER BY Gewinn DESC;";
                 break;
-//            case "Reisegruppen":
-//                $query = "";
-//                break;
         }
 
         if (!empty($query)) {
@@ -951,12 +966,13 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        if(!is_numeric($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise";
 
+        if(!is_numeric($timespan)) $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM Reise";
+//
         else {
 
             $timespan = intval($timespan);
-            $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM reise WHERE Rueckreise >= CURDATE() - INTERVAL $timespan DAY";
+            $query = "SELECT ReiseID, Ziel, Bezeichnung, Preis, Hinreise, Rueckreise  FROM Reise WHERE Rueckreise >= CURDATE() - INTERVAL $timespan DAY";
 
         }
 
@@ -972,7 +988,6 @@ ORDER BY Gewinn DESC;";
         $link = $database->getLink();
 
         $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) ORDER BY R.Hinreise ASC";
-//        $query = "SELECT R.Hinreise, R.Ziel FROM Reise R WHERE CURDATE() < R.Hinreise AND R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY)";
 
         $result = $link->query($query);
         return $result;
@@ -998,7 +1013,7 @@ ORDER BY Gewinn DESC;";
             $database = database::getDatabase();
             $link = $database->getLink();
 
-            $query = "SELECT * FROM rechnung";
+            $query = "SELECT * FROM Rechnung";
             $result = $link->query($query);
 
             return $result;
@@ -1011,7 +1026,7 @@ ORDER BY Gewinn DESC;";
             $database = database::getDatabase();
             $link = $database->getLink();
 
-            $query = "SELECT * FROM rechnung WHERE Reise = $reiseID";
+            $query = "SELECT * FROM Rechnung WHERE Reise = $reiseID";
             $result = $link->query($query);
 
             return $result;
@@ -1024,7 +1039,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query= "DELETE FROM rechnung WHERE RechnungsID = ?";
+        $query= "DELETE FROM Rechnung WHERE RechnungsID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $rechnungsID);
 
@@ -1049,12 +1064,12 @@ ORDER BY Gewinn DESC;";
 
         $allowed = true;
 
-        $queryRes = "SELECT * FROM reservation WHERE ReiseID = $reiseID";
+        $queryRes = "SELECT * FROM Reservation WHERE ReiseID = $reiseID";
         $result = $link->query($queryRes);
 
         if($result->num_rows>0) $allowed =  false;
 
-        $queryRes = "SELECT * FROM rechnung WHERE Reise = $reiseID";
+        $queryRes = "SELECT * FROM Rechnung WHERE Reise = $reiseID";
         $result = $link->query($queryRes);
 
         if($result->num_rows>0) $allowed =  false;
@@ -1064,7 +1079,7 @@ ORDER BY Gewinn DESC;";
 
         else {
 
-            $query = "DELETE FROM reise WHERE ReiseID = ?";
+            $query = "DELETE FROM Reise WHERE ReiseID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $reiseID);
 
@@ -1087,14 +1102,14 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $queryRes = "SELECT * FROM reservation WHERE TeilnehmerID = $teilnehmerID";
+        $queryRes = "SELECT * FROM Reservation WHERE TeilnehmerID = $teilnehmerID";
         $result = $link->query($queryRes);
 
         if($result->num_rows>0) return false;
 
         else{
 
-            $query= "DELETE FROM teilnehmer WHERE TeilnehmerID = ?";
+            $query= "DELETE FROM Teilnehmer WHERE TeilnehmerID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $teilnehmerID);
 
@@ -1118,7 +1133,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "DELETE FROM logindaten WHERE LoginID = ?";
+        $query = "DELETE FROM Logindaten WHERE LoginID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $userID);
 
@@ -1141,14 +1156,14 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $queryRe = "SELECT * FROM rechnung WHERE Beguenstigter = $begID";
+        $queryRe = "SELECT * FROM Rechnung WHERE Beguenstigter = $begID";
         $result = $link->query($queryRe);
 
         if($result->num_rows>0) return false;
 
         else{
 
-            $query = "DELETE FROM beguenstigter WHERE BeguenstigterID = ?";
+            $query = "DELETE FROM Beguenstigter WHERE BeguenstigterID = ?";
             $stmt = $link->prepare($query);
             $stmt->bind_param('i', $begID);
 
@@ -1172,7 +1187,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "DELETE FROM reservation WHERE ReiseID = ? and TeilnehmerID = ?";
+        $query = "DELETE FROM Reservation WHERE ReiseID = ? and TeilnehmerID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ii', $reiseID, $teilnehmerID);
 
@@ -1195,7 +1210,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT COUNT(TeilnehmerID) FROM reservation WHERE ReiseID = ?";
+        $query = "SELECT COUNT(TeilnehmerID) FROM Reservation WHERE ReiseID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $reiseID);
 
@@ -1214,7 +1229,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "UPDATE reservation SET bezahlt = 1 WHERE ReiseID = ? and TeilnehmerID = ?";
+        $query = "UPDATE Reservation SET bezahlt = 1 WHERE ReiseID = ? and TeilnehmerID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ii', $reiseID, $teilnehmerID);
 
@@ -1237,7 +1252,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT COUNT(TeilnehmerID) FROM reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
+        $query = "SELECT COUNT(TeilnehmerID) FROM Reservation WHERE ReiseID = ? AND TeilnehmerID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('ii', $reiseID, $teilnehmerID);
 
@@ -1257,7 +1272,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT MaximaleAnzahlTeilnehmer FROM reise WHERE ReiseID = ?";
+        $query = "SELECT MaximaleAnzahlTeilnehmer FROM Reise WHERE ReiseID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $reiseID);
 
@@ -1276,7 +1291,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT MindestAnzahlTeilnehmer FROM reise WHERE ReiseID = ?";
+        $query = "SELECT MindestAnzahlTeilnehmer FROM Reise WHERE ReiseID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $reiseID);
 

@@ -178,9 +178,8 @@ if(isset($_POST['gesendet'])) {
         <input class="form-control" type="text" <?php
         /** @var database $database*/
         $database = database::getDatabase();
-        $link = $database->getLink();
-        $query = 'SELECT MAX(ReiseID) as id FROM reise';
-        $result = $link->query($query);
+        $result = $database->getID('ReiseID', 'Reise');
+
         while ($row = mysqli_fetch_assoc($result)){
             settype($row['id'], "int");
             $id = $row['id'] +1;
