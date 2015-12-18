@@ -391,10 +391,16 @@
 
                 <div class="form-group">
                     <label for="nr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
-                    <input type="text" class="form-control" id="usr">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="usr">
+                            <span class="input-group-btn">
+                                <button onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button><br/><br/>
+                            </span>
+                    </div>
                 </div>
 
-                <button onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button><br/><br/>
+
+
 
                 <div class="form-group">
                     <div class="row">

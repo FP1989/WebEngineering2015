@@ -124,8 +124,8 @@ if(isset($_POST['gesendet'])) {
         @$jahr = $datum_array[2];
         $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
         $traveldata['Rueckreise'] = $NeuesDatum;
-        $traveldata['minAnzahl'] = format_input($_POST['minParticipant']);
-        $traveldata['maxAnzahl'] = format_input($_POST['maxParticipant']);
+        $traveldata['MinAnzahl'] = format_input($_POST['minParticipant']);
+        $traveldata['MaxAnzahl'] = format_input($_POST['maxParticipant']);
         $reise = reise::newReise($traveldata);
 
         //make insert-statement

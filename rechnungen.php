@@ -212,7 +212,6 @@
 <div id="wrapper">
 <?php
 include_once("includes/navigation.inc.php");
-include_once("beguenstigter_modal.php");
 include_once("rechnungen.modal.php");
 ?>
 
