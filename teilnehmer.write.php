@@ -68,7 +68,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['telefon']))) {
         $telefon_error = "Bitte eine Telefon-Nr. eingeben";
         $valid=false;
-    }else if($_POST['telefon']>999999999999) {
+    }else if(format_input($_POST['telefon'])>999999999999) {
         $telefon_error = "Bitte eine korrekte Telefon-Nr. eingeben";
         $valid=false;
     }

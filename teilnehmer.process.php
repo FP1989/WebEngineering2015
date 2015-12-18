@@ -5,8 +5,13 @@ include_once("classes/teilnehmer.class.php");
 $vornamen_error=$nachnamen_error=$strasse_error=$PLZ_error=$mail_error=$ort_error=$telefon_error="";
 $valid = true;
 
-$res = array();
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
 
+$res = array();
 $id = format_input($_POST["TeilnehmerID_P"]);
 $vorname = format_input($_POST["Vorname_P"]);
 $nachname = format_input($_POST["Nachname_P"]);
@@ -17,61 +22,58 @@ $ort = format_input($_POST["Ort_P"]);
 $tel = format_input($_POST["Telefon_P"]);
 $mail = format_input($_POST["Mail_P"]);
 
-if (empty($_POST['Vorname_P'])) {
+if (empty($vorname)) {
     $vornamen_error = "Bitte einen <strong>Vornamen</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$_POST["Vorname_P"])){
+}else if(preg_match('#[\d]#',$vorname)){
     $vornamen_error = "Bitte einen <strong>korrekten Vornamen</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Nachname_P'])) {
+if (empty($nachname)) {
     $nachnamen_error = "Bitte einen <strong>Nachnamen</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$_POST["Nachname_P"])){
+}else if(preg_match('#[\d]#',$nachname)){
     $nachnamen_error = "Bitte einen <strong>korrekten Nachnamen</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Strasse_P'])) {
+if (empty($strasse)) {
     $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$_POST["Strasse_P"])){
+}else if(preg_match('#[\d]#',$strasse)){
     $strasse_error = "Bitte eine <strong>korrekte Strasse</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['PLZ_P'])) {
+if (empty($plz)) {
     $PLZ_error = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
     $valid = false;
-}else if(!(is_numeric($_POST['PLZ_P']))){
+}else if(!is_numeric($plz)){
     $PLZ_error = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Ort_P'])) {
+if (empty($ort)) {
     $ort_error = "Bitte einen <strong>Ort</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#', $_POST['Ort_P'])){
+}else if(preg_match('#[\d]#', $ort)){
     $ort_error = "Bitte einen <strong>korrekten Ort</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Telefon_P'])) {
+if (empty($tel)) {
     $telefon_error = "Bitte eine <strong>Telefonnummer</strong> eingeben.";
     $valid = false;
-}else if(!is_numeric($_POST['Telefon_P'])){
-    $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
-    $valid = false;
-}else if(($_POST['Telefon_P'])>999999999999){
+}else if($tel>999999999999){
     $telefon_error = "Bitte eine <strong>korrekte Telefonnummer</strong> eingeben.";
     $valid = false;
 }
 
-if (empty($_POST['Mail_P'])) {
+if (empty($mail)) {
     $mail_error = "Bitte eine <strong>E-Mail-Adresse</strong> eingeben.";
     $valid = false;
-}else if(!filter_var($_POST["Mail_P"], FILTER_VALIDATE_EMAIL)){
+}else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
     $mail_error = "Bitte eine <strong>korrekte E-Mail-Adresse</strong> eingeben.";
     $valid = false;
 }

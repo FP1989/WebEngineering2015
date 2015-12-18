@@ -309,7 +309,6 @@ class database
         }
         $stmt->close();
         return $enthalten;
-
     }
 
     public function autosuggestReise($term) {
@@ -969,6 +968,9 @@ class database
                 break;
             case "Reisen demnächst":
                 $query = "SELECT R.Ziel, R.Hinreise, T.Nachname, T.Vorname FROM Reise R JOIN Reservation Re ON R.ReiseID=Re.ReiseID JOIN Teilnehmer T ON Re.TeilnehmerID=T.TeilnehmerID WHERE R.Hinreise > CURDATE()";
+                break;
+            case "Begünstigte":
+                $query = "SELECT BeguenstigterID AS BegünstigterID, BeguenstigterName AS BegünstigterName, Strasse, Hausnummer, Ort FROM Beguenstigter";
                 break;
             case "Finanzübersicht":
                 $query = "

@@ -1,96 +1,98 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Beguenstigter";
-    include_once("includes/header.inc.php");
-    ?>
+<?php include("includes/authentication.inc.php");?>
 
-    <script type="text/javascript">
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Beguenstigter";
+        include_once("includes/header.inc.php");
+        ?>
 
-        $(function () {
+        <script type="text/javascript">
 
-            $('#positive').hide();
-            $('#negative').hide();
-        });
+            $(function () {
+
+                $('#positive').hide();
+                $('#negative').hide();
+            });
 
 
-        function searchBeguenstigter(){
+            function searchBeguenstigter(){
 
-            var rec = document.getElementById("beguenstigter");
-            var val = rec.value;
+                var rec = document.getElementById("beguenstigter");
+                var val = rec.value;
 
-            rec.style.backgroundColor="white";
+                rec.style.backgroundColor="white";
 
-            if(isNaN(val)) {
+                if(isNaN(val)) {
 
-                $.ajax({
+                    $.ajax({
 
-                    url: 'beguenstigter.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        Name_R: val
-                    },
+                        url: 'beguenstigter.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            Name_R: val
+                        },
 
-                    success: function (data) {
+                        success: function (data) {
 
-                        document.getElementById("BeguenstigterID_R").value = data.BeguenstigterID_R;
-                        document.getElementById("Name_R").value = data.Name_R;
-                        document.getElementById("Strasse_R").value = data.Strasse_R;
-                        document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
-                        document.getElementById("PLZ_R").value = data.PLZ_R;
-                        document.getElementById("Ort_R").value = data.Ort_R;
+                            document.getElementById("BeguenstigterID_R").value = data.BeguenstigterID_R;
+                            document.getElementById("Name_R").value = data.Name_R;
+                            document.getElementById("Strasse_R").value = data.Strasse_R;
+                            document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
+                            document.getElementById("PLZ_R").value = data.PLZ_R;
+                            document.getElementById("Ort_R").value = data.Ort_R;
 
-                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
+                            if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
 
-                            $("#Mutationsformular").modal('show');
-                            $("#beguenstigter").val("");
+                                $("#Mutationsformular").modal('show');
+                                $("#beguenstigter").val("");
+                            }
+                            else document.getElementById("beguenstigter").style.backgroundColor = "red";
                         }
-                        else document.getElementById("beguenstigter").style.backgroundColor = "red";
-                    }
-                });
-            }
-            else{
+                    });
+                }
+                else{
 
-                $.ajax({
+                    $.ajax({
 
-                    url: 'beguenstigter.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        BeguenstigterID_R: val
-                    },
+                        url: 'beguenstigter.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            BeguenstigterID_R: val
+                        },
 
-                    success: function (data) {
+                        success: function (data) {
 
-                        document.getElementById("BeguenstigterID_R").value = data.BeguenstigterID_R;
-                        document.getElementById("Name_R").value = data.Name_R;
-                        document.getElementById("Strasse_R").value = data.Strasse_R;
-                        document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
-                        document.getElementById("PLZ_R").value = data.PLZ_R;
-                        document.getElementById("Ort_R").value = data.Ort_R;
+                            document.getElementById("BeguenstigterID_R").value = data.BeguenstigterID_R;
+                            document.getElementById("Name_R").value = data.Name_R;
+                            document.getElementById("Strasse_R").value = data.Strasse_R;
+                            document.getElementById("Hausnummer_R").value = data.Hausnummer_R;
+                            document.getElementById("PLZ_R").value = data.PLZ_R;
+                            document.getElementById("Ort_R").value = data.Ort_R;
 
-                        if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
+                            if (data.BeguenstigterID_R != '' && data.BeguenstigterID_R != null) {
 
-                            $("#Mutationsformular").modal('show');
-                            $("#beguenstigter").val("");
+                                $("#Mutationsformular").modal('show');
+                                $("#beguenstigter").val("");
+                            }
+                            else document.getElementById("beguenstigter").style.backgroundColor = "red";
                         }
-                        else document.getElementById("beguenstigter").style.backgroundColor = "red";
-                    }
-                });
+                    });
+                }
             }
-        }
-    </script>
+        </script>
 
 
-</head>
+    </head>
 <body>
 <div id="wrapper">
-    <?php
-    include_once("includes/navigation.inc.php");
-    include_once("beguenstigter.modal.php");
-    ?>
+<?php
+include_once("includes/navigation.inc.php");
+include_once("beguenstigter.modal.php");
+?>
 
 
     <div id="content" class="container">

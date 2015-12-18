@@ -1,7 +1,4 @@
-<?php
-session_start();
-//$_SESSION = array();
-?>
+<?php session_start(); ?>
 <!doctype html>
 <html lang="de">
 <head>
