@@ -1,4 +1,11 @@
-<?php session_start();?>
+<?php session_start();
+
+//Executed first to avoid any information sent by client, which prevents FPDF from creating PDF
+if(isset($_POST['pdfbutton'])) {
+    $_SESSION['type'] = $_POST['type'];
+    if(isset($_POST['radioreise'])) $_SESSION['radioreise'] = $_POST['radioreise'];
+    header("Location:print_pdf.php");
+};?>
     <!doctype html>
     <html lang="de">
     <head>
@@ -6,9 +13,7 @@
         $pagetitle = "Reports";
         include_once("includes/header.inc.php");
         ?>
-
         <script type="text/javascript">
-
             $(document).ready(function() {
                 $('#selectlistreports').change(function() {
                     if($(this).val() == 'Reiseteilnehmer') {
@@ -19,7 +24,6 @@
                     }
                 });
             });
-
         </script>
     </head>
 <body>
@@ -28,12 +32,6 @@
 <?php
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
-
-if(isset($_POST['pdfbutton'])) {
-    $_SESSION['type'] = $_POST['type'];
-    if(isset($_POST['radioreise'])) $_SESSION['radioreise'] = $_POST['radioreise'];
-    header("Location:print_pdf.php");
-}
 ?>
 
     <div id="content" class="container">
@@ -46,16 +44,17 @@ if(isset($_POST['pdfbutton'])) {
                         <optgroup label="Kunden Reports">
                             <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kunden pro Reise anzeigen (alle)</option>
                             <option value="Reiseteilnehmer">Kunden pro Reise anzeigen (konkrete Reise)</option>
+                            <option value="Kundenadressen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenadressen') ? "selected" : ""?>>Alle Kunden Adressdaten anzeigen</option>
+                            <option value="Kundenkontakt" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenkontakt') ? "selected" : ""?>>Alle Kunden Kontaktdaten anzeigen</option>
                         </optgroup>
-                        <optgroup label=""
-                        <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
-
-                        <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
-                        <option value="Kundenübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenübersicht') ? "selected" : ""?>>Alle Kunden anzeigen</option>
-                        <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
-                        <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
-                        <optgroup label="Finanzen">
+                        <optgroup label="Finanzreports">
+                            <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
+                            <option value="Debitoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Debitoren') ? "selected" : ""?>>Kunden mit offenen Rechnungen anzeigen</option>
                             <option value="Finanzübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Finanzübersicht') ? "selected" : ""?>>Finanzübersicht pro Reise anzeigen</option>
+                        </optgroup>
+                        <optgroup label="Reisereports">
+                            <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
+                            <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
                         </optgroup>
                     </select><br>
                 </div>

@@ -8,14 +8,6 @@
         $_SESSION['pagetitle'] = $pagetitle;
         include_once("includes/header.inc.php");
         ?>
-
-        <script type="text/javascript">
-
-            var logout = new Date();
-            logout.setMinutes(15);
-            $('#logout_timer').countdown({until: logout});
-
-        </script>
     </head>
 
 <body>
@@ -81,6 +73,7 @@ if(isset($_POST['gesendet'])) {
 
     <!--    Content-->
     <div id="content" class="container">
+        <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
 
         <!--        Jumbotron welcome-->
         <div class="jumbotron col-md-8" id="margingiver">
@@ -93,26 +86,25 @@ if(isset($_POST['gesendet'])) {
 
         <!--        Jumbotron quick access-->
         <div class="jumbotron col-md-3 pull-right">
-            <?php echo (!empty($success_alert)) ? $success_alert:''; ?>
 
             <form action="" method="post" name="schnellzugriff">
                 <div class="form-group <?php echo (!empty($teilnehmerid_error)) ? 'has-error':''; ?>">
                     <label for="teilnehmerid">Teilnehmer ID</label>
                     <input type="number" id="teilnehmerid" name="teilnehmerid" class="form-control"/>
-                    <?php echo "<span class='help-block'>$teilnehmerid_error</span>";?><br>
+                    <?php echo "<span class='help-block'>$teilnehmerid_error</span>";?>
                 </div>
                 <div class="form-group <?php echo (!empty($reiseid_error)) ? 'has-error':''; ?>">
                     <label for="reiseid">Reise ID</label>
                     <input type="number" id="reiseid" name="reiseid" class="form-control"/>
-                    <?php echo "<span class='help-block'>$reiseid_error</span>";?><br>
+                    <?php echo "<span class='help-block'>$reiseid_error</span>";?>
                 </div>
                 <div class="form-group <?php echo (!empty($bezahlt_error)) ? 'has-error':''; ?>">
                     <label for="bezahlt">Bezahlt? Y/N</label>
                     <input type="text" id="bezahlt" name="bezahlt" class="form-control"/>
-                    <?php echo "<span class='help-block'>$bezahlt_error</span>";?><br>
+                    <?php echo "<span class='help-block'>$bezahlt_error</span>";?>
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="gesendet" class="btn btn-primary pull-right" value="Hinzuf&uuml;gen"/><br>
+                    <input type="submit" name="gesendet" class="btn btn-primary pull-right" value="Hinzuf&uuml;gen"/>
                 </div>
             </form>
         </div>
