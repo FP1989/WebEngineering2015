@@ -1,15 +1,21 @@
 <?php
-include("config.php");
-include("db_connect.php");
+include_once("classes/database.class.php");
+
+/* @var database $database*/
+$database = database::getDatabase();
 
 $term = trim(strip_tags($_GET['term']));
-$mysqlquery = "SELECT * from reise where Bezeichnung like '%{$term}%'";
-$resultat = mysqli_query($conn, $mysqlquery);
-
+$result = $database->autosuggestReise($term);
 
 $informationen = array();
-    while ($row = mysqli_fetch_assoc($resultat)){
-        array_push($informationen, array('label' => $row['Bezeichnung'], 'value' => $row['ReiseID']));
-    }
+
+for($i = 0; $i < count($result); $i++) {
+
+//    $informationen['label'] = $result[$i]['BegName'];
+//    $informationen['value'] = $result[$i]['BegID'];
+    array_push($informationen, array('label' => $result[$i]['ReiseBez'], 'value' => $result[$i]['ReiseID']));
+}
+
+
+
 echo json_encode($informationen);
-?>

@@ -159,6 +159,38 @@ class database
 
     }
 
+    public function autosuggestBeguenstigter($term) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $term = "%{$term}%";
+
+        $query = "SELECT BeguenstigterID, BeguenstigterName FROM Beguenstigter WHERE BeguenstigterName LIKE ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $term);
+        $stmt->execute();
+
+        $stmt->bind_result($BegID, $BegName);
+
+        $return = Array();
+
+
+
+        while($stmt->fetch()) {
+
+            $datensatz["BegID"] = $BegID;
+            $datensatz["BegName"] = $BegName;
+            $return [] = $datensatz;
+
+        }
+        $stmt->close();
+
+        return $return;
+
+    }
+
     public function insertReise(reise $reise){
 
         $id = $reise->getReiseID();
@@ -277,6 +309,38 @@ class database
         }
         $stmt->close();
         return $enthalten;
+
+    }
+
+    public function autosuggestReise($term) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $term = "%{$term}%";
+
+        $query = "SELECT ReiseID, Bezeichnung FROM Reise WHERE Bezeichnung LIKE ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $term);
+        $stmt->execute();
+
+        $stmt->bind_result($ReiseID, $ReiseBez);
+
+        $return = Array();
+
+
+
+        while($stmt->fetch()) {
+
+            $datensatz["ReiseID"] = $ReiseID;
+            $datensatz["ReiseBez"] = $ReiseBez;
+            $return [] = $datensatz;
+
+        }
+        $stmt->close();
+
+        return $return;
 
     }
 
