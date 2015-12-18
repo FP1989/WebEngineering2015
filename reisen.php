@@ -1,115 +1,116 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Reisen";
-    include("includes/header.inc.php");
-    ?>
+<?php include("includes/authentication.inc.php");?>
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Reisen";
+        include("includes/header.inc.php");
+        ?>
 
-    <script type = text/javascript>
+        <script type = text/javascript>
 
-        function deleteReiseID(button){
+            function deleteReiseID(button){
 
-            var id = button.id;
+                var id = button.id;
 
-            $('#deletepositive').hide();
-            $('#deletenegative').hide();
+                $('#deletepositive').hide();
+                $('#deletenegative').hide();
 
-            $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+                $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
-        }
+            }
 
-        function loeschen(button){
+            function loeschen(button){
 
-            var id = button.id;
-            $.ajax({
+                var id = button.id;
+                $.ajax({
 
-                url:"reise.delete.php",
-                type:"POST",
-                dataType: "json",
-                data:{
+                    url:"reise.delete.php",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
 
-                    ReiseID_L: id
-                },
+                        ReiseID_L: id
+                    },
 
-                success: function(data){
+                    success: function(data){
 
-                    if(data.flag){
+                        if(data.flag){
 
-                        $('#deletepositive').show().html(data.message).delay(500).fadeOut();
-                        $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
-                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
-                        $( "#deletepositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#Reiseloeschen').modal('hide');});
-                        });
+                            //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                            $( "#deletepositive" ).promise().done(function() {
+                                setTimeout(function(){
+                                    $('#Reiseloeschen').modal('hide');});
+                            });
+                        }
+
+                        else {
+
+                            $('#deletenegative').show().html(data.message);
+                            $('#Reiseloeschen').effect( "shake", {times:2}, 500 );
+
+                        }
+                    }
+                });
+            }
+
+            function getReiseID(button) {
+
+                var id = button.id;
+
+                $.ajax({
+
+                    url: 'reisen.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        ReiseID_R: id
+                    },
+
+                    success: function (data) {
+
+                        alert("success reisen");
+
+                        document.getElementById("ReiseID_R").value = id;
+                        document.getElementById("Ziel_R").value = data.Ziel_R;
+                        document.getElementById("Beschreibung_R").value = data.Beschreibung_R;
+                        document.getElementById("Bezeichnung_R").value = data.Bezeichnung_R;
+                        document.getElementById("Preis_R").value = data.Preis_R;
+                        document.getElementById("Hinreise_R").value = data.Hinreise_R;
+                        document.getElementById("Rueckreise_R").value = data.Rueckreise_R;
+                        document.getElementById("Maximalanzahl_R").value = data.Maximalanzahl_R;
+                        document.getElementById("Mindestanzahl_R").value = data.Mindestanzahl_R;
+
                     }
 
-                    else {
+                });
+            }
+        </script>
 
-                        $('#deletenegative').show().html(data.message);
-                        $('#Reiseloeschen').effect( "shake", {times:2}, 500 );
+        <script id="source" language="javascript" type="text/javascript">
 
-                    }
-                }
-            });
-        }
+            $(function(){
 
-        function getReiseID(button) {
-
-            var id = button.id;
-
-            $.ajax({
-
-                url: 'reisen.read.php',
-                type: "POST",
-                dataType: 'json',
-                data: {
-                    ReiseID_R: id
-                },
-
-                success: function (data) {
-
-                    alert("success reisen");
-
-                    document.getElementById("ReiseID_R").value = id;
-                    document.getElementById("Ziel_R").value = data.Ziel_R;
-                    document.getElementById("Beschreibung_R").value = data.Beschreibung_R;
-                    document.getElementById("Bezeichnung_R").value = data.Bezeichnung_R;
-                    document.getElementById("Preis_R").value = data.Preis_R;
-                    document.getElementById("Hinreise_R").value = data.Hinreise_R;
-                    document.getElementById("Rueckreise_R").value = data.Rueckreise_R;
-                    document.getElementById("Maximalanzahl_R").value = data.Maximalanzahl_R;
-                    document.getElementById("Mindestanzahl_R").value = data.Mindestanzahl_R;
-
-                }
+                $('#positive').hide();
+                $('#negative').hide();
+                $('#deletepositive').hide();
+                $('#deletenegative').hide();
 
             });
-        }
-    </script>
 
-    <script id="source" language="javascript" type="text/javascript">
+        </script>
 
-        $(function(){
-
-            $('#positive').hide();
-            $('#negative').hide();
-            $('#deletepositive').hide();
-            $('#deletenegative').hide();
-
-        });
-
-    </script>
-
-</head>
+    </head>
 <body>
 <div id="wrapper">
-    <?php
-    include_once("includes/navigation.inc.php");
-    include_once("classes/database.class.php");
-    include_once("reisen.modal.php");
-    ?>
+<?php
+include_once("includes/navigation.inc.php");
+include_once("classes/database.class.php");
+include_once("reisen.modal.php");
+?>
 
     <div id="content" class="container">
         <ul class="nav nav-tabs">
@@ -127,8 +128,8 @@
 
                 <h3>Reise ausw&auml;hlen</h3>
                 <table id="Reise_mutieren" class='table table-striped'>
-                   <?php
-                   /** @var database $verbindung */
+                    <?php
+                    /** @var database $verbindung */
                     $verbindung = database::getDatabase();
                     $result = $verbindung->getAllReisen(0);
 

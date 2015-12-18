@@ -1,90 +1,91 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Users";
-    include("includes/header.inc.php");
-    ?>
+<?php include("includes/authentication.inc.php");?>
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Users";
+        include("includes/header.inc.php");
+        ?>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        function intermediary(button){
-            var id = button.id;
-            $("#goodbye").html("<button id="+id +" class=\"btn btn-primary pull-left\" onclick=\"deleteUsers(this)\">User löschen</button>");
-        }
+            function intermediary(button){
+                var id = button.id;
+                $("#goodbye").html("<button id="+id +" class=\"btn btn-primary pull-left\" onclick=\"deleteUsers(this)\">User löschen</button>");
+            }
 
-        function deleteUsers(button) {
+            function deleteUsers(button) {
 
-            var id = button.id;
+                var id = button.id;
 
-            $.ajax({
+                $.ajax({
 
-                url: "users_process_delete.php",
-                type: "POST",
-                dataType: "json",
-                data: {UserID:id},
+                    url: "users_process_delete.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {UserID:id},
 
-                success: function(data) {
+                    success: function(data) {
 
-                    if(data.flag) {
-                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
-                    } else {
-                        $('#deletenegative').show().html(data.message);
-                        $('#userdeletemodal').effect("shake", {times:2}, 500);
+                        if(data.flag) {
+                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                        } else {
+                            $('#deletenegative').show().html(data.message);
+                            $('#userdeletemodal').effect("shake", {times:2}, 500);
+                        }
                     }
-                }
+                });
+            }
+        </script>
+
+        <script id="source" language="javascript" type="text/javascript">
+
+            $(function(){
+                $('#deletepositive').hide();
+                $('#deletenegative').hide();
             });
-        }
-    </script>
+        </script>
 
-    <script id="source" language="javascript" type="text/javascript">
-
-        $(function(){
-            $('#deletepositive').hide();
-            $('#deletenegative').hide();
-        });
-    </script>
-
-</head>
+    </head>
 <body>
 <div id="wrapper">
 
-    <?php
-    include_once("includes/navigation.inc.php");
-    include_once("classes/database.class.php");
+<?php
+include_once("includes/navigation.inc.php");
+include_once("classes/database.class.php");
 
-    /* @var database $verbindung */
-    $verbindung = database::getDatabase();
-    $userid_error = $pw_error = $success_alert = $error_alert = "";
-    $valid = true;
+/* @var database $verbindung */
+$verbindung = database::getDatabase();
+$userid_error = $pw_error = $success_alert = $error_alert = "";
+$valid = true;
 
-    if(isset($_POST['gesendet'])) {
-        if(empty($_POST['userid'])) {
-            $userid_error = "Bitte Login eingeben";
-            $valid = false;
-        } elseif($verbindung->existsUser($_POST['userid']) != 0) {
-            $userid_error = "Dieser Login ist bereits vergeben";
-            $valid = false;
-        }
-        if(empty($_POST['passwort'])) {
-            $pw_error = "Bitte Passwort eingeben";
-            $valid = false;
-        }elseif(strlen($_POST['passwort']) <= 3) {
-            $pw_error = "Bitte mindestens vier Zeichen für das Passwort verwenden";
-            $valid = false;
-        }
-
-        if($valid) {
-            $user = $_POST['userid'];
-            $pwhash = sha1($_POST['passwort']);
-
-            $successful = $verbindung->insertUser($user, $pwhash);
-
-            $success_alert = "<div class='alert alert-success' role='alert'>User erfolgreich erstellt.</div>";
-        }
-        else $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler, User wurde nicht erfasst.</div>";
+if(isset($_POST['gesendet'])) {
+    if(empty($_POST['userid'])) {
+        $userid_error = "Bitte Login eingeben";
+        $valid = false;
+    } elseif($verbindung->existsUser($_POST['userid']) != 0) {
+        $userid_error = "Dieser Login ist bereits vergeben";
+        $valid = false;
     }
-    ?>
+    if(empty($_POST['passwort'])) {
+        $pw_error = "Bitte Passwort eingeben";
+        $valid = false;
+    }elseif(strlen($_POST['passwort']) <= 3) {
+        $pw_error = "Bitte mindestens vier Zeichen für das Passwort verwenden";
+        $valid = false;
+    }
+
+    if($valid) {
+        $user = $_POST['userid'];
+        $pwhash = sha1($_POST['passwort']);
+
+        $successful = $verbindung->insertUser($user, $pwhash);
+
+        $success_alert = "<div class='alert alert-success' role='alert'>User erfolgreich erstellt.</div>";
+    }
+    else $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler, User wurde nicht erfasst.</div>";
+}
+?>
 
     <div id="content" class="container">
         <ul class="nav nav-tabs">
