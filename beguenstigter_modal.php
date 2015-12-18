@@ -51,8 +51,12 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(function(){
+
         $("#rec").on("click", function(e){
+
+            e.preventDefault();
+
             $('#feedback_positive').hide();
             $('#feedback_negative').hide();
 
@@ -64,6 +68,7 @@
         });
 
         $("#send").on("click", function(e){
+
             e.preventDefault();
 
             // get values from textboxs
@@ -75,15 +80,18 @@
 
 
             $.ajax({
+
                 url:"beguenstigter.modal.process.php",
                 type:"POST",
                 dataType:"json",
-                data:{type:"claim",Name:Name,Strasse:Strasse,Hausnummer:Hausnummer, PLZ:PLZ, Ort:Ort},
+                data:{Name:Name,Strasse:Strasse,Hausnummer:Hausnummer, PLZ:PLZ, Ort:Ort},
 
-                ContentType:"application/json",
                 success: function(response){
+
                     var status = response.flag;
-                    if(status==true){
+
+                    if(status){
+
                         $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
                         $('#name').val("");
                         $('#strasse').val("");
@@ -91,20 +99,15 @@
                         $('#plz').val("");
                         $('#ort').val("");
                         $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
                     }else {
                         $('#feedback_negative').show().html(response.message);
-                        $('#newRecipient').effect( "shake", {times:4}, 1000 );
-                        var Name = $('#name').val();
-                        var Strasse = $('#strasse').val();
-                        var Hausnummer = $('#hausnummer').val();
-                        var PLZ = $('#plz').val();
-                        var Ort = $('#ort').val();
+                        $('#newRecipient').effect( "shake", {times:2}, 1000 );
+
                     }
-                },
-                error: function(err){
-                    alert(JSON.stringify(err));
                 }
-            })
+
+            });
         });
     });
 

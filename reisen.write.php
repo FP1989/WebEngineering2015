@@ -20,11 +20,27 @@ function is_valid_date($enddatum) {
     {
         return checkdate($monat, $tag, $jahr); //returns true or false
     }
+
+    else return false;
 }
 function format_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     return $data;
+}
+
+if(isset($_POST["zuruecksetzen"])){
+
+    unset($_POST['destination']);
+    unset($_POST['description']);
+    unset($_POST['travelname']);
+    unset($_POST['price']);
+    unset($_POST['fromdate']);
+    unset($_POST['fromdate']);
+    unset($_POST['todate']);
+    unset($_POST["minParticipant"]);
+    unset($_POST["maxParticipant"]);
+
 }
 
 if(isset($_POST['gesendet'])) {
@@ -103,9 +119,6 @@ if(isset($_POST['gesendet'])) {
         $valid = false;
     }
 
-
-
-
     if ($valid) {
         $traveldata = array();
         $traveldata['Ziel']= format_input($_POST['destination']);
@@ -124,8 +137,8 @@ if(isset($_POST['gesendet'])) {
         @$jahr = $datum_array[2];
         $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
         $traveldata['Rueckreise'] = $NeuesDatum;
-        $traveldata['minAnzahl'] = format_input($_POST['minParticipant']);
-        $traveldata['maxAnzahl'] = format_input($_POST['maxParticipant']);
+        $traveldata['MinAnzahl'] = format_input($_POST['minParticipant']);
+        $traveldata['MaxAnzahl'] = format_input($_POST['maxParticipant']);
         $reise = reise::newReise($traveldata);
 
         //make insert-statement
@@ -141,6 +154,8 @@ if(isset($_POST['gesendet'])) {
         unset($_POST['fromdate']);
         unset($_POST['fromdate']);
         unset($_POST['todate']);
+        unset($_POST["minParticipant"]);
+        unset($_POST["maxParticipant"]);
         $success_alert = "<div class='alert alert-success' role='alert'>Neue Reise erfasst.</div>";
         }else{
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
@@ -194,7 +209,7 @@ if(isset($_POST['gesendet'])) {
 
     <div class="form-group <?php echo (!empty($price_error)) ? 'has-error':''; ?>">
         <label>Preis</label>
-        <input class="form-control" type="number" name="price" value="<?php echo @$_POST['price']?>">
+        <input class="form-control" type="number" step="any" name="price" value="<?php echo @$_POST['price']?>">
         <?php echo "<span class='help-block'>$price_error</span>";?>
     </div>
 
@@ -237,7 +252,7 @@ if(isset($_POST['gesendet'])) {
 
     <div class="form-group pull-right">
         <button type="submit" name="gesendet" class="btn btn-primary">Reise erfassen</button>
-        <button type="reset" class="btn btn-primary">Felder l&ouml;schen</button>
+        <button type="submit" name="zuruecksetzen" class="btn btn-primary">Felder l&ouml;schen</button>
     </div>
 
 </form>

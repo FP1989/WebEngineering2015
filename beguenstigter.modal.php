@@ -79,9 +79,7 @@
 
 <script id="source" language="javascript" type="text/javascript">
 
-
     function deleteBeguenstigter(){
-
 
         var id = document.getElementById("BeguenstigterID_R").value;
 
@@ -148,7 +146,6 @@
                 dataType:"json",
                 data:{
 
-                    type:"claim",
                     BeguenstigterID_R:begID,
                     Name:name,
                     Strasse:strasse,

@@ -152,6 +152,7 @@ class database
             break;
 
         }
+
         $stmt->close();
         return $enthalten;
 
@@ -303,8 +304,6 @@ class database
         $bemerkung = $rechnung->getBemerkung();
         $reise = $rechnung->getReise();
         $bezahlt = $rechnung->isBezahlt();
-
-        if(!$this->existsBeguenstigter($beguenstigter)) $this->insertBeguenstigter($beguenstigter);
 
         /** @var database $database */
         $database = database::getDatabase();

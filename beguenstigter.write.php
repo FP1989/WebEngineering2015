@@ -16,6 +16,15 @@ function format_input($data) {
     return $data;
 }
 
+if(isset($_POST["zuruecksetzen"])){
+
+    unset($_POST['Name']);
+    unset($_POST['Strasse']);
+    unset($_POST['Hausnummer']);
+    unset($_POST['PLZ']);
+    unset($_POST['Ort']);
+}
+
 if(isset($_POST['gesendet'])) {
 
     if (empty(format_input($_POST['Name']))) {
@@ -115,6 +124,6 @@ if(isset($_POST['gesendet'])) {
     </div>
     <div class="form-group pull-right">
         <button type="submit" name ="gesendet" id="send" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
-        <button type="reset" class="btn btn-default" data-dismiss="modal">Felder l&ouml;schen</button>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal">Felder l&ouml;schen</button>
     </div>
 </form>

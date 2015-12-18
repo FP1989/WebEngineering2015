@@ -8,6 +8,7 @@ $link = $database->getLink();
 
 $res = array();
 
+
 $teilnehmerID = $_POST["TeilnehmerID_L"];
 $reiseID = $_POST["ReiseID_L"];
 

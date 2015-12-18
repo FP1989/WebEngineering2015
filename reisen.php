@@ -71,6 +71,8 @@
 
                 success: function (data) {
 
+                    alert("success reisen");
+
                     document.getElementById("ReiseID_R").value = id;
                     document.getElementById("Ziel_R").value = data.Ziel_R;
                     document.getElementById("Beschreibung_R").value = data.Beschreibung_R;
@@ -95,29 +97,6 @@
             $('#negative').hide();
             $('#deletepositive').hide();
             $('#deletenegative').hide();
-/*
-            $.ajax({
-
-                url: 'reisen.read.php',
-                data: "",
-                dataType: 'json',
-                success: function (data) {
-
-                    var string = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Abreise</th><th colspan=2></th></tr>";
-
-                    for (var i = 0; i < data.length; i++) {
-
-                        string += "<tr><td>"+data[i].ReiseID+"</td><td>"+data[i].Ziel+"</td><td>"+data[i].Bezeichnung+"</td><td>"+data[i].Hinreise+"</td><td align=\"right\"><button id="+data[i].ReiseID+" onclick=\"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#Mutationsformular\">mutieren</button><td><button id= "+data[i].ReiseID +" onclick=\"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#Reiseloeschen\" >löschen</button></td></tr>";
-
-                    }
-
-                    $('#Reise_mutieren').html(string);
-
-                }
-            });
-
-*/
-
 
         });
 
