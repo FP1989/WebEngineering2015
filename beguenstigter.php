@@ -110,10 +110,16 @@
 
                 <div class="form-group">
                     <label for="usr">Beg&uuml;nstigter-Nr oder Beg&uuml;nstigter-Nachname:</label>
-                    <input type="text" class="form-control" id="beguenstigter">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="beguenstigter">
+                            <span class="input-group-btn">
+                                <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-success btn-md">Suchen</button>
+                            </span>
+                    </div>
                 </div>
 
-                <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-success btn-md">Suchen</button>
+
+
             </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->

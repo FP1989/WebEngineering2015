@@ -14,7 +14,7 @@ class database
     private $dbname;
     private $link;
 
- /*   private function __construct(){
+    private function __construct(){
 
         $this->host = '127.0.0.1';
         $this->benutzer = 'starreisen';
@@ -22,16 +22,16 @@ class database
         $this->dbname = 'starreisen';
         $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
         $this->link->set_charset("utf8");
-    }*/
-
-    private function __construct(){
-
-        $this->host = '127.0.0.1';
-        $this->benutzer = 'root';
-        $this->passwort ='';
-        $this->dbname = 'reiseunternehmen';
-        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
     }
+
+//    private function __construct(){
+//
+//        $this->host = '127.0.0.1';
+//        $this->benutzer = 'root';
+//        $this->passwort ='';
+//        $this->dbname = 'reiseunternehmen';
+//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+//    }
 
     public static function getDatabase(){
 
