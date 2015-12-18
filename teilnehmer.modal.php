@@ -91,6 +91,8 @@
 
         var id = document.getElementById("TeilnehmerID_R").value;
 
+        alert(id);
+
         $.ajax({
 
             url:"teilnehmer.delete.php",
@@ -98,7 +100,7 @@
             dataType: "json",
             data:{
 
-                TeilnehmerID_L: id
+                TeilnehmerID: id
             },
 
             success: function(data){

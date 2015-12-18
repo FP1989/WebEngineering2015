@@ -5,13 +5,16 @@ include_once("classes/teilnehmer.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
-$link = $database->getLink();
+
 
 $res = array();
 
-$teilnehmerID = $_POST["TeilnehmerID_L"];
+$teilnehmerID = $_POST["TeilnehmerID"];
+
 
 $success = $database->deleteTeilnehmer($teilnehmerID);
+
+
 
 if($success) {
 

@@ -21,79 +21,84 @@ function is_valid_date($enddatum) {
         return checkdate($monat, $tag, $jahr); //returns true or false
     }
 }
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
 
 if(isset($_POST['gesendet'])) {
-    if (empty($_POST['destination'])) {
+    if (empty(format_input($_POST['destination']))) {
         $destination_error = "Bitte ein Ziel eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['destination'])) {
+    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['destination']))) {
         $destination_error = $destination_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
-    if (empty($_POST['description'])) {
+    if (empty(format_input($_POST['description']))) {
         $description_error = "Bitte eine Beschreibung eingeben";
         $valid=false;
     }
-    if (empty($_POST['travelname'])) {
+    if (empty(format_input($_POST['travelname']))) {
         $travelname_error = "Bitte eine Bezeichnung eingeben";
         $valid=false;
     }
-    if (empty($_POST['price'])) {
+    if (empty(format_input($_POST['price']))) {
         $price_error = "Bitte einen Preis eingeben";
         $valid=false;
-    }else if(!(is_numeric($_POST['price']))){
+    }else if(!(is_numeric(format_input($_POST['price'])))){
         $price_error = $price_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
     }
-    if (empty($_POST['fromdate'])) {
+    if (empty(format_input($_POST['fromdate']))) {
         $fromdate_error = "Bitte ein Hinreisedatum eingeben";
         $valid=false;
-    }else if (is_valid_date($_POST['fromdate'])==false) {
+    }else if (is_valid_date(format_input($_POST['fromdate']))==false) {
         $fromdate_error = $fromdate_error. "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
         $valid=false;
-    }else if(strtotime($_POST['fromdate']) < $today){
+    }else if(strtotime(format_input($_POST['fromdate'])) < $today){
         $fromdate_error = $fromdate_error. "Das Datum muss gr&ouml;sser oder gleich sein dem heutigen Datum.";
         $valid=false;
-    }else if(strtotime($_POST['fromdate']) > strtotime($_POST['todate'])){
+    }else if(strtotime(format_input($_POST['fromdate'])) > strtotime(format_input($_POST['todate']))){
         $fromdate_error = $fromdate_error. "Das Hinreisedatum muss kleiner sein als das R&uml;ckreisedatum.";
         $valid=false;
     }
 
-    if (empty($_POST['todate'])) {
+    if (empty(format_input($_POST['todate']))) {
         $todate_error = "Bitte ein R&uuml;ckreisedatum eingeben";
         $valid=false;
-    }else if (is_valid_date($_POST['todate'])==false) {
+    }else if (is_valid_date(format_input($_POST['todate']))==false) {
         $todate_error = $todate_error . "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
         $valid=false;
-    }else if ($_POST['todate'] < $today) {
+    }else if (strtotime(format_input($_POST['todate'])) < $today) {
         $todate_error = $todate_error . "Das Datum muss gr&ouml;sser sein als das heutige Datum.";
         $valid=false;
     }
 
-    if (empty($_POST['minParticipant'])) {
+    if (empty(format_input($_POST['minParticipant']))) {
         $minParticipant_error = "Bitte einen Mindestanzahl Teilnehmer eingeben.";
         $valid = false;
-    }else if(!(is_numeric($_POST['minParticipant']))){
+    }else if(!(is_numeric(format_input($_POST['minParticipant'])))){
         $minParticipant_error = $minParticipant_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
-    }else if($_POST['minParticipant'] < 12){
+    }else if(format_input($_POST['minParticipant']) < 12){
         $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer kleiner als zul&auml;ssiger Wert.";
         $valid = false;
-    }else if($_POST['minParticipant'] > 20){
+    }else if(format_input($_POST['minParticipant']) > 20){
         $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer gr&uml;sser als zul&auml;ssiger Wert.";
         $valid = false;
     }
 
-    if (empty($_POST['maxParticipant'])) {
+    if (empty(format_input($_POST['maxParticipant']))) {
         $maxParticipant_error = "Bitte einen Maximalanzahl Teilnehmer eingeben.";
         $valid = false;
-    }else if(!(is_numeric($_POST['maxParticipant']))){
+    }else if(!(is_numeric(format_input($_POST['maxParticipant'])))){
         $maxParticipant_error = $maxParticipant_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
-    }else if($_POST['maxParticipant'] > 20){
+    }else if(format_input($_POST['maxParticipant']) > 20){
         $maxParticipant_error = $maxParticipant_error . "Maximalanzahl gr&ouml;sser als zul&auml;ssiger Wert.";
         $valid = false;
-    }else if($_POST['maxParticipant'] < 12){
+    }else if(format_input($_POST['maxParticipant']) < 12){
         $maxParticipant_error = $maxParticipant_error . "Maximalanzahl darf nicht kleiner als Mindestanzahl sein.";
         $valid = false;
     }
@@ -103,22 +108,24 @@ if(isset($_POST['gesendet'])) {
 
     if ($valid) {
         $traveldata = array();
-        $traveldata['Ziel']= $_POST['destination'];
-        $traveldata['Beschreibung'] = $_POST['description'];
-        $traveldata['Bezeichnung'] = $_POST['travelname'];
-        $traveldata['Preis'] = $_POST['price'];
-        @$enddatum_array = explode('.', $_POST['fromdate']);
+        $traveldata['Ziel']= format_input($_POST['destination']);
+        $traveldata['Beschreibung'] = format_input($_POST['description']);
+        $traveldata['Bezeichnung'] = format_input($_POST['travelname']);
+        $traveldata['Preis'] = format_input($_POST['price']);
+        @$enddatum_array = explode('.', format_input($_POST['fromdate']));
         @$tag = $enddatum_array[0];
         @$monat = $enddatum_array[1];
         @$jahr = $enddatum_array[2];
         $newDate = $jahr . "-" . $monat . "-" . $tag;
         $traveldata['Hinreise'] = $newDate;
-        @$datum_array = explode('.', $_POST['todate']);
+        @$datum_array = explode('.', format_input($_POST['todate']));
         @$tag = $datum_array[0];
         @$monat = $datum_array[1];
         @$jahr = $datum_array[2];
         $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
         $traveldata['Rueckreise'] = $NeuesDatum;
+        $traveldata['minAnzahl'] = format_input($_POST['minParticipant']);
+        $traveldata['maxAnzahl'] = format_input($_POST['maxParticipant']);
         $reise = reise::newReise($traveldata);
 
         //make insert-statement

@@ -10,47 +10,54 @@ $valid = true;
 $id = $name = $strasse = $hausnummer = $plz = $ort = "";
 $id_err = $name_err = $strasse_err = $hausnummer_err = $plz_err = $ort_err = "";
 
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
+
 if(isset($_POST['gesendet'])) {
 
-    if (isset($_POST["BeguenstigterID_R"])) @$recipientData["BeguenstigterID"] = $_POST["BeguenstigterID_R"];
-    @$recipientData['BeguenstigterName'] = $_POST['Name'];
-    @$recipientData['Strasse'] = $_POST['Strasse'];
-    @$recipientData['Hausnummer'] = $_POST['Hausnummer'];
-    @$recipientData['PLZ'] = $_POST['PLZ'];
-    @$recipientData['Ort'] = $_POST['Ort'];
-    $recipient = beguenstigter::newBeguenstigter($recipientData);
-
-    if (empty($_POST['Name'])) {
-        $name_err = "Bitte einen <strong>Namen</strong> eingeben.";
+    if (empty(format_input($_POST['Name']))) {
+        $name_err = "Bitte einen Namen eingeben.";
         $valid = false;
     }
-    if (empty($_POST['Strasse'])) {
-        $strasse_err = "Bitte eine <strong>Strasse</strong> eingeben.";
+    if (empty(format_input($_POST['Strasse']))) {
+        $strasse_err = "Bitte eine Strasse eingeben.";
         $valid = false;
-    } else if (is_numeric($_POST['Strasse'])) {
-        $strasse_err = $strasse_err . "Bitte eine korrekte<strong>Strasse</strong> eingeben.";
+    } else if (is_numeric(format_input($_POST['Strasse']))) {
+        $strasse_err = $strasse_err . "Bitte eine korrekte Strasse eingeben.";
         $valid = false;
     }
-    if (empty($_POST['Hausnummer'])) {
+    if (empty(format_input($_POST['Hausnummer']))) {
         $hausnummer_err = "Bitte eine <strong>Hausnummer</strong> eingeben.";
         $valid = false;
     }
-    if (empty($_POST['PLZ'])) {
+    if (empty(format_input($_POST['PLZ']))) {
         $plz_err = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
         $valid = false;
-    } else if (!(is_numeric($_POST['PLZ']))) {
+    } else if (!(format_input(is_numeric($_POST['PLZ'])))) {
         $plz_err = $plz_err . " Beim Feld PLZ sind nur Zahlen sind erlaubt";
         $valid = false;
     }
-    if (empty($_POST['Ort'])) {
+    if (empty(format_input($_POST['Ort']))) {
         $ort_err = "Bitte einen <strong>Ort</strong> eingeben.";
         $valid = false;
-    } else if (is_numeric($_POST['Ort'])) {
+    } else if (is_numeric(format_input($_POST['Ort']))) {
         $ort_err = $ort_err . " Beim Feld Ort sind nur Buchstaben erlaubt.";
         $valid = false;
     }
 
     if ($valid) {
+
+        if (isset($_POST["BeguenstigterID_R"])) @$recipientData["BeguenstigterID"] = $_POST["BeguenstigterID_R"];
+        @$recipientData['BeguenstigterName'] = format_input($_POST['Name']);
+        @$recipientData['Strasse'] = format_input($_POST['Strasse']);
+        @$recipientData['Hausnummer'] = format_input($_POST['Hausnummer']);
+        @$recipientData['PLZ'] = format_input($_POST['PLZ']);
+        @$recipientData['Ort'] = format_input($_POST['Ort']);
+        $recipient = beguenstigter::newBeguenstigter($recipientData);
+
         /** @var database $verbindung */
         $verbindung = database::getDatabase();
         $successful = $verbindung->insertBeguenstigter($recipient);

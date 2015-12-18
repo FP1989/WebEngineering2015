@@ -7,36 +7,43 @@ $valid = true;
 $recipientData = array();
 $res = array();
 
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
+
+
 if(isset($_POST['type']))
 {
     if($_POST['type'] =="claim") {
 
-        if (empty($_POST['Name'])) {
+        if (empty(format_input($_POST['Name']))) {
             $name_error = "Bitte einen <strong>Namen</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Strasse'])) {
+        if (empty(format_input($_POST['Strasse']))) {
             $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
             $valid = false;
-        } else if (is_numeric($_POST['Strasse'])) {
+        } else if (is_numeric(format_input($_POST['Strasse']))) {
             $strasse_error = $strasse_error. "Bitte eine korrekte<strong>Strasse</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['Hausnummer'])) {
+        if (empty(format_input($_POST['Hausnummer']))) {
             $hausnummer_error = "Bitte eine <strong>Hausnummer</strong> eingeben.";
             $valid = false;
         }
-        if (empty($_POST['PLZ'])) {
+        if (empty(format_input($_POST['PLZ']))) {
             $plz_error = "Bitte eine <strong>Postleitzahl</strong> eingeben.";
             $valid = false;
-        }else if(!(is_numeric($_POST['PLZ']))){
+        }else if(!(is_numeric(format_input($_POST['PLZ'])))){
             $plz_error = $plz_error . " Beim Feld PLZ sind nur Zahlen sind erlaubt";
             $valid = false;
         }
-        if (empty($_POST['Ort'])) {
+        if (empty(format_input($_POST['Ort']))) {
             $ort_error = "Bitte einen <strong>Ort</strong> eingeben.";
             $valid = false;
-        }else if(is_numeric($_POST['Ort'])){
+        }else if(is_numeric(format_input($_POST['Ort']))){
             $ort_error = $ort_error. " Beim Feld Ort sind nur Buchstaben erlaubt.";
             $valid = false;
         }
@@ -44,11 +51,11 @@ if(isset($_POST['type']))
         if($valid) {
 
             if(isset($_POST["BeguenstigterID_R"])) @$recipientData["BeguenstigterID"] = $_POST["BeguenstigterID_R"];
-            @$recipientData['BeguenstigterName'] = $_POST['Name'];
-            @$recipientData['Strasse'] = $_POST['Strasse'];
-            @$recipientData['Hausnummer'] = $_POST['Hausnummer'];
-            @$recipientData['PLZ'] = $_POST['PLZ'];
-            @$recipientData['Ort'] = $_POST['Ort'];
+            @$recipientData['BeguenstigterName'] = format_input($_POST['Name']);
+            @$recipientData['Strasse'] = format_input($_POST['Strasse']);
+            @$recipientData['Hausnummer'] = format_input($_POST['Hausnummer']);
+            @$recipientData['PLZ'] = format_input($_POST['PLZ']);
+            @$recipientData['Ort'] = format_input($_POST['Ort']);
 
 
             $recipient = beguenstigter::newBeguenstigter($recipientData);

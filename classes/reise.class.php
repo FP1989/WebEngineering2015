@@ -24,8 +24,8 @@ class reise{
         $this->preis = $reisedaten['Preis'];
         $this->hinreise = $reisedaten['Hinreise'];
         $this->rueckreise = $reisedaten['Rueckreise'];
-        $this->maxAnzahl = $reisedaten['MaxAnzahl'];
         $this->minAnzahl = $reisedaten['MinAnzahl'];
+        $this->maxAnzahl = $reisedaten['MaxAnzahl'];
     }
 
    public static function newReise($reisedaten){

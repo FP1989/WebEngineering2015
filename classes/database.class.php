@@ -1121,7 +1121,7 @@ ORDER BY Gewinn DESC;";
 
         $query = "DELETE FROM logindaten WHERE LoginID = ?";
         $stmt = $link->prepare($query);
-        $stmt->bind_param('s', $userID);
+        $stmt->bind_param('i', $userID);
 
         if($stmt->execute()){
 

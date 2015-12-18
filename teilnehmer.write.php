@@ -8,59 +8,65 @@ $valid = true;
 $success_alert="";
 $error_alert="";
 
+function format_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    return $data;
+}
+
 if(isset($_POST['gesendet'])) {
-    if (empty($_POST['surname'])) {
+    if (empty(format_input($_POST['surname']))) {
         $surname_error = "Bitte einen Vornamen eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['surname'])) {
+    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['surname']))) {
         $surname_error = $surname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
-    if (empty($_POST['lastname'])) {
+    if (empty(format_input($_POST['lastname']))) {
         $lastname_error = "Bitte einen Nachname eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",$_POST['lastname'])) {
+    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['lastname']))) {
         $lastname_error = $lastname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
 
-    if (empty($_POST['street'])) {
+    if (empty(format_input($_POST['street']))) {
         $street_error = "Bitte eine Strasse eingeben";
         $valid=false;
     }
 
-    if (empty($_POST['plz'])) {
+    if (empty(format_input($_POST['plz']))) {
         $plz_error = "Bitte eine PLZ eingeben";
         $valid=false;
-    }else if(!(is_numeric($_POST['plz']))){
+    }else if(!(is_numeric(format_input($_POST['plz'])))){
         $plz_error = $plz_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
     }
-    if (empty($_POST['town'])) {
+    if (empty(format_input($_POST['town']))) {
         $town_error = "Bitte eine Stadt eingeben";
         $valid=false;
     }
-    if (empty($_POST['telefon'])) {
+    if (empty(format_input($_POST['telefon']))) {
         $telefon_error = "Bitte eine Telefon-Nr. eingeben";
         $valid=false;
     }
-    if (empty($_POST['email'])) {
+    if (empty(format_input($_POST['email']))) {
         $email_error = "Bitte eine E-Mail-Adresse eingeben";
         $valid=false;
-    }if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
+    }if (filter_var(format_input($_POST['email']), FILTER_VALIDATE_EMAIL) === false) {
         $email_error = $email_error . "Bitte eine korrekte E-Mail-Adresse eingeben";
         $valid=false;
     }
     if ($valid) {
         $participantData = array();
-        $participantData['Vorname'] = $_POST['surname'];
-        $participantData['Nachname']= $_POST['lastname'];
-        $participantData['Strasse']= $_POST['street'];
-        $participantData['Hausnummer']= $_POST['housenumber'];
-        $participantData['PLZ']= $_POST['plz'];
-        $participantData['Ort']= $_POST['town'];
-        $participantData['Telefon']= $_POST['telefon'];
-        $participantData['Mail']= $_POST['email'];
+        $participantData['Vorname'] = format_input($_POST['surname']);
+        $participantData['Nachname']= format_input($_POST['lastname']);
+        $participantData['Strasse']= format_input($_POST['street']);
+        $participantData['Hausnummer']= format_input($_POST['housenumber']);
+        $participantData['PLZ']= format_input($_POST['plz']);
+        $participantData['Ort']= format_input($_POST['town']);
+        $participantData['Telefon']= format_input($_POST['telefon']);
+        $participantData['Mail']= format_input($_POST['email']);
 
         $participant = teilnehmer::newTeilnehmer($participantData);
 
@@ -68,8 +74,8 @@ if(isset($_POST['gesendet'])) {
         /** @var database $verbindung */
         $verbindung = database::getDatabase();
         $command = $verbindung->insertTeilnehmner($participant);
-        $num_rows = $command->num_rows;
-        if($num_rows > 0){
+
+        if($command){
             unset($_POST['surname']);
             unset($_POST['lastname']);
             unset($_POST['street']);
@@ -78,6 +84,7 @@ if(isset($_POST['gesendet'])) {
             unset($_POST['town']);
             unset($_POST['telefon']);
             unset($_POST['email']);
+
             $success_alert= "<div class='alert alert-success' role='alert'>Neuen Teilnehmer erfasst.</div>";
         }else{
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
@@ -94,7 +101,7 @@ if(isset($_POST['gesendet'])) {
 
 <form role="form" method="post" action="">
     <h2>Teilnehmer erfassen</h2><br><br>
-
+    <?php echo (!empty($valid)) ? $success_alert: $error_alert; ?>
     <div class="form-group">
         <label>Teilnehmer-ID</label>
         <input class="form-control" type="text" <?php
