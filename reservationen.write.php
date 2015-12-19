@@ -1,6 +1,6 @@
 <?php
 include_once("classes/database.class.php");
-
+include("includes/authentication.inc.php");
 ?>
 <br/>
 <br/>

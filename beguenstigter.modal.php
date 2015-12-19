@@ -1,3 +1,5 @@
+<?php include("includes/authentication.inc.php"); ?>
+
 <div class ="modal fade" id="Mutationsformular" tabindex="-1" role="dialog">
 
     <div class="modal-dialog" role="document">

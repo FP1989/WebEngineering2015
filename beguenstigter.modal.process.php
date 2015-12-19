@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/beguenstigter.class.php");
+include("includes/authentication.inc.php");
 
 $name_error=$strasse_error=$hausnummer_error=$plz_error=$ort_error="";
 $valid = true;

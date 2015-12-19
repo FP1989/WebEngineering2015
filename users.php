@@ -74,6 +74,9 @@ if(isset($_POST['gesendet'])) {
     } elseif($verbindung->existsUser($_POST['userid']) != 0) {
         $userid_error = "Dieser Login ist bereits vergeben";
         $valid = false;
+    } elseif(preg_match('/\s/',$_POST['userid'])) {
+        $userid_error = "Leerschläge dürfen nicht verwendet werden";
+        $valid = false;
     }
     if(empty($_POST['passwort'])) {
         $pw_error = "Bitte Passwort eingeben";

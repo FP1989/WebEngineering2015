@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once("classes/database.class.php");
+include("includes/authentication.inc.php");
 
 $passold_error = $passnew_error = $passnew1_error = $error = "";
 $valid = true;

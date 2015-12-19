@@ -1,6 +1,7 @@
 <?php
 
 include("classes/database.class.php");
+include("includes/authentication.inc.php");
 
 /* @var database $database*/
 $database = database::getDatabase();

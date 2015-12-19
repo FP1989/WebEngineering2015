@@ -1,6 +1,6 @@
 <?php
-//include("config.php");
-//include("db_connect.php");
+include("includes/authentication.inc.php");
+
 
 $term = trim(strip_tags($_GET['term']));
 $mysqlquery = "SELECT * FROM Reise WHERE Bezeichnung LIKE '%{$term}%'";

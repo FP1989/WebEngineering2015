@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/teilnehmer.class.php");
+include("includes/authentication.inc.php");
 
 $vornamen_error=$nachnamen_error=$strasse_error=$PLZ_error=$mail_error=$ort_error=$telefon_error="";
 $valid = true;

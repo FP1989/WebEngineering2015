@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
+include("includes/authentication.inc.php");
 
 // define variables and set to empty values
 $destination_error = $description_error = $travelname_error = $price_error =
@@ -98,10 +99,10 @@ if(isset($_POST['gesendet'])) {
         $minParticipant_error = $minParticipant_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
     }else if(format_input($_POST['minParticipant']) < 12){
-        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer kleiner als zul&auml;ssiger Wert.";
+        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer kleiner als zulässiger Wert (12).";
         $valid = false;
     }else if(format_input($_POST['minParticipant']) > 20){
-        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer gr&uml;sser als zul&auml;ssiger Wert.";
+        $minParticipant_error = $minParticipant_error. "Mindestanzahl Teilnehmer grösser als zul&auml;ssiger Wert.";
         $valid = false;
     }
 
@@ -112,7 +113,7 @@ if(isset($_POST['gesendet'])) {
         $maxParticipant_error = $maxParticipant_error . "Bitte nur Zahlen als Eingabe.";
         $valid = false;
     }else if(format_input($_POST['maxParticipant']) > 20){
-        $maxParticipant_error = $maxParticipant_error . "Maximalanzahl gr&ouml;sser als zul&auml;ssiger Wert.";
+        $maxParticipant_error = $maxParticipant_error . "Maximalanzahl grösser als zulässiger Wert (20).";
         $valid = false;
     }else if(format_input($_POST['maxParticipant']) < 12){
         $maxParticipant_error = $maxParticipant_error . "Maximalanzahl darf nicht kleiner als Mindestanzahl sein.";

@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
+include("includes/authentication.inc.php");
 
 /** @var database $verbindung */
 $verbindung = database::getDatabase();
@@ -111,7 +112,7 @@ if(empty($max)){
     $max_error= "Die <strong>maximale Anzahl Teilnehmer </strong> muss grösser sein als die Mindestanzahl";
     $valid = false;
 }else if($max> reise::MAX OR $max<reise::MIN){
-    $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben";
+    $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben (max. 20)";
     $valid = false;
 }
 
@@ -119,7 +120,7 @@ if(empty($min)){
     $min_error = "Bitte eine <strong>Mindestanzahl Teilnehmer</strong> eingeben";
     $valid = false;
 }else if($min<reise::MIN OR $min>reise::MAX){
-    $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben";
+    $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben (min. 12)";
     $valid = false;
 }
 

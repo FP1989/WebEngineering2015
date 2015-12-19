@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/rechnung.class.php");
+include("includes/authentication.inc.php");
 
 $betrag_error=$iban_error=$swift_error=$beguenstigter_error=$faelligkeit_error=$bemerkung_error=$reise_error="";
 $valid = true;

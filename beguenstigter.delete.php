@@ -2,8 +2,8 @@
 
 include("classes/database.class.php");
 include_once("classes/beguenstigter.class.php");
+include("includes/authentication.inc.php");
 
-//jklljj
 
 /* @var database $database*/
 $database = database::getDatabase();

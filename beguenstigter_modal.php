@@ -1,4 +1,4 @@
-
+<?php include("includes/authentication.inc.php"); ?>
 <!-- Modal for new Recipient -->
 <div class="modal fade" id="newRecipient" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

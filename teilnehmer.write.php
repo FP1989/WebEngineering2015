@@ -1,6 +1,8 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/teilnehmer.class.php");
+include("includes/authentication.inc.php");
+
 // define variables and set to empty values
 $surname_error = $lastname_error = $street_error = $housenumber_error = $plz_error = $town_error = $telefon_error = $email_error = "";
 $surname =  $lastname = $street = $housenumber= $plz= $town = $telefon = $email ="";
