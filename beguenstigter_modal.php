@@ -43,7 +43,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Abbrechen</button>
                 <button type="submit" name ="send" id="send" class="btn btn-primary">Neuen Beg&uuml;nstigten anlegen</button>
             </div>
         </div>
@@ -92,13 +92,22 @@
 
                     if(status){
 
-                        $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+                        $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
                         $('#name').val("");
                         $('#strasse').val("");
                         $('#hausnummer').val("");
                         $('#plz').val("");
                         $('#ort').val("");
+                        $('#recipient').val = response.id;
                         $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                        $( "#positive" ).promise().done(function() {
+
+                            setTimeout(function(){
+
+                                $('#Mutationsformular').modal('hide');
+
+                            });
+                        });
 
                     }else {
                         $('#feedback_negative').show().html(response.message);

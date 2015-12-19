@@ -121,7 +121,7 @@
                 else {
 
                     $('#negative').show().html(data.message);
-                    $('#Mutationsformular').effect( "shake", {times:2}, 500 );
+                    $('#Mutationsformular').effect( "shake", {times:2}, 1000 );
 
                 }
             }

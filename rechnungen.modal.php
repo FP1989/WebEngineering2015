@@ -151,7 +151,7 @@
                     var status = response.flag;
                     if(status){
 
-                        $('#alterpositive').show().html(response.message).delay(500).fadeOut();
+                        $('#alterpositive').show().html(response.message).delay(1000).fadeOut();
                         $('#alternegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
@@ -165,7 +165,7 @@
                     else {
 
                         $('#alternegative').show().html(response.message);
-                        $('#Mutationsformular').effect( "shake", {times:2}, 500 );
+                        $('#Mutationsformular').effect( "shake", {times:2}, 1000 );
 
                     }
                 },
