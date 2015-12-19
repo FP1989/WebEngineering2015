@@ -28,7 +28,15 @@
                     success: function(data) {
 
                         if(data.flag) {
-                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
+                            $("#deletepositive").promise().done(function() {
+
+                                setTimeout(function(){
+
+                                    $('#userdeletemodal').modal('hide');
+
+                                });
+                            });
                         } else {
                             $('#deletenegative').show().html(data.message);
                             $('#userdeletemodal').effect("shake", {times:2}, 500);

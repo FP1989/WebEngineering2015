@@ -126,7 +126,7 @@ if(isset($_POST['gesendet'])) {
                         echo "<tr>";
                         foreach($row as $value) {
                             if (preg_match('/[0-9]+[-]+/', $value)) {
-                                $date = date("d-m-Y", strtotime($value));
+                                $date = date("d.m.Y", strtotime($value));
                                 echo "<td><b>" . $date . "</b></td>";
                             }
                             else echo "<td>" . $value . "<td>";
@@ -155,7 +155,7 @@ if(isset($_POST['gesendet'])) {
                         echo "<tr>";
                         foreach($row as $value) {
                             if (preg_match('/[0-9]+[-]+/', $value)) {
-                                $date = date("d-m-Y", strtotime($value));
+                                $date = date("d.m.Y", strtotime($value));
                                 echo "<td><b>" . $date . "</b></td>";
                             }
                             else echo "<td>" . $value . "<td>";

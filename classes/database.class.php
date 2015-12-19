@@ -1018,7 +1018,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) ORDER BY R.Hinreise ASC";
+        $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) AND R.Hinreise > CURDATE() ORDER BY R.Hinreise ASC";
 
         $result = $link->query($query);
         return $result;
@@ -1030,7 +1030,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit < DATE_ADD(CURDATE(), INTERVAL 60 DAY) AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
+        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit > CURDATE() AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
 
         $result = $link->query($query);
         return $result;

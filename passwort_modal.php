@@ -62,11 +62,19 @@
 
                         var status = response.flag;
                         if (status) {
-                            $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+                            $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
                             $('#passold').val("");
                             $('#passnew').val("");
                             $('#passnew1').val("");
                             $('#feedback_negative').hide();
+                            $("#feedback_positive").promise().done(function() {
+
+                                setTimeout(function(){
+
+                                    $('#passresetmodal').modal('hide');
+
+                                });
+                            });
                         } else {
                             $('#feedback_negative').show().html(response.message);
                             $('#passresetmodal').effect("shake", {times: 2}, 500);
