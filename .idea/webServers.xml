@@ -2,10 +2,10 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="b5f8f1c8-34c9-4067-ae92-219246bac537" name="square7server" url="http://starreisen.square7.ch">
+      <webServer id="90c1365a-a4f7-4934-8eb2-b72e0e18c0ee" name="Square7" url="http://starreisen.square7.ch">
         <fileTransfer host="starreisen.square7.ch" port="21" password="dfdddfcfdfc8dfcfdfc4dfcddfc3dfc4dfcfdfcfdfd8dfc3dfc4dfcddf98df9adf9bdf9f" username="starreisen">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
+            <advancedOptions dataProtectionLevel="Private" maxConnections="2" passiveMode="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

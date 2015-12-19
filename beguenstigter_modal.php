@@ -92,15 +92,18 @@
 
                     if(status){
 
+                        alert(response.id);
+
                         $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
                         $('#name').val("");
                         $('#strasse').val("");
                         $('#hausnummer').val("");
                         $('#plz').val("");
                         $('#ort').val("");
-                        $('#recipient').val(response.id);
+//                        $('#recipient').val(response.id);
+                        document.getElementById("recipient").value = response.id;
                         $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
-                        $( "#positive" ).promise().done(function() {
+                        $("#feedback_positive").promise().done(function() {
 
                             setTimeout(function(){
 

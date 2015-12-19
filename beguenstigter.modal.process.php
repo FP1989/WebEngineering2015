@@ -60,13 +60,15 @@ function format_input($data) {
             $verbindung = database::getDatabase();
             $successful = $verbindung->insertBeguenstigter($recipient);
             if(isset($_POST["BeguenstigterID_R"])) $id = $_POST["BeguenstigterID_R"];
-            else $id = $verbindung->fetchBeguenstigter(null,$recipient->getBeguenstigterName());
-
+            else {
+                $beg = $verbindung->fetchBeguenstigter(null, $recipient->getBeguenstigterName());
+                $id = $beg->getBeguenstigterID();
+            }
 
             if ($successful) {
                 $res["flag"] = true;
                 $res["message"] = "Daten erfolgreich erfasst";
-                $re["id"] = $id;
+                $res["id"] = $id;
             } else {
                 $res["flag"] = false;
                 $res["message"] = "Die Daten konnten nicht in die Datenbank geschrieben werden";
