@@ -24,14 +24,14 @@ class database
         $this->link->set_charset("utf8");
     }
 
-//    private function __construct(){
-//
-//        $this->host = '127.0.0.1';
-//        $this->benutzer = 'root';
-//        $this->passwort ='';
-//        $this->dbname = 'reiseunternehmen';
-//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
-//    }
+    /*private function __construct(){
+
+        $this->host = '127.0.0.1';
+        $this->benutzer = 'root';
+        $this->passwort ='';
+        $this->dbname = 'reiseunternehmen';
+        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+   }*/
 
     public static function getDatabase(){
 
@@ -156,6 +156,37 @@ class database
 
         $stmt->close();
         return $enthalten;
+
+    }
+
+    public function autosuggestBeguenstigter($term) {
+
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $term = "'%{".$term."}%'";
+
+        $query = "SELECT BeguenstigterID, BeguenstigterName FROM beguenstigter WHERE BeguenstigterName LIKE ?";
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $term);
+        $stmt->execute();
+
+        $stmt->bind_result($BegID, $BegName);
+
+        $return = Array();
+
+        while($stmt->fetch()) {
+
+            $datensatz["BegID"] = $BegID;
+            $datensatz["BegName"] = $BegName;
+
+            $return [] = $datensatz;
+
+        }
+        $stmt->close();
+
+        return $return;
 
     }
 
@@ -305,8 +336,6 @@ class database
         $bemerkung = $rechnung->getBemerkung();
         $reise = $rechnung->getReise();
         $bezahlt = $rechnung->isBezahlt();
-
-        if(!$this->existsBeguenstigter($Beguenstigter)) $this->insertBeguenstigter($Beguenstigter);
 
         /** @var database $database */
         $database = database::getDatabase();
