@@ -1,379 +1,380 @@
-<!doctype html>
-<html lang="de">
-<head>
-    <?php
-    $pagetitle = "Reservationen";
-    include("includes/header.inc.php");
-    ?>
+<?php include("includes/authentication.inc.php");?>
+    <!doctype html>
+    <html lang="de">
+    <head>
+        <?php
+        $pagetitle = "Reservationen";
+        include("includes/header.inc.php");
+        ?>
 
-    <script type = text/javascript>
+        <script type = text/javascript>
 
 
-        $(function () {
+            $(function () {
 
-            $('#deletepositive').hide();
-            $('#deletenegative').hide();
-        });
-
-        function setBezahlt(button){
-
-            var id = button.id;
-
-            $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"setBezahltDB(this)\">Rechnung bezahlt</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
-
-        }
-
-        function setBezahltDB(button){
-
-            var reiseID = button.id;
-            var teilnehmerID = document.getElementById("readonlyID").value;
-
-            $.ajax({
-
-                url:"reservationen.process.php",
-                type:"POST",
-                dataType: "json",
-                data:{
-
-                    ReiseID_L: reiseID,
-                    TeilnehmerID_L: teilnehmerID
-                },
-
-                success: function(data){
-
-                    if(data.flag){
-
-                        $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
-                        $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
-
-                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
-                        $( "#deletepositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#bestaetigung').modal('hide');});
-                        });
-                    }
-
-                    else {
-
-                        $('#deletenegative').show().html(data.message);
-                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
-
-                    }
-                }
+                $('#deletepositive').hide();
+                $('#deletenegative').hide();
             });
 
+            function setBezahlt(button){
 
+                var id = button.id;
 
+                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"setBezahltDB(this)\">Rechnung bezahlt</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
-        }
+            }
 
-        function deleteReservationDB(button){
+            function setBezahltDB(button){
 
-            var reiseID = button.id;
-            var teilnehmerID = document.getElementById("readonlyID").value;
+                var reiseID = button.id;
+                var teilnehmerID = document.getElementById("readonlyID").value;
 
-            $.ajax({
+                $.ajax({
 
-                url:"reservationen.delete.php",
-                type:"POST",
-                dataType: "json",
-                data:{
+                    url:"reservationen.process.php",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
 
-                    ReiseID_L: reiseID,
-                    TeilnehmerID_L: teilnehmerID
-                },
+                        ReiseID_L: reiseID,
+                        TeilnehmerID_L: teilnehmerID
+                    },
 
-                success: function(data){
+                    success: function(data){
 
-                    if(data.flag){
+                        if(data.flag){
 
-                        $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
-                        $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                            $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
+                            $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
-                        //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
-                        $( "#deletepositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#beschtaetigung').modal('hide');});
-                        });
+                            //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                            $( "#deletepositive" ).promise().done(function() {
+                                setTimeout(function(){
+                                    $('#bestaetigung').modal('hide');});
+                            });
+                        }
+
+                        else {
+
+                            $('#deletenegative').show().html(data.message);
+                            $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+                        }
                     }
+                });
 
-                    else {
 
-                        $('#deletenegative').show().html(data.message);
-                        $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+
+            }
+
+            function deleteReservationDB(button){
+
+                var reiseID = button.id;
+                var teilnehmerID = document.getElementById("readonlyID").value;
+
+                $.ajax({
+
+                    url:"reservationen.delete.php",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+
+                        ReiseID_L: reiseID,
+                        TeilnehmerID_L: teilnehmerID
+                    },
+
+                    success: function(data){
+
+                        if(data.flag){
+
+                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                            $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+
+                            //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                            $( "#deletepositive" ).promise().done(function() {
+                                setTimeout(function(){
+                                    $('#beschtaetigung').modal('hide');});
+                            });
+                        }
+
+                        else {
+
+                            $('#deletenegative').show().html(data.message);
+                            $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+
+                        }
+                    }
+                });
+            }
+
+            function deleteReservation(button){
+
+                var id = button.id;
+
+                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"deleteReservationDB(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+
+            }
+
+            function showReservationen(teilnehmerID){
+
+                $.ajax({
+
+                    url: 'reservationen.read.php',
+                    type: "POST",
+                    data: {
+
+                        TeilnehmerID_R: teilnehmerID
+
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        var string = '';
+
+                        if(data[0].TeilnehmerID != null && data[0].TeilnehmerID != '') {
+
+                            string = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Abreise</th><th>bezahlt</th><th colspan=2></th></tr>";
+
+                            for (var i = 0; i < data.length; i++) {
+
+                                string+= "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Hinreise + "</td>";
+
+                                if(data[i].bezahlt ==1) string += "<td>Ja</td><td align=\"right\"></td>";
+                                else string += "<td>Nein</td><td align=\"right\"><button id=" + data[i].ReiseID + " onclick=\"setBezahlt(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\">Rechnung bezahlt</button></td>"
+
+                                string += "<td><button id= " + data[i].ReiseID + " onclick=\"deleteReservation(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\" >löschen</button></td></tr>";
+
+                            }
+                        }
+
+                        else string = "<tr><th>Leider wurde keine entsprechende Reservation gefunden</th></tr>";
+
+                        $('#Reservation_mutieren').html(string);
 
                     }
+                });
+
+
+            }
+
+            function searchTeilnehmer(){
+
+                var user = document.getElementById("usr");
+                var val = user.value;
+
+                if (isNaN(val)) {
+
+                    user.style.backgroundColor = "white";
+
+
+                    $.ajax({
+
+                        url: 'teilnehmer.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            Nachname_R: val
+                        },
+
+                        success: function (data) {
+
+
+                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                                document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                                document.getElementById("readonlyName").value = data.Nachname_R;
+                                showReservationen(data.TeilnehmerID_R);
+
+                            }
+
+                            else document.getElementById("usr").style.backgroundColor = "red";
+                        }
+                    });
                 }
-            });
-        }
 
-        function deleteReservation(button){
+                else{
 
-            var id = button.id;
+                    user.style.backgroundColor = "white";
 
-            $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"deleteReservationDB(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+                    $.ajax({
 
-        }
+                        url: 'teilnehmer.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            TeilnehmerID_R: val
+                        },
 
-        function showReservationen(teilnehmerID){
+                        success: function (data) {
 
-            $.ajax({
+                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
 
-                url: 'reservationen.read.php',
-                type: "POST",
-                data: {
+                                document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                                document.getElementById("readonlyName").value = data.Nachname_R;
+                                showReservationen(data.TeilnehmerID_R);
 
-                    TeilnehmerID_R: teilnehmerID
+                            }
 
-                },
-                dataType: 'json',
-                success: function (data) {
-
-                    var string = '';
-
-                    if(data[0].TeilnehmerID != null && data[0].TeilnehmerID != '') {
-
-                        string = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Abreise</th><th>bezahlt</th><th colspan=2></th></tr>";
-
-                        for (var i = 0; i < data.length; i++) {
-
-                            string+= "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Hinreise + "</td>";
-
-                            if(data[i].bezahlt ==1) string += "<td>Ja</td><td align=\"right\"></td>";
-                            else string += "<td>Nein</td><td align=\"right\"><button id=" + data[i].ReiseID + " onclick=\"setBezahlt(this)\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\">Rechnung bezahlt</button></td>"
-
-                            string += "<td><button id= " + data[i].ReiseID + " onclick=\"deleteReservation(this)\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#bestaetigung\" >löschen</button></td></tr>";
-
+                            else document.getElementById("usr").style.backgroundColor = "red";
                         }
-                    }
-
-                    else string = "<tr><th>Leider wurde keine entsprechende Reservation gefunden</th></tr>";
-
-                    $('#Reservation_mutieren').html(string);
+                    });
 
                 }
-            });
 
 
-        }
 
-        function searchTeilnehmer(){
-
-            var user = document.getElementById("usr");
-            var val = user.value;
-
-            if (isNaN(val)) {
-
-                user.style.backgroundColor = "white";
-
-
-                $.ajax({
-
-                    url: 'teilnehmer.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        Nachname_R: val
-                    },
-
-                    success: function (data) {
-
-
-                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
-
-                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
-                            document.getElementById("readonlyName").value = data.Nachname_R;
-                            showReservationen(data.TeilnehmerID_R);
-
-                        }
-
-                        else document.getElementById("usr").style.backgroundColor = "red";
-                    }
-                });
-            }
-
-            else{
-
-                user.style.backgroundColor = "white";
-
-                $.ajax({
-
-                    url: 'teilnehmer.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        TeilnehmerID_R: val
-                    },
-
-                    success: function (data) {
-
-                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
-
-                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
-                            document.getElementById("readonlyName").value = data.Nachname_R;
-                            showReservationen(data.TeilnehmerID_R);
-
-                        }
-
-                        else document.getElementById("usr").style.backgroundColor = "red";
-                    }
-                });
 
             }
 
+            function sucheTeilnehmer(){
+
+                var user = document.getElementById("teilnehmerNr");
+                var val = user.value;
+
+                if (isNaN(val)) {
+
+                    user.style.backgroundColor = "white";
+
+                    $.ajax({
+
+                        url: 'teilnehmer.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            Nachname_R: val
+                        },
+
+                        success: function (data) {
 
 
+                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
 
-        }
+                                document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                                document.getElementById("teilnehmerName").value = data.Nachname_R;
 
-        function sucheTeilnehmer(){
+                            }
 
-            var user = document.getElementById("teilnehmerNr");
-            var val = user.value;
-
-            if (isNaN(val)) {
-
-                user.style.backgroundColor = "white";
-
-                $.ajax({
-
-                    url: 'teilnehmer.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        Nachname_R: val
-                    },
-
-                    success: function (data) {
-
-
-                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
-
-                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
-                            document.getElementById("teilnehmerName").value = data.Nachname_R;
-
+                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
                         }
+                    });
+                }
 
-                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
-                    }
-                });
-            }
+                else{
 
-            else{
+                    user.style.backgroundColor = "white";
 
-                user.style.backgroundColor = "white";
+                    $.ajax({
 
-                $.ajax({
+                        url: 'teilnehmer.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            TeilnehmerID_R: val
+                        },
 
-                    url: 'teilnehmer.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        TeilnehmerID_R: val
-                    },
+                        success: function (data) {
 
-                    success: function (data) {
+                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
 
-                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
+                                document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                                document.getElementById("teilnehmerName").value = data.Nachname_R;
 
-                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
-                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+                            }
 
+                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
                         }
+                    });
 
-                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
-                    }
-                });
-
-            }
+                }
 
 
 
-
-        }
-
-        function sucheReise(){
-
-
-            var reise = document.getElementById("reiseNr");
-            var val = reise.value;
-
-            if (isNaN(val)) {
-
-
-                reise.style.backgroundColor = "white";
-
-                $.ajax({
-
-                    url: 'reisen.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        Ziel_R: val
-                    },
-
-                    success: function (data) {
-
-
-                        if (data.ReiseID_R != '' && data.ReiseID_R != null) {
-
-                            document.getElementById("reiseID").value = data.ReiseID_R;
-                            document.getElementById("reiseZiel").value = data.Ziel_R;
-
-                        }
-
-                        else document.getElementById("reiseNr").style.backgroundColor = "red";
-                    }
-                });
-            }
-
-            else{
-
-
-                reise.style.backgroundColor = "white";
-
-                $.ajax({
-
-                    url: 'reisen.read.php',
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        ReiseID_R: val
-                    },
-
-                    success: function (data) {
-
-
-
-                        if (data.ReiseID_R != '' && data.ReiseID_R != null){
-
-                            document.getElementById("reiseID").value = data.ReiseID_R;
-                            document.getElementById("reiseZiel").value = data.Ziel_R;
-
-                        }
-
-                        else document.getElementById("reiseNr").style.backgroundColor = "red";
-                    }
-                });
 
             }
 
+            function sucheReise(){
+
+
+                var reise = document.getElementById("reiseNr");
+                var val = reise.value;
+
+                if (isNaN(val)) {
+
+
+                    reise.style.backgroundColor = "white";
+
+                    $.ajax({
+
+                        url: 'reisen.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            Ziel_R: val
+                        },
+
+                        success: function (data) {
+
+
+                            if (data.ReiseID_R != '' && data.ReiseID_R != null) {
+
+                                document.getElementById("reiseID").value = data.ReiseID_R;
+                                document.getElementById("reiseZiel").value = data.Ziel_R;
+
+                            }
+
+                            else document.getElementById("reiseNr").style.backgroundColor = "red";
+                        }
+                    });
+                }
+
+                else{
+
+
+                    reise.style.backgroundColor = "white";
+
+                    $.ajax({
+
+                        url: 'reisen.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            ReiseID_R: val
+                        },
+
+                        success: function (data) {
 
 
 
-        }
-    </script>
+                            if (data.ReiseID_R != '' && data.ReiseID_R != null){
 
-    <script id="source" language="javascript" type="text/javascript">
-    </script>
+                                document.getElementById("reiseID").value = data.ReiseID_R;
+                                document.getElementById("reiseZiel").value = data.Ziel_R;
 
-</head>
+                            }
+
+                            else document.getElementById("reiseNr").style.backgroundColor = "red";
+                        }
+                    });
+
+                }
+
+
+
+
+            }
+        </script>
+
+        <script id="source" language="javascript" type="text/javascript">
+        </script>
+
+    </head>
 <body>
 <div id="wrapper">
-    <?php
-    include_once("includes/navigation.inc.php");
-    include_once("classes/database.class.php");
-    ?>
+<?php
+include_once("includes/navigation.inc.php");
+include_once("classes/database.class.php");
+?>
 
     <div id="content" class="container">
         <ul class="nav nav-tabs">
