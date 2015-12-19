@@ -98,13 +98,13 @@
                         $('#hausnummer').val("");
                         $('#plz').val("");
                         $('#ort').val("");
-                        $('#recipient').val = response.id;
+                        $('#recipient').val(response.id);
                         $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
                         $( "#positive" ).promise().done(function() {
 
                             setTimeout(function(){
 
-                                $('#Mutationsformular').modal('hide');
+                                $('#newRecipient').modal('hide');
 
                             });
                         });
