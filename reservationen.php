@@ -163,7 +163,7 @@
                 var user = document.getElementById("usr");
                 var val = user.value;
 
-                if (isNaN(val)) {
+               // if (isNaN(val)) {
 
                     user.style.backgroundColor = "white";
 
@@ -174,7 +174,7 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            Nachname_R: val
+                            teilnehmer: val
                         },
 
                         success: function (data) {
@@ -191,7 +191,7 @@
                             else document.getElementById("usr").style.backgroundColor = "red";
                         }
                     });
-                }
+                /*}
 
                 else{
 
@@ -220,7 +220,7 @@
                         }
                     });
 
-                }
+                }*/
 
 
 
@@ -232,7 +232,7 @@
                 var user = document.getElementById("teilnehmerNr");
                 var val = user.value;
 
-                if (isNaN(val)) {
+               /* if (isNaN(val)) {*/
 
                     user.style.backgroundColor = "white";
 
@@ -242,7 +242,7 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            Nachname_R: val
+                            teilnehmer: val
                         },
 
                         success: function (data) {
@@ -258,7 +258,7 @@
                             else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
                         }
                     });
-                }
+              /*  }
 
                 else{
 
@@ -286,11 +286,7 @@
                         }
                     });
 
-                }
-
-
-
-
+                }*/
             }
 
             function sucheReise(){
@@ -329,8 +325,6 @@
                 }
 
                 else{
-
-
                     reise.style.backgroundColor = "white";
 
                     $.ajax({
@@ -343,8 +337,6 @@
                         },
 
                         success: function (data) {
-
-
 
                             if (data.ReiseID_R != '' && data.ReiseID_R != null){
 

@@ -1,4 +1,4 @@
-<?php include("includes/authentication.inc.php"); ?>
+
 <!-- Modal for new Recipient -->
 <div class="modal fade" id="newRecipient" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -91,8 +91,6 @@
                     var status = response.flag;
 
                     if(status){
-
-                        alert(response.id);
 
                         $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
                         $('#name').val("");
