@@ -1,4 +1,4 @@
-<div class="modal custom fade" id="multiplenames" tabindex="-1" role="dialog">
+<div class="modal custom" id="multiplenames" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -7,7 +7,9 @@
             </div>
 
             <div class="modal-body">
-                <div id="insertnames" class="insertnames"></div>
+                <div class="row-fluid">
+                    <div id="insertnames" class="insertnames"></div>
+                </div>
             </div>
         </div>
     </div>

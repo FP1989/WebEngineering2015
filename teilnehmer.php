@@ -31,16 +31,14 @@
                                 var counter = 0;
 
                                 while(counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,500, this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,500, this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
-//                                for(var i = 0; i < data.length; i) {
-//                                    $("#insertnames").html("<button id = " + data[i] + " class=\"btn btn-primary\">" + data[i + 1] + " " + data[i + 2] + "</button>");
-//                                    alert(data[i] + ", " + data[i+1] + " " + data[i+2]);
-//                                }
-
                                 $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
 
                             } else {
 
@@ -136,10 +134,11 @@
 
             }
 
-                $(function () {
+            $(function () {
 
                 $('#positive').hide();
                 $('#negative').hide();
+
             });
 
         </script>

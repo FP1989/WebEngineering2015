@@ -184,11 +184,14 @@
                                 var counter = 0;
 
                                 while (counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
                                 $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
 
                             } else {
 
@@ -262,11 +265,14 @@
                                 var counter = 0;
 
                                 while (counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
                                 $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
 
                             } else {
 
