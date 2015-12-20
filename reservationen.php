@@ -164,11 +164,57 @@
 
                 var user = document.getElementById("usr");
                 var val = user.value;
+                user.style.backgroundColor = "white";
 
-               // if (isNaN(val)) {
+                if(!$.isNumeric(val)) {
 
-                    user.style.backgroundColor = "white";
+                    $.ajax({
 
+                        url: 'teilnehmer.multiple.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            teilnehmer: val
+                        },
+
+                        success: function (data) {
+
+                            if (data.length != 0) {
+
+                                var counter = 0;
+
+                                while (counter < data.length) {
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    counter += 3;
+                                }
+
+                                $("#multiplenames").modal('show');
+
+                            } else {
+
+                                $.ajax({
+
+                                    url: 'teilnehmer.read.php',
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        teilnehmer: val
+                                    },
+
+                                    success: function (data) {
+
+                                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                                            document.getElementById("readonlyName").value = data.Nachname_R;
+                                            showReservationen(data.TeilnehmerID_R);
+                                        } else document.getElementById("usr").style.backgroundColor = "red";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
 
                     $.ajax({
 
@@ -181,62 +227,72 @@
 
                         success: function (data) {
 
-
                             if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
 
                                 document.getElementById("readonlyID").value = data.TeilnehmerID_R;
                                 document.getElementById("readonlyName").value = data.Nachname_R;
                                 showReservationen(data.TeilnehmerID_R);
-
-                            }
-
-                            else document.getElementById("usr").style.backgroundColor = "red";
+                            } else document.getElementById("usr").style.backgroundColor = "red";
                         }
                     });
-                /*}
-
-                else{
-
-                    user.style.backgroundColor = "white";
-
-                    $.ajax({
-
-                        url: 'teilnehmer.read.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            TeilnehmerID_R: val
-                        },
-
-                        success: function (data) {
-
-                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
-
-                                document.getElementById("readonlyID").value = data.TeilnehmerID_R;
-                                document.getElementById("readonlyName").value = data.Nachname_R;
-                                showReservationen(data.TeilnehmerID_R);
-
-                            }
-
-                            else document.getElementById("usr").style.backgroundColor = "red";
-                        }
-                    });
-
-                }*/
-
-
-
-
+                }
             }
 
             function sucheTeilnehmer(){
 
                 var user = document.getElementById("teilnehmerNr");
                 var val = user.value;
+                user.style.backgroundColor = "white";
 
-               /* if (isNaN(val)) {*/
+                if(!$.isNumeric(val)) {
 
-                    user.style.backgroundColor = "white";
+                    $.ajax({
+
+                        url: 'teilnehmer.multiple.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            teilnehmer: val
+                        },
+
+                        success: function (data) {
+
+                            if (data.length != 0) {
+
+                                var counter = 0;
+
+                                while (counter < data.length) {
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    counter += 3;
+                                }
+
+                                $("#multiplenames").modal('show');
+
+                            } else {
+
+                                $.ajax({
+
+                                    url: 'teilnehmer.read.php',
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        teilnehmer: val
+                                    },
+
+                                    success: function (data) {
+
+                                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+                                            showReservationen(data.TeilnehmerID_R);
+                                        } else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
 
                     $.ajax({
 
@@ -249,49 +305,74 @@
 
                         success: function (data) {
 
-
                             if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
 
                                 document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
                                 document.getElementById("teilnehmerName").value = data.Nachname_R;
-
-                            }
-
-                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                                showReservationen(data.TeilnehmerID_R);
+                            } else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
                         }
                     });
-              /*  }
-
-                else{
-
-                    user.style.backgroundColor = "white";
-
-                    $.ajax({
-
-                        url: 'teilnehmer.read.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            TeilnehmerID_R: val
-                        },
-
-                        success: function (data) {
-
-                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
-
-                                document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
-                                document.getElementById("teilnehmerName").value = data.Nachname_R;
-
-                            }
-
-                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
-                        }
-                    });
-
-                }*/
+                }
             }
 
-            function sucheReise(){
+            function searchExactTeilnehmerRead(id) {
+
+                $(".insertnames").empty();
+                $("#multiplenames").modal('hide');
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        teilnehmer: id
+                    },
+
+                    success: function (data) {
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                            document.getElementById("readonlyName").value = data.Nachname_R;
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+            function searchExactTeilnehmerWrite(id) {
+
+                $(".insertnames").empty();
+                $("#multiplenames").modal('hide');
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        teilnehmer: id
+                    },
+
+                    success: function (data) {
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+                function sucheReise(){
 
 
                 var reise = document.getElementById("reiseNr");
@@ -368,6 +449,7 @@
 <?php
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
+include_once("multiple_modal.php");
 ?>
 
     <div id="content" class="container">
