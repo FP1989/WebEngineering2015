@@ -573,6 +573,38 @@ class database
         return $enthalten;
     }
 
+    public function checkMultipleTeilnehmer($teilnehmer) {
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT TeilnehmerID, Vorname, Nachname FROM Teilnehmer WHERE Nachname = ?";
+
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $teilnehmer);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($teilnehmerID, $vorname, $nachname);
+
+        if($stmt->num_rows > 1) {
+
+            $teilnehmer = array();
+            $counter = 0;
+            while ($stmt->fetch()) {
+
+                $teilnehmer[$counter] = $teilnehmerID;
+                $teilnehmer[$counter + 1] = $vorname;
+                $teilnehmer[$counter + 2] = $nachname;
+
+                $counter = $counter + 3;
+            }
+            $stmt->close();
+
+            return $teilnehmer;
+        } else return FALSE;
+
+    }
+
     public function insertOrt($plz, $ort){
 
         /* @var database $database */

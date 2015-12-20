@@ -30,7 +30,7 @@
                     dataType: 'json',
                     success: function (data) {
 
-                        var reisen = "<option>--w&auml;hlen Sie eine Reise aus--</option>";
+                        var reisen = "<option>--wählen Sie eine Reise aus--</option>";
 
                         for (var i = 0; i < data.length; i++) {
 

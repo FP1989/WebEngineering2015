@@ -7,10 +7,9 @@ include("includes/authentication.inc.php");
 /* @var database $database*/
 $database = database::getDatabase();
 
+if(is_numeric($_POST['teilnehmer'])) {
 
-if(isset($_POST["TeilnehmerID_R"])) {
-
-    $teilnehmerID = $_POST["TeilnehmerID_R"];
+    $teilnehmerID = $_POST["teilnehmer"];
     $teilnehmer = $database->fetchTeilnehmer($teilnehmerID);
 
     $te = array();
@@ -26,11 +25,10 @@ if(isset($_POST["TeilnehmerID_R"])) {
     $te["Mail_R"] = $teilnehmer->getEmail();
 
     echo json_encode($te);
-}
 
-else if(isset($_POST["Nachname_R"])){
+} else {
 
-    $nachname = $_POST["Nachname_R"];
+    $nachname = $_POST["teilnehmer"];
     $teilnehmer = $database->fetchTeilnehmer(null, $nachname);
     $te = array();
 
@@ -45,6 +43,4 @@ else if(isset($_POST["Nachname_R"])){
     $te["Mail_R"] = $teilnehmer->getEmail();
 
     echo json_encode($te);
-
 }
-
