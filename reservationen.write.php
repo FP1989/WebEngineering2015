@@ -78,8 +78,7 @@ include("includes/authentication.inc.php");
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#feedback_negative').hide();
-        $('#feedback_positive').hide();
+
 
         $("#send").on("click", function(e){
             e.preventDefault();

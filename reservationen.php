@@ -14,6 +14,8 @@
 
                 $('#deletepositive').hide();
                 $('#deletenegative').hide();
+                $('#feedback_negative').hide();
+                $('#feedback_positive').hide();
             });
 
             function setBezahlt(button){
