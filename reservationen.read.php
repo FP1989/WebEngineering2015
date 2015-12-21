@@ -38,9 +38,8 @@ else if(isset($_POST["TeilnehmerID_R"])) {
     $res = $database->fetchReservation(null, $teilnehmerID);
 
     if(!$res) {
-
         $res = array();
-        $res["TeilnehmerID"]  = null;
+        $res[0]["TeilnehmerID"]  = null;
     }
 
     else {

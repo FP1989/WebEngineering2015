@@ -46,13 +46,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#bestaetigung').modal('hide');});
+                                    $('#bestaetigung').modal('hide');
                             });
                         }
 
@@ -90,13 +89,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#beschtaetigung').modal('hide');});
+                                    $('#beschtaetigung').modal('hide');
                             });
                         }
 
@@ -340,6 +338,7 @@
 
                             document.getElementById("readonlyID").value = data.TeilnehmerID_R;
                             document.getElementById("readonlyName").value = data.Nachname_R;
+                            showReservationen(data.TeilnehmerID_R);
 
                         }
 
@@ -471,11 +470,11 @@ include_once("multiple_modal.php");
                 <h2>Reservationen ansehen / Reservationen editieren</h2> <br/><br/>
 
                 <div class="form-group">
-                    <label for="nr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
+                    <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="usr">
                             <span class="input-group-btn">
-                                <button onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button><br/><br/>
+                                <button onclick="searchTeilnehmer()" class="btn btn-primary">Suchen</button>
                             </span>
                     </div>
                 </div>

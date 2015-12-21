@@ -102,17 +102,12 @@
                         document.getElementById("recipient").value = response.id;
                         $('#feedback_negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
                         $("#feedback_positive").promise().done(function() {
-
-                            setTimeout(function(){
-
                                 $('#newRecipient').modal('hide');
-
-                            });
                         });
 
                     }else {
                         $('#feedback_negative').show().html(response.message);
-                        $('#newRecipient').effect( "shake", {times:2}, 1000 );
+                        $('#newRecipient').effect( "shake", {times:2}, 500 );
 
                     }
                 }

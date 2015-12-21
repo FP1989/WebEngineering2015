@@ -25,7 +25,7 @@ function is_valid_date($enddatum) {
     return $valid;
 }
 
-function is_current_date($faelligkeit){
+function is_current_date($hinreise){
 
     $valid = true;
 
@@ -37,7 +37,7 @@ function is_current_date($faelligkeit){
     @$jahr = $faelligkeit_array[2];
     $newDate = $jahr."-".$tag."-" .$monat;*/
 
-    if(strtotime($faelligkeit)< strtotime($time)) $valid = false;
+    if(strtotime($hinreise)< strtotime($time)) $valid = false;
 
     return $valid;
 }
@@ -100,7 +100,7 @@ if (empty($rueckreise)) {
 }else if (!is_valid_date($rueckreise)) {
     $rueckreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Rückreise</strong> eingeben";
     $valid = false;
-}else if($rueckreise < $hinreise){
+}else if(strtotime($rueckreise) < strtotime($hinreise)){
     $rueckreise_error= "Das <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
     $valid = false;
 }

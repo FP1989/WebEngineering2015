@@ -31,7 +31,7 @@
                                 var counter = 0;
 
                                 while(counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,500, this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,250, this.id)\" class=\"btn btn-primary btn-sm btn-multiple\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
@@ -171,10 +171,14 @@ include_once("multiple_modal.php");
 
                 <div class="form-group">
                     <label for="usr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
-                    <input type="text" class="form-control" id="usr">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="usr">
+                        <span class="input-group-btn">
+                            <button id="usr_suche" onclick="searchTeilnehmer()" class="btn btn-primary">Suchen</button>
+                        </span>
+                    </div>
                 </div>
 
-                <button id="usr_suche" onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button>
 
 
 

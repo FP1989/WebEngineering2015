@@ -157,10 +157,8 @@
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#alterpositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#Mutationsformular').modal('hide');});
+                                $('#Mutationsformular').modal('hide');
                         });
-
                     }
 
                     else {
