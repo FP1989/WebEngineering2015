@@ -99,17 +99,12 @@
 
                 if(data.flag){
 
-                    $('#positive').show().html(data.message).delay(500).fadeOut();
+                    $('#positive').show().html(data.message).delay(750).fadeOut();
                     $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                     //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                     $("#positive").promise().done(function() {
-
-                        setTimeout(function(){
-
                             $('#Mutationsformular').modal('hide');
-
-                        });
                     });
 
                 }

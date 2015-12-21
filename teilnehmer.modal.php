@@ -108,13 +108,12 @@
 
                 if(data.flag){
 
-                    $('#positive').show().html(data.message).delay(1000).fadeOut();
+                    $('#positive').show().html(data.message).delay(750).fadeOut();
                     $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                     //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                     $( "#positive" ).promise().done(function() {
-                        setTimeout(function(){
-                            $('#Mutationsformular').modal('hide');});
+                            $('#Mutationsformular').modal('hide');
                     })
 
                 }
@@ -122,7 +121,7 @@
                 else {
 
                     $('#negative').show().html(data.message);
-                    $('#Mutationsformular').effect( "shake", {times:2}, 1000 );
+                    $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                 }
             }
@@ -171,13 +170,12 @@
                     var status = response.flag;
                     if(status){
 
-                        $('#positive').show().html(response.message).delay(2000).fadeOut();
+                        $('#positive').show().html(response.message).delay(750).fadeOut();
                         $('#negative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#positive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#Mutationsformular').modal('hide');}, 1000);
+                                $('#Mutationsformular').modal('hide');
                         });
                     }
 

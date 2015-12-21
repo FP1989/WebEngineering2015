@@ -98,7 +98,7 @@ include("includes/authentication.inc.php");
                     var status = response.flag;
                     if(status){
                         $('#feedback_negative').hide();
-                        $('#feedback_positive').show().html(response.message).delay(500).fadeOut();
+                        $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
 
                         $("#reiseNr").val("");
                         $("#reiseID").val("");
@@ -107,7 +107,7 @@ include("includes/authentication.inc.php");
                         $("#teilnehmerID").val("");
                         $("#teilnehmerName").val("");
                     }else {
-                        $('#feedback_negative').show().html(response.message).delay(2000).fadeOut();
+                        $('#feedback_negative').show().html(response.message).delay(1000).fadeOut();
                     }
                 }
 

@@ -37,13 +37,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#Reiseloeschen').modal('hide');});
+                                    $('#Reiseloeschen').modal('hide');
                             });
                         }
 

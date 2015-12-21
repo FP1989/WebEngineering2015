@@ -46,13 +46,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#bestaetigung').modal('hide');});
+                                    $('#bestaetigung').modal('hide');
                             });
                         }
 
@@ -90,13 +89,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#beschtaetigung').modal('hide');});
+                                    $('#beschtaetigung').modal('hide');
                             });
                         }
 
