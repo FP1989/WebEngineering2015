@@ -96,3 +96,7 @@ burst
 {
     font-weight: bold;
 }
+
+.btn {
+    margin: 2px;
+}

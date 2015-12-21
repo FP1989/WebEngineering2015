@@ -31,16 +31,14 @@
                                 var counter = 0;
 
                                 while(counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,500, this.id)\" class=\"btn btn-primary\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"setTimeout(searchExactTeilnehmer,500, this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter+1] + " " + data[counter+2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
-//                                for(var i = 0; i < data.length; i) {
-//                                    $("#insertnames").html("<button id = " + data[i] + " class=\"btn btn-primary\">" + data[i + 1] + " " + data[i + 2] + "</button>");
-//                                    alert(data[i] + ", " + data[i+1] + " " + data[i+2]);
-//                                }
-
                                 $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
 
                             } else {
 
@@ -136,10 +134,11 @@
 
             }
 
-                $(function () {
+            $(function () {
 
                 $('#positive').hide();
                 $('#negative').hide();
+
             });
 
         </script>
@@ -151,21 +150,8 @@
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
 include_once("teilnehmer.modal.php");
+include_once("multiple_modal.php");
 ?>
-    <div class="modal custom fade" id="multiplenames" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h2>Namensüberschneidungen</h2>
-                </div>
-
-                <div class="modal-body">
-                    <div id="insertnames" class="insertnames"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="content" class="container">
         <ul class="nav nav-tabs">
