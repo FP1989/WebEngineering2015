@@ -16,7 +16,7 @@ if($success) {
     $res['message'] = "User erfolgreich gelöscht";
     $res['flag'] = TRUE;
 } else {
-    $res['message'] = "Datensatz konnte nicht gelöscht werden";
+    $res['message'] = "Datensatz konnte nicht gelöscht werden.";
     $res['flag'] = FALSE;
 }
 

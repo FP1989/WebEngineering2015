@@ -7,7 +7,7 @@ include("includes/authentication.inc.php");
 
 /** @var database $verbindung */
 $verbindung = database::getDatabase();
-if(isset($_SESSION['radioreise'])) $result = $verbindung->generateReport($_SESSION['type'], $_SESSION['radioreise']);
+if(isset($_SESSION['reisekonkret'])) $result = $verbindung->generateReport($_SESSION['type'], $_SESSION['reisekonkret']);
 else $result = $verbindung->generateReport($_SESSION['type']);
 
     $pdf = new PDF();

@@ -114,9 +114,9 @@ include_once("beguenstigter.modal.php");
                     <label for="usr">Begünstigter-Nr oder Begünstigter-Nachname:</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="beguenstigter">
-                            <span class="input-group-btn">
-                                <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-primary btn-md">Suchen</button>
-                            </span>
+                        <span class="input-group-btn">
+                            <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-primary btn-md">Suchen</button>
+                        </span>
                     </div>
                 </div>
 

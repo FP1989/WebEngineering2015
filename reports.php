@@ -3,7 +3,7 @@
 //Executed first to avoid any information sent by client, which prevents FPDF from creating PDF
 if(isset($_POST['pdfbutton'])) {
     $_SESSION['type'] = $_POST['type'];
-    if(isset($_POST['radioreise'])) $_SESSION['radioreise'] = $_POST['radioreise'];
+    if(isset($_POST['reisekonkret'])) $_SESSION['reisekonkret'] = $_POST['reisekonkret'];
     header("Location:print_pdf.php");
 };?>
     <!doctype html>
@@ -57,27 +57,28 @@ include_once("classes/database.class.php");
                             <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
                             <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
                         </optgroup>
-                    </select><br>
+                    </select>
                 </div>
                 <div class="form-group">
                     <div id="reisenhidden" style="display:none">
                         <?php
                         /** @var database $verbindung */
                         $verbindung = database::getDatabase();
-                        $result = $verbindung->reportReisen();
+                        $result = $verbindung->getallReisen('all');
 
                         if($result->num_rows > 0) {
+                            echo "<select name=\"reisekonkret\" id=\"reisekonkret\" class=\"form-group\">";
                             while ($row = $result->fetch_assoc()) {
-
-                                foreach($row as $value) {
-                                    echo "<input type=\"radio\" value=\"" . $value . "\" name=\"radioreise\"> Reise " . $value . "&nbsp;&nbsp;&nbsp;&nbsp;";
-                                }
+                                echo "<option value= \"" . $row['ReiseID'] . "\">Reise-ID: " . $row['ReiseID'] . ", Reiseziel: " . $row['Ziel'] . ", Abreise: " . $row['Hinreise'] . "</option>";
                             }
+                            echo "</select>";
                         } else echo "Keine Reisen erfasst";
                         ?>
-                        <br><br></div>
-                    <input type="submit" name="submit" class="btn btn-primary" value="Report generieren"/>
-                    <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-primary" value="Report generieren"/>
+                        <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
+                    </div>
                 </div>
             </form>
         </div>
@@ -87,7 +88,7 @@ include_once("classes/database.class.php");
 
             /** @var database $verbindung */
             $verbindung = database::getDatabase();
-            if(isset($_POST['radioreise'])) $result = $verbindung->generateReport($_POST['type'], $_POST['radioreise']);
+            if(isset($_POST['reisekonkret'])) $result = $verbindung->generateReport($_POST['type'], $_POST['reisekonkret']);
             else $result = $verbindung->generateReport($_POST['type']);
 
             if ($result->num_rows > 0) {

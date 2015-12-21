@@ -7,7 +7,7 @@
             </div>
 
             <div class="modal-body">
-                <p>Bitte wählen: </p>
+                <p>Bitte den korrekten Teilnehmer wählen:</p>
                 <div class="row-fluid">
                     <div id="insertnames" class="insertnames"></div>
                 </div>

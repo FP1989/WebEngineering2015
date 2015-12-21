@@ -9,7 +9,7 @@ class PDF extends FPDF {
     private $fsize = 10;
     private $imagey = 169;
     private $imagex = 130;
-    private $font = 'Times';
+    private $font = 'Arial';
     private $footerfont = 'Courier';
     private $imageloc = 'files/logo_report.png';
     private $white = 255;
@@ -24,21 +24,22 @@ class PDF extends FPDF {
         $this->SetFont($this->font, 'B', $this->fsize + 10);
         $this->SetDrawColor($this->black, $this->black, $this->black);
         $this->SetTextColor($this->black, $this->black, $this->black);
-        $this->SetFillColor(224, 224, 224);
-        $this->Cell($this->hwidth, $this->cheight, '', '', 0, 'L', 1);
+        $this->SetFillColor($this->black, $this->black, $this->black);
+        $this->Cell($this->hwidth, $this->cheight-8, '', '', 0, 'L', 1);
         $this->Ln(2);
 
 //        Second Line
-        $this->SetFillColor(192, 192, 192);
-        $this->Cell($this->hwidth, $this->cheight, '', '', 0, 'L', 1);
-        $this->Ln(2);
+        $this->SetFillColor($this->white, $this->white, $this->white);
+        $title = utf8_decode($_SESSION['type']);
+        $this->Cell($this->hwidth-50, $this->cheight, "REPORT: " . $title, '', 0, 'L', 1);
+        $this->Ln(10);
 
 //        Third Line
-        $this->SetFillColor(160, 160, 160);
-        $title = utf8_decode($_SESSION['type']);
-        $this->Cell($this->hwidth, $this->cheight, "Report '" . $title . "'", '', 0, 'L', 1);
-        $this->Ln(50);
+        $this->SetFillColor($this->black, $this->black, $this->black);
+        $this->Cell($this->hwidth, $this->cheight-9, '', '', 0, 'L', 1);
+        $this->Ln(20);
     }
+
 
 //    Override FPDF Footer
     function Footer() {
@@ -59,8 +60,8 @@ class PDF extends FPDF {
 //  Table Header
             $this->SetFont($this->font, 'B', 12);
             $this->SetDrawColor($this->black, $this->black, $this->black);
-            $this->SetFillColor(192, 192, 192);
-            $this->SetTextColor($this->black, $this->black, $this->black);
+            $this->SetFillColor($this->black, $this->black, $this->black);
+            $this->SetTextColor($this->white, $this->white, $this->white);
 
             while ($finfo = $result->fetch_field()) {
                 $this->Cell($this->cwidth, $this->cheight, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);

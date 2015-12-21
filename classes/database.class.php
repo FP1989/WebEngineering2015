@@ -316,7 +316,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT Ziel FROM Reise";
+        $query = "SELECT Ziel, ReiseID FROM Reise";
         $result = $link->query($query);
         return $result;
     }
@@ -934,7 +934,7 @@ class database
 
     }
 
-    public function generateReport($type, $optional_radio = "") {
+    public function generateReport($type, $optional = "") {
 
         /* @var database $database*/
         $database = database::getDatabase();
@@ -949,7 +949,7 @@ class database
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
                 break;
             case "Reiseteilnehmer":
-                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.Ziel = '$optional_radio' ORDER BY R.ReiseID ASC";
+                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.ReiseID = '$optional' ORDER BY R.ReiseID ASC";
                 break;
             case "Debitoren":
                 $query = "SELECT T.Nachname, T.Vorname, R.Ziel, R.Hinreise FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID WHERE Re.bezahlt = 0";

@@ -23,7 +23,7 @@ if($success) {
 else {
 
     $res["flag"] = false;
-    $res["message"] = "Datensatz konnte nicht gelöscht werden";
+    $res["message"] = "Datensatz konnte nicht gelöscht werden, möglicherweise bestehen noch Abhängigkeiten.";
 
 }
 
