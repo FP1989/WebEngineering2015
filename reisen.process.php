@@ -29,15 +29,15 @@ function is_current_date($faelligkeit){
 
     $valid = true;
 
-    $time = date("Y-m-d");
+    $time = date("d.m.Y");
 
-    @$faelligkeit_array = explode('.', $faelligkeit);
+   /* @$faelligkeit_array = explode('.', $faelligkeit);
     @$tag = $faelligkeit_array[0];
     @$monat = $faelligkeit_array[1];
     @$jahr = $faelligkeit_array[2];
-    $newDate = $jahr . "-" . $monat . "-" . $tag;
+    $newDate = $jahr."-".$tag."-" .$monat;*/
 
-    if($newDate< $time) $valid = false;
+    if(strtotime($faelligkeit)< strtotime($time)) $valid = false;
 
     return $valid;
 }

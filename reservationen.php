@@ -156,8 +156,6 @@
 
                     }
                 });
-
-
             }
 
             function searchTeilnehmer(){

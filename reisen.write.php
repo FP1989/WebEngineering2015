@@ -48,7 +48,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['destination']))) {
         $destination_error = "Bitte ein Ziel eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['destination']))) {
+    }else if (!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç ]*$/",format_input($_POST['destination']))) {
         $destination_error = $destination_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }

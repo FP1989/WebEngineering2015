@@ -26,7 +26,7 @@ $mail = format_input($_POST["Mail_P"]);
 if (empty($vorname)) {
     $vornamen_error = "Bitte einen <strong>Vornamen</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$vorname)){
+}else if(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",$vorname)){
     $vornamen_error = "Bitte einen <strong>korrekten Vornamen</strong> eingeben.";
     $valid = false;
 }
@@ -34,7 +34,7 @@ if (empty($vorname)) {
 if (empty($nachname)) {
     $nachnamen_error = "Bitte einen <strong>Nachnamen</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$nachname)){
+}else if(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",$nachname)){
     $nachnamen_error = "Bitte einen <strong>korrekten Nachnamen</strong> eingeben.";
     $valid = false;
 }
@@ -42,7 +42,7 @@ if (empty($nachname)) {
 if (empty($strasse)) {
     $strasse_error = "Bitte eine <strong>Strasse</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#',$strasse)){
+}else if(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",$strasse)){
     $strasse_error = "Bitte eine <strong>korrekte Strasse</strong> eingeben.";
     $valid = false;
 }
@@ -58,7 +58,7 @@ if (empty($plz)) {
 if (empty($ort)) {
     $ort_error = "Bitte einen <strong>Ort</strong> eingeben.";
     $valid = false;
-}else if(preg_match('#[\d]#', $ort)){
+}else if(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/", $ort)){
     $ort_error = "Bitte einen <strong>korrekten Ort</strong> eingeben.";
     $valid = false;
 }

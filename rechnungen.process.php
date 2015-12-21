@@ -88,9 +88,6 @@ if (empty($faelligkeit)){
 }else if (!is_valid_date($faelligkeit)) {
     $faelligkeit_error = "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj']</strong> eingeben";
     $valid = false;
-}else if (!is_current_date($faelligkeit)){
-    $faelligkeit_error = "Bitte ein <strong>aktuelles Fälligkeitsdatum</strong> eingeben";
-    $valid = false;
 }
 
 if (empty($bemerkung)) {
