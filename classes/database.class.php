@@ -105,7 +105,7 @@ class database
 
         else {
 
-            $query = "SELECT * FROM Beguenstigter WHERE BeguenstigterName = ?";
+            $query = "SELECT * FROM Beguenstigter WHERE BeguenstigterName = ? ORDER BY BeguenstigterID DESC";
             $stmt = $link->prepare($query);
             $stmt->bind_param('s',$BeguenstigterName);
 
