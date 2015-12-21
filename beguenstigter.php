@@ -97,8 +97,8 @@ include_once("beguenstigter.modal.php");
 
     <div id="content" class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#createRecipient">Neuen Beguenstigten erfassen</a></li>
-            <li><a data-toggle="tab" href="#editRecipient">Beguenstigten ansehen / editieren</a></li>
+            <li class="active"><a data-toggle="tab" href="#createRecipient">Neuen Begünstigten erfassen</a></li>
+            <li><a data-toggle="tab" href="#editRecipient">Begünstigten ansehen / editieren</a></li>
         </ul>
 
         <div class="tab-content">
@@ -108,14 +108,14 @@ include_once("beguenstigter.modal.php");
 
 
             <div id="editRecipient" class="tab-pane fade">
-                <h2>Beg&uuml;nstigten ansehen / Beg&uuml;nstigten editieren</h2> <br/><br/>
+                <h2>Begünstigten ansehen / Begünstigten editieren</h2> <br/><br/>
 
                 <div class="form-group">
-                    <label for="usr">Beg&uuml;nstigter-Nr oder Beg&uuml;nstigter-Nachname:</label>
+                    <label for="usr">Begünstigter-Nr oder Begünstigter-Nachname:</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="beguenstigter">
                             <span class="input-group-btn">
-                                <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-success btn-md">Suchen</button>
+                                <button id="recipient_suche" onclick="searchBeguenstigter()" class="btn btn-primary btn-md">Suchen</button>
                             </span>
                     </div>
                 </div>

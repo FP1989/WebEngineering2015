@@ -11,12 +11,12 @@ include("includes/authentication.inc.php");
 
 <div class="form-group">
     <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
-    <div class="input-group">
-        <input type="text" class="form-control" id="teilnehmerNr">
-        <span class="input-group-btn">
-            <button onclick="sucheTeilnehmer()" class="btn btn-success btn-md">Suche Teilnehmer</button>
-        </span>
-    </div>
+        <div class="input-group">
+    <input type="text" class="form-control" id="teilnehmerNr">
+            <span class="input-group-btn">
+    <button onclick="sucheTeilnehmer()" class="btn btn-primary">Suche Teilnehmer</button>
+            </span>
+        </div>
 </div>
 
 <div class="form-group">
@@ -40,7 +40,7 @@ include("includes/authentication.inc.php");
     <div class="input-group">
         <input type="text" class="form-control" id="reiseNr">
         <span class="input-group-btn">
-            <button onclick="sucheReise()" class="btn btn-success btn-md">Suche Reise</button>
+            <button onclick="sucheReise()" class="btn btn-primary">Suche Reise</button>
         </span>
     </div>
 </div>

@@ -71,8 +71,6 @@
 
                     success: function (data) {
 
-                        alert("success reisen");
-
                         document.getElementById("ReiseID_R").value = id;
                         document.getElementById("Ziel_R").value = data.Ziel_R;
                         document.getElementById("Beschreibung_R").value = data.Beschreibung_R;

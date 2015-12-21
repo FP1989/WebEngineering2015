@@ -340,6 +340,7 @@
 
                             document.getElementById("readonlyID").value = data.TeilnehmerID_R;
                             document.getElementById("readonlyName").value = data.Nachname_R;
+                            showReservationen(data.TeilnehmerID_R);
 
                         }
 
@@ -471,11 +472,11 @@ include_once("multiple_modal.php");
                 <h2>Reservationen ansehen / Reservationen editieren</h2> <br/><br/>
 
                 <div class="form-group">
-                    <label for="nr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
+                    <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="usr">
                             <span class="input-group-btn">
-                                <button onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button><br/><br/>
+                                <button onclick="searchTeilnehmer()" class="btn btn-primary">Suchen</button>
                             </span>
                     </div>
                 </div>
