@@ -160,9 +160,6 @@
 
                     }
                 },
-                error: function(err){
-                    alert(JSON.stringify(err));
-                }
             });
         });
 
