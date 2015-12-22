@@ -165,7 +165,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $term = "%{$term}%";
+        $term = "%".$term."%";
 
         $query = "SELECT BeguenstigterID, BeguenstigterName FROM Beguenstigter WHERE BeguenstigterName LIKE ?";
         $stmt = $link->prepare($query);
@@ -962,10 +962,9 @@ class database
             $stmt->close();
             return false;
         }
-
     }
 
-    public function generateReport($type, $optional = "") {
+    public function generateReport($type, $option = NULL) {
 
         /* @var database $database*/
         $database = database::getDatabase();
@@ -980,10 +979,13 @@ class database
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
                 break;
             case "Reiseteilnehmer":
-                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.ReiseID = '$optional' ORDER BY R.ReiseID ASC";
+                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.ReiseID = $option ORDER BY R.ReiseID ASC";
                 break;
             case "Debitoren":
                 $query = "SELECT T.Nachname, T.Vorname, R.Ziel, R.Hinreise FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID WHERE Re.bezahlt = 0";
+                break;
+            case "Zuletzt erfasste Teilnehmer":
+                $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Strasse, O.Ortname FROM Teilnehmer T JOIN Ort O ON T.Ort = O.PLZ ORDER BY TeilnehmerID DESC LIMIT $option";
                 break;
             case "Kundenadressen":
                 $query = "SELECT T.TeilnehmerID, T.Vorname, T.Nachname, T.Strasse, T.Hausnummer, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Ort O ON T.Ort= O.PLZ ORDER BY T.TeilnehmerID ASC";
@@ -993,9 +995,6 @@ class database
                 break;
             case "Reiseübersicht":
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Preis, R.Hinreise, R.Rueckreise FROM Reise R";
-                break;
-            case "Reisen demnächst":
-                $query = "SELECT R.Ziel, R.Hinreise, T.Nachname, T.Vorname FROM Reise R JOIN Reservation Re ON R.ReiseID=Re.ReiseID JOIN Teilnehmer T ON Re.TeilnehmerID=T.TeilnehmerID WHERE R.Hinreise > CURDATE()";
                 break;
             case "Begünstigte":
                 $query = "SELECT BeguenstigterID AS BegünstigterID, BeguenstigterName AS BegünstigterName, Strasse, Hausnummer, Ort FROM Beguenstigter";
@@ -1036,7 +1035,7 @@ ORDER BY Gewinn DESC;";
         if (!empty($query)) {
             $result = $link->query($query);
             return $result;
-        } else return false;
+        } else return FALSE;
     }
 
     public function getLink()

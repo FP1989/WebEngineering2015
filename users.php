@@ -30,7 +30,7 @@
                         if(data.flag) {
                             $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $("#deletepositive").promise().done(function() {
-                                    $('#userdeletemodal').modal('hide');
+                                $('#userdeletemodal').modal('hide');
                             });
                         } else {
                             $('#deletenegative').show().html(data.message);
@@ -72,12 +72,18 @@ if(isset($_POST['gesendet'])) {
     } elseif(preg_match('/\s/',$_POST['userid'])) {
         $userid_error = "Leerschläge dürfen nicht verwendet werden";
         $valid = false;
+    } elseif(!preg_match('[a-zA-Z0-9]', $_POST['userid'])) {
+        $userid_error = "Bitte nur alphanumerische Zeichen verwenden (A-Z, 0-9)";
+        $valid = false;
     }
     if(empty($_POST['passwort'])) {
         $pw_error = "Bitte Passwort eingeben";
         $valid = false;
     }elseif(strlen($_POST['passwort']) <= 3) {
         $pw_error = "Bitte mindestens vier Zeichen für das Passwort verwenden";
+        $valid = false;
+    }elseif(!preg_match('[a-zA-Z0-9]', $_POST['userid'])) {
+        $pw_error = "Bitte nur alphanumerische Zeichen verwenden (A-Z, 0-9)";
         $valid = false;
     }
 

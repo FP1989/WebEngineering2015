@@ -3,7 +3,7 @@
 //Executed first to avoid any information sent by client, which prevents FPDF from creating PDF
 if(isset($_POST['pdfbutton'])) {
     $_SESSION['type'] = $_POST['type'];
-    if(isset($_POST['reisekonkret'])) $_SESSION['reisekonkret'] = $_POST['reisekonkret'];
+    $_SESSION['option'] = $_POST['option'];
     header("Location:print_pdf.php");
 };?>
     <!doctype html>
@@ -17,10 +17,20 @@ if(isset($_POST['pdfbutton'])) {
             $(document).ready(function() {
                 $('#selectlistreports').change(function() {
                     if($(this).val() == 'Reiseteilnehmer') {
-                        $('#reisenhidden').css("display", "inline");
+                        $('#reisenhidden1').css("display", "inline");
                         return false;
                     } else {
-                        $('#reisenhidden').css("display", "none");
+                        $('#reisenhidden1').css("display", "none");
+                    }
+                });
+            });
+            $(document).ready(function() {
+                $('#selectlistreports').change(function() {
+                    if($(this).val() == 'Zuletzt erfasste Teilnehmer') {
+                        $('#reisenhidden2').css("display", "inline");
+                        return false;
+                    } else {
+                        $('#reisenhidden2').css("display", "none");
                     }
                 });
             });
@@ -42,10 +52,11 @@ include_once("classes/database.class.php");
                     <label for="selectlistreports">Report auswählen:</label>
                     <select name="type" id="selectlistreports" class="form-control">
                         <optgroup label="Kunden Reports">
-                            <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kunden pro Reise anzeigen (alle)</option>
-                            <option value="Reiseteilnehmer">Kunden pro Reise anzeigen (konkrete Reise)</option>
-                            <option value="Kundenadressen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenadressen') ? "selected" : ""?>>Alle Kunden Adressdaten anzeigen</option>
-                            <option value="Kundenkontakt" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenkontakt') ? "selected" : ""?>>Alle Kunden Kontaktdaten anzeigen</option>
+                            <option value="Reisebuchungen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisebuchungen') ? "selected" : ""?>>Kundentotal pro Reise anzeigen</option>
+                            <option value="Reiseteilnehmer">Kunden pro konkrete Reise anzeigen</option>
+                            <option value="Kundenadressen" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenadressen') ? "selected" : ""?>>Alle Kunden - Adressdaten anzeigen</option>
+                            <option value="Kundenkontakt" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kundenkontakt') ? "selected" : ""?>>Alle Kunden - Kontaktdaten anzeigen</option>
+                            <option value="Zuletzt erfasste Teilnehmer">Die zuletzt erfassten Kunden anzeigen</option>
                         </optgroup>
                         <optgroup label="Finanzreports">
                             <option value="Kreditoren" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Kreditoren') ? "selected" : ""?>>Offene Rechnungen anzeigen</option>
@@ -55,27 +66,33 @@ include_once("classes/database.class.php");
                         </optgroup>
                         <optgroup label="Reisereports">
                             <option value="Reiseübersicht" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reiseübersicht') ? "selected" : ""?>>Alle Reisen anzeigen</option>
-                            <option value="Reisen demnächst" <?php echo (isset($_POST['type']) && $_POST['type'] == 'Reisen demnächst') ? "selected" : ""?>>Ausstehende Reisen anzeigen</option>
                         </optgroup>
                     </select>
                 </div>
                 <div class="form-group">
-                    <div id="reisenhidden" style="display:none">
+                    <div id="reisenhidden1" style="display:none">
                         <?php
                         /** @var database $verbindung */
                         $verbindung = database::getDatabase();
                         $result = $verbindung->getallReisen('all');
 
                         if($result->num_rows > 0) {
-                            echo "<select name=\"reisekonkret\" id=\"reisekonkret\" class=\"form-group\">";
+                            echo "<select name=\"option\" class=\"form-control\"><option value=0 selected>Bitte Reise wählen...</option>";
                             while ($row = $result->fetch_assoc()) {
-                                echo "<option value= \"" . $row['ReiseID'] . "\">Reise-ID: " . $row['ReiseID'] . ", Reiseziel: " . $row['Ziel'] . ", Abreise: " . $row['Hinreise'] . "</option>";
+                                echo "<option value=" . $row['ReiseID'] . ">Reise-ID: " . $row['ReiseID'] . ", Reiseziel: " . $row['Ziel'] . ", Abreise: " . $row['Hinreise'] . "</option>";
                             }
                             echo "</select>";
                         } else echo "Keine Reisen erfasst";
                         ?>
                     </div>
+                    <div id="reisenhidden2" style="display:none">
+                        <label class="radio-inline"><input type="radio" name="option" value=3 />3 Kunden</label>
+                        <label class="radio-inline"><input type="radio" name="option" value=5  />5 Kunden</label>
+                        <label class="radio-inline"><input type="radio" name="option" value=10 />10 Kunden</label>
+                        <label class="radio-inline"><input type="radio" name="option" value=15 />15 Kunden</label>
+                    </div>
                     <div class="form-group">
+                        <br>
                         <input type="submit" name="submit" class="btn btn-primary" value="Report generieren"/>
                         <input type="submit" name="pdfbutton" class="btn btn-primary" value="Report als PDF generieren"/>
                     </div>
@@ -88,8 +105,7 @@ include_once("classes/database.class.php");
 
             /** @var database $verbindung */
             $verbindung = database::getDatabase();
-            if(isset($_POST['reisekonkret'])) $result = $verbindung->generateReport($_POST['type'], $_POST['reisekonkret']);
-            else $result = $verbindung->generateReport($_POST['type']);
+            $result = $verbindung->generateReport($_POST['type'], $_POST['option']);
 
             if ($result->num_rows > 0) {
 
@@ -112,7 +128,9 @@ include_once("classes/database.class.php");
                 }
                 echo "</table>";
 
-            } else echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage.</div>";
+            } else {
+                echo "<div class='container'>Keine Daten vorhanden zu dieser Abfrage</div>";
+            }
         }
         ?>
     </div>
