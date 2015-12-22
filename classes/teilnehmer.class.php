@@ -142,5 +142,4 @@ class teilnehmer{
         $this->telefonNr = $telefonNr;
 
     }
-
 }

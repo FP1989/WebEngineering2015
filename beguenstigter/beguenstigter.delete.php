@@ -30,7 +30,3 @@ else {
 }
 
 echo json_encode($res);
-
-
-
-
