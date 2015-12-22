@@ -113,13 +113,10 @@
 
                     $('#negative').show().html(data.message);
                     $('#Mutationsformular').effect( "shake", {times:2}, 500 );
-
                 }
             }
         });
-
     }
-
 
     $(function (){
 
@@ -164,7 +161,6 @@
                         $( "#positive" ).promise().done(function() {
 
                                 $('#Mutationsformular').modal('hide');
-
                         });
                     }
 

@@ -42,4 +42,3 @@ else if(isset($_POST["Name_R"])){
     echo json_encode($beg);
 
 }
-

@@ -116,8 +116,6 @@
                 }
             }
         </script>
-
-
     </head>
 <body>
 <div id="wrapper">
@@ -151,12 +149,7 @@ include_once("beguenstigter.modal.php");
                         </span>
                     </div>
                 </div>
-
-
-
             </div>  <!-- end tab-2 -->
         </div> <!-- end tabs -->
     </div> <!-- end content div -->
-
-<?php
-include("../includes/footer.inc.php");
+<?php include("../includes/footer.inc.php");
