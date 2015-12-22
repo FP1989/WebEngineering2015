@@ -150,7 +150,7 @@
 include_once("../includes/navigation.inc.php");
 include_once("../classes/database.class.php");
 include_once("teilnehmer.modal.php");
-include_once("../multiple_modal.php");
+include_once("multiple_modal.php");
 ?>
 
     <div id="content" class="container">

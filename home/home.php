@@ -1,4 +1,4 @@
-<?php include("includes/authentication.inc.php");?>
+<?php include("../includes/authentication.inc.php");?>
 
     <!doctype html>
     <html lang="de">
@@ -6,7 +6,7 @@
         <?php
         $pagetitle = "Home";
         $_SESSION['pagetitle'] = $pagetitle;
-        include_once("includes/header.inc.php");
+        include_once("../includes/header.inc.php");
         ?>
     </head>
 
@@ -16,8 +16,8 @@
 <div id="wrapper">
 <?php
 
-include_once("includes/navigation.inc.php");
-include_once("classes/database.class.php");
+include_once("../includes/navigation.inc.php");
+include_once("../classes/database.class.php");
 include_once("passwort_modal.php");
 
 $bezahlt = $reiseid_error = $teilnehmerid_error = $bezahlt_error = $success_alert = $error_alert = "";
@@ -110,67 +110,101 @@ if(isset($_POST['gesendet'])) {
         </div>
         <!--        Jumbotron quick access end-->
 
-        <!--        Panel #1-->
-        <div class="col-md-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reisen demnächst</div>
-                <div class="panel-body">
+        <div class="row">
+            <!--        Panel #1-->
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Reisen demnächst</div>
+                    <div class="panel-body">
 
-                    <?php
-                    /* @var database $database */
-                    $database = database::getDatabase();
-                    $result = $database->getNextReisen();
+                        <?php
+                        /* @var database $database */
+                        $database = database::getDatabase();
+                        $result = $database->getNextReisen();
 
-                    echo "<table>";
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        foreach($row as $value) {
-                            if (preg_match('/[0-9]+[-]+/', $value)) {
-                                $date = date("d.m.Y", strtotime($value));
-                                echo "<td><b>" . $date . "</b></td>";
+                        echo "<table>";
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            foreach($row as $value) {
+                                if (preg_match('/[0-9]+[-]+/', $value)) {
+                                    $date = date("d.m.Y", strtotime($value));
+                                    echo "<td><b>" . $date . "</b></td>";
+                                }
+                                else echo "<td>" . $value . "<td>";
                             }
-                            else echo "<td>" . $value . "<td>";
+                            echo "</tr>";
                         }
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                    ?>
+                        echo "</table>";
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--        Panel #1 end-->
+            <!--        Panel #1 end-->
 
-        <!--        Panel #2-->
-        <div class="col-md-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">Fällige Rechnungen</div>
-                <div class="panel-body">
-                    <?php
-                    /* @var database $database */
-                    $database = database::getDatabase();
-                    $result = $database->getNextRechnungen();
+            <!--        Panel #2-->
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Fällige Rechnungen</div>
+                    <div class="panel-body">
+                        <?php
+                        /* @var database $database */
+                        $database = database::getDatabase();
+                        $result = $database->getNextRechnungen();
 
-                    echo "<table>";
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        foreach($row as $value) {
-                            if (preg_match('/[0-9]+[-]+/', $value)) {
-                                $date = date("d.m.Y", strtotime($value));
-                                echo "<td><b>" . $date . "</b></td>";
+                        echo "<table>";
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            foreach($row as $value) {
+                                if (preg_match('/[0-9]+[-]+/', $value)) {
+                                    $date = date("d.m.Y", strtotime($value));
+                                    echo "<td><b>" . $date . "</b></td>";
+                                }
+                                else echo "<td>" . $value . "<td>";
                             }
-                            else echo "<td>" . $value . "<td>";
+                            echo "</tr>";
                         }
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                    ?>
+                        echo "</table>";
+                        ?>
+                    </div>
                 </div>
             </div>
+            <!--        Panel #2 end-->
         </div>
-        <!--        Panel #2 end-->
 
     </div>
     <!--    Content end-->
+    <script type="text/javascript">
+        $(function() {
+
+            $( "#reiseid" ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax({
+                        url: "../autosuggest_recipient.php",
+                        dataType: "json",
+                        data: {term: request.term},
+                        success: function (data) {
+                            if(data.length > 0){
+                                response($.map(data, function (item) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }));
+                            }else{
+                                response([{ label: 'No results found.', value: -1}]);
+                            }
+                        }
+                    });
+                },
+                select: function (event, ui) {
+
+                    if (ui.item.value == -1) {
+                        return false;
+                    }
+                }
+
+            });
+    </script>
 
 <?php
-include ("includes/footer.inc.php");
+include("../includes/footer.inc.php");

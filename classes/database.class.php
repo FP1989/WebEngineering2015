@@ -357,7 +357,6 @@ class database
         $id = $rechnung->getRechnungsID();
         $rechnungsart = $rechnung->getRechnungsart();
         $betrag = $rechnung->getBetrag();
-        $waehrung = $rechnung->getWaehrung();
         $iban = $rechnung->getIban();
         $swift = $rechnung->getSwift();
         $Beguenstigter = $rechnung->getBeguenstigter();
@@ -373,16 +372,16 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO Rechnung (Rechnungsart, Betrag, Waehrung, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO Rechnung (Rechnungsart, Betrag, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
 
         }
         else {
 
-            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, Waehrung = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
+            $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
+            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
 
         }
 
@@ -430,14 +429,13 @@ class database
 
 
         $stmt->execute();
-        $stmt->bind_result($rechnungsID, $rechnungsart, $betrag, $waehrung, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+        $stmt->bind_result($rechnungsID, $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
         $stmt->fetch();
         $stmt->close();
 
         $rg ["RechnungsID"] = $rechnungsID;
         $rg ["Rechnungsart"] = $rechnungsart;
         $rg ["Betrag"] = $betrag;
-        $rg ["Waehrung"] = $waehrung;
         $rg ["IBAN"] = $iban;
         $rg ["SWIFT"] = $swift;
         $rg ["Beguenstigter"] = $Beguenstigter;
@@ -973,7 +971,7 @@ class database
         switch ($type) {
 
             case "Kreditoren":
-                $query = "SELECT Re.RechnungsID, Re.Rechnungsart, Re.Betrag, Re.Waehrung AS Währung, Re.Kostenart, Re.Faelligkeit AS Fälligkeit FROM Rechnung Re WHERE Re.bezahlt = 0 ORDER BY Re.RechnungsID ASC";
+                $query = "SELECT Re.RechnungsID, Re.Rechnungsart, Re.Betrag AS Währung, Re.Kostenart, Re.Faelligkeit AS Fälligkeit FROM Rechnung Re WHERE Re.bezahlt = 0 ORDER BY Re.RechnungsID ASC";
                 break;
             case "Reisebuchungen":
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
@@ -1000,6 +998,8 @@ class database
                 $query = "SELECT BeguenstigterID AS BegünstigterID, BeguenstigterName AS BegünstigterName, Strasse, Hausnummer, Ort FROM Beguenstigter";
                 break;
             case "Finanzübersicht":
+
+
                 $query = "
 SELECT
 R.ReiseID,
@@ -1092,7 +1092,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit > CURDATE() AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
+        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag FROM Rechnung R WHERE R.Faelligkeit > CURDATE() AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
 
         $result = $link->query($query);
         return $result;
