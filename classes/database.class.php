@@ -921,7 +921,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT LoginID FROM Logindaten WHERE loginID != 'admin'";
+        $query = "SELECT ID, LoginID FROM Logindaten WHERE loginID != 'admin'";
         $result = $link->query($query);
         return $result;
     }
@@ -1226,7 +1226,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "DELETE FROM Logindaten WHERE LoginID = ?";
+        $query = "DELETE FROM Logindaten WHERE ID = ?";
         $stmt = $link->prepare($query);
         $stmt->bind_param('i', $userID);
 
