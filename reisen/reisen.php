@@ -31,11 +31,11 @@
 
                         if(data[0] != null) {
 
-                            var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=2></th></tr>";
+                            var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=3></th></tr>";
 
                             for (var i = 0; i < data.length; i++) {
 
-                                reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button><td ><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td></tr>";
+                                reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\"> mutieren</button><td><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td><td><form target=\"_blank\" action = \"reise.finanzuebersicht.php\" method=\"post\"><button class=\"btn btn-primary btn-sm\" name =\"wert\" value=\""+data[i].ReiseID+"\">Finanzübersicht</button></form></td></tr>";
                             }
                         }
 
@@ -63,11 +63,11 @@
 
                             if(data[0] != null) {
 
-                                var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=2></th></tr>";
+                                var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=3></th></tr>";
 
                                 for (var i = 0; i < data.length; i++) {
 
-                                    reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button><td ><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td></tr>";
+                                    reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button></td><td><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td><td><form target=\"_blank\" action = \"reise.finanzuebersicht.php\" method=\"post\"><button class=\"btn btn-primary btn-sm\" name =\"wert\" value=\""+data[i].ReiseID+"\">Finanzübersicht</button></form></td></tr>";
 
                                 }
                             }
@@ -79,6 +79,12 @@
                     });
                 });
             });
+
+
+
+
+
+
 
             function deleteReiseID(button){
 

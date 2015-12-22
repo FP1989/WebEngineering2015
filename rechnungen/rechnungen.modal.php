@@ -30,17 +30,8 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-8">
-                                <label>Betrag</label>
+                                <label>Betrag in CHF</label>
                                 <input type="number" id="Betrag_R" name="amount" class="form-control"/>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Währung</label>
-                                <select id ="Waehrung_R" name="currency" class="form-control">
-                                    <option value="CHF">CHF</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="USD">USD</option>
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -109,8 +100,8 @@
 
         $("#Mutationsformular").on("hidden.bs.modal", function(e){
 
-            $('#negative').hide();
-            $('#positive').hide();
+            $('#alternegative').hide();
+            $('#alterpositive').hide();
 
         });
 
@@ -122,7 +113,6 @@
             var rechnungsID = $("#RechnungsID_R").val();
             var rechnungsArt = $("input[name=paymentoption]:checked").val();
             var betrag = $("#Betrag_R").val();
-            var waehrung = $("#Waehrung_R option:selected").val();
             var iban = $("#IBAN_R").val();
             var swift = $("#Swift_R").val();
             var faelligkeit = $("#Faelligkeit_R").val();
@@ -142,7 +132,6 @@
                     RechnungsID_P:rechnungsID,
                     RechnungsArt_P:rechnungsArt,
                     Betrag_P:betrag,
-                    Waehrung_P:waehrung,
                     IBAN_P:iban,
                     Swift_P:swift,
                     Faelligkeit_P:faelligkeit,

@@ -185,10 +185,6 @@
                         document.getElementById("Bemerkung_R").value = data.Bemerkung_R;
                         document.getElementById("Reise_R").value = data.Reise_R;
 
-
-                        var waehrung = document.getElementById("Waehrung_R");
-                        waehrung.value = data.Waehrung_R;
-
                         var kostenart = document.getElementById("Kostenart_R");
                         kostenart.value = data.Kostenart_R;
 

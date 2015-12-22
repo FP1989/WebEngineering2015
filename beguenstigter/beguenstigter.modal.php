@@ -7,7 +7,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h2>Beg&uuml;nstigter mutieren</h2> </br></br>
+                <h2>Begünstigter mutieren</h2> </br></br>
             </div>
 
             <div class ="modal-body">

@@ -144,18 +144,10 @@ if(isset($_POST['gesendet'])) {
         $traveldata['Beschreibung'] = format_input($_POST['description']);
         $traveldata['Bezeichnung'] = format_input($_POST['travelname']);
         $traveldata['Preis'] = format_input($_POST['price']);
-        @$enddatum_array = explode('.', format_input($_POST['fromdate']));
-        @$tag = $enddatum_array[0];
-        @$monat = $enddatum_array[1];
-        @$jahr = $enddatum_array[2];
-        $newDate = $jahr . "-" . $monat . "-" . $tag;
-        $traveldata['Hinreise'] = $newDate;
-        @$datum_array = explode('.', format_input($_POST['todate']));
-        @$tag = $datum_array[0];
-        @$monat = $datum_array[1];
-        @$jahr = $datum_array[2];
-        $NeuesDatum = $jahr . "-" . $monat . "-" . $tag;
-        $traveldata['Rueckreise'] = $NeuesDatum;
+
+        $traveldata['Hinreise'] = date("Y-m-d",strtotime(format_input($_POST['fromdate'])));
+
+        $traveldata['Rueckreise'] = date("Y-m-d", strtotime(format_input($_POST['todate'])));
         $traveldata['MinAnzahl'] = format_input($_POST['minParticipant']);
         $traveldata['MaxAnzahl'] = format_input($_POST['maxParticipant']);
         $reise = reise::newReise($traveldata);

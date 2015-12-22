@@ -148,9 +148,9 @@ if($valid) {
     @$reisedaten['Bezeichnung']=$_POST["Bezeichnung_P"];
     @$reisedaten['Preis']=$_POST["Preis_P"];
 
-    @$reisedaten['Hinreise'] = date(strtotime($hinreise));
+    @$reisedaten['Hinreise'] = date("Y-m-d",strtotime($hinreise));
 
-    @$reisedaten['Rueckreise']= date(strtotime($rueckreise));
+    @$reisedaten['Rueckreise']= date("Y-m-d",strtotime($rueckreise));
     @$reisedaten['MaxAnzahl'] = $_POST["Maximalanzahl_P"];
     @$reisedaten['MinAnzahl'] = $_POST["Mindestanzahl_P"];
 

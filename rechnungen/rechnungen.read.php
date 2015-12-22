@@ -20,7 +20,6 @@ if(isset($_POST["RechnungsID_R"])) {
 
     $rg["Rechnungsart_R"] = $rechnung->getRechnungsart();
     $rg["Betrag_R"] = $rechnung->getBetrag();
-    $rg["Waehrung_R"] = $rechnung->getWaehrung();
     $rg["IBAN_R"] = $rechnung->getIban();
     $rg["SWIFT_R"] = $rechnung->getSwift();
     $rg["Beguenstigter_R"] = $rechnung->getBeguenstigter();
@@ -29,13 +28,7 @@ if(isset($_POST["RechnungsID_R"])) {
     $rg["Reise_R"] = $rechnung->getReise();
     $rg["bezahlt_R"] = $rechnung->isBezahlt();
 
-    $date = date("d-m-Y", strtotime($rechnung->getFaelligkeit()));
-    @$faelligkeit_array = explode('-', $date);
-    @$tag = $faelligkeit_array[0];
-    @$monat = $faelligkeit_array[1];
-    @$jahr = $faelligkeit_array[2];
-    $newDate = $tag . "." . $monat . "." . $jahr;
-    $rg["Faelligkeit_R"] = $newDate;
+    $rg["Faelligkeit_R"] = date("d.m.Y", strtotime($rechnung->getFaelligkeit()));
 
     echo json_encode($rg);
 
@@ -64,15 +57,7 @@ else if (isset($_POST["ReiseID_R"])){
             $beguenstigterID = $datensatz["Beguenstigter"];
             $beguenstigter = $database->fetchBeguenstigter($beguenstigterID)->getBeguenstigterName();
             $datensatz["Beguenstigter"] = $beguenstigter;
-
-            $faelligkeit = $datensatz["Faelligkeit"];
-            $date = date("d-m-Y", strtotime($faelligkeit));
-            @$faelligkeit_array = explode('-', $date);
-            @$tag = $faelligkeit_array[0];
-            @$monat = $faelligkeit_array[1];
-            @$jahr = $faelligkeit_array[2];
-            $newDate = $tag . "." . $monat . "." . $jahr;
-            $datensatz["Faelligkeit"] = $newDate;
+            $datensatz["Faelligkeit"] = date("d.m.Y", strtotime($datensatz["Faelligkeit"]));
 
             $returnRechnung [] = $datensatz;
 

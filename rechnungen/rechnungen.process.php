@@ -73,6 +73,11 @@ if (!(preg_match("/[a-zA-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{1}|[a-z
     $valid = false;
 }
 
+if (empty($swift)) {
+    $swift_error = "Bitte einen <strong>Swift-Code</strong> eingeben.";
+    $valid = false;
+}
+
 if (empty($beguenstigter)) {
     $beguenstigter_error = "Bitte einen <strong>Begünstigten</strong> eingeben.";
     $valid = false;
@@ -115,12 +120,7 @@ if($valid) {
     @$rechnungsdaten['SWIFT'] = $swift;
     @$rechnungsdaten['Beguenstigter'] = $beguenstigter;
     @$rechnungsdaten['Kostenart'] = $kostenart;
-    @$faelligkeit_array = explode('.', $faelligkeit);
-    @$tag = $faelligkeit_array[0];
-    @$monat = $faelligkeit_array[1];
-    @$jahr = $faelligkeit_array[2];
-    $newDate = $jahr . "-" . $monat . "-" . $tag;
-    @$rechnungsdaten['Faelligkeit'] = $newDate;
+    @$rechnungsdaten['Faelligkeit'] = date("Y-m-d", strtotime($faelligkeit));
     @$rechnungsdaten['Bemerkung'] = $bemerkung;
     @$rechnungsdaten['Reise'] = $reise;
     @$rechnungsdaten['bezahlt'] = $bez;
