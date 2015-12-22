@@ -93,7 +93,7 @@
                 $('#deletepositive').hide();
                 $('#deletenegative').hide();
 
-                $("#loeschen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+                $("#loeschen").html("<button id= "+id +" class=\"btn btn-primary btn-md\" onclick=\"loeschen(this)\">L&ouml;schen</button><button class=\"btn btn-primary btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
             }
 

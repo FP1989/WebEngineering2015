@@ -17,7 +17,7 @@
                     <p class="alert alert-warning" role="alert" id="negative"></p>
 
                     <div class="form-group">
-                        <label>Teilnehmer-ID</label>
+                        <label>Begüstigter-ID</label>
                         <input class="form-control" id="BeguenstigterID_R" type="text" readonly>
                     </div>
 

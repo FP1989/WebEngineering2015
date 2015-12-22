@@ -22,7 +22,7 @@
 
                 var id = button.id;
 
-                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"setBezahltDB(this)\">Rechnung bezahlt</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-primary btn-md\" onclick=\"setBezahltDB(this)\">Rechnung bezahlt</button><button class=\"btn btn-primary btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
             }
 
@@ -112,7 +112,7 @@
 
                 var id = button.id;
 
-                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-danger btn-md\" onclick=\"deleteReservationDB(this)\">L&ouml;schen</button><button class=\"btn btn-success btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
+                $("#bestaetigen").html("<button id= "+id +" class=\"btn btn-primary btn-md\" onclick=\"deleteReservationDB(this)\">L&ouml;schen</button><button class=\"btn btn-primary btn-md pull-right\" data-dismiss=\"modal\">Abbrechen</button>");
 
             }
 
