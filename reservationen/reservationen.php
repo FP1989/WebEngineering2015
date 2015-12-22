@@ -415,7 +415,7 @@
 
                     $.ajax({
 
-                        url: '.../reisen/reisen.read.php',
+                        url: '../reisen/reisen.read.php',
                         type: "POST",
                         dataType: 'json',
                         data: {
@@ -452,7 +452,7 @@
 <?php
 include_once("../includes/navigation.inc.php");
 include_once("../classes/database.class.php");
-include_once("../multiple_modal.php");
+include_once("../teilnehmer/multiple_modal.php");
 ?>
 
     <div id="content" class="container">
