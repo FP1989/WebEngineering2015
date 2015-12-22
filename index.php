@@ -20,7 +20,6 @@
                     <label for="pwd" class="sr-only">Password</label>
                     <input type="password" name="pwd" class="form-control" placeholder="Password" required="required" />
                     <br><button class="btn btn-sm btn-primary btn-block" type="submit">Einloggen</button>
-<!--                    <a href="#" id="reset" class="pull-right" data-toggle="modal" data-target="#resetmodal">Passwort vergessen?</a>-->
                     <br>
                     <div><?php echo (isset($_SESSION['falselogin']) && !empty($_SESSION['falselogin']))?$_SESSION['falselogin']:"";?></div>
                 </form>
