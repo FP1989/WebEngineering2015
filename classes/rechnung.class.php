@@ -5,7 +5,6 @@ class rechnung{
     private $rechnungsID;
     private $rechnungsart;
     private $betrag;
-    private $waehrung;
     private $iban;
     private $swift;
     private $beguenstigter;
@@ -21,7 +20,6 @@ class rechnung{
         $this->rechnungsID = $id;
         $this->rechnungsart = $rechnungsdaten['Rechnungsart'];
         $this->betrag = $rechnungsdaten['Betrag'];
-        $this->waehrung = $rechnungsdaten['Waehrung'];
         $this->iban = $rechnungsdaten['IBAN'];
         if(array_key_exists('SWIFT', $rechnungsdaten)) $this->swift = $rechnungsdaten['SWIFT'];
         $this->beguenstigter = $rechnungsdaten['Beguenstigter'];
@@ -65,18 +63,6 @@ class rechnung{
     public function setBetrag($betrag){
 
         $this->betrag = $betrag;
-
-    }
-
-    public function getWaehrung(){
-
-        return $this->waehrung;
-
-    }
-
-    public function setWaehrung($waehrung){
-
-        $this->waehrung = $waehrung;
 
     }
 
