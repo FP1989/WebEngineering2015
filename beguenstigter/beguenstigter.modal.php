@@ -123,13 +123,6 @@
 
     $(function (){
 
-        $("#Mutationsformular").on("hidden.bs.modal", function(e){
-
-            $('#negative').hide();
-            $('#positive').hide();
-
-        });
-
         $("#BeguenstigterSpeichern").on("click", function(e){
 
             e.preventDefault();
@@ -170,11 +163,8 @@
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#positive" ).promise().done(function() {
 
-                            setTimeout(function(){
-
                                 $('#Mutationsformular').modal('hide');
 
-                            });
                         });
                     }
 
@@ -182,10 +172,16 @@
 
                         $('#negative').show().html(response.message);
                         $('#Mutationsformular').effect( "shake", {times:2}, 500 );
-
                     }
                 }
             });
+        });
+
+        $("#Mutationsformular").on("hidden.bs.modal", function(e){
+
+            $('#negative').hide();
+            $('#positive').hide();
+
         });
 
     });

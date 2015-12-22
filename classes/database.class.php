@@ -372,16 +372,16 @@ class database
 
         if($id == "DEFAULT") {
 
-            $query = "INSERT INTO Rechnung (Rechnungsart, Betrag, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO Rechnung (Rechnungsart, Betrag, IBAN, SWIFT, Beguenstigter, Kostenart, Faelligkeit, Bemerkung, Reise, bezahlt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
+            $stmt->bind_param('sdssisssii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt);
 
         }
         else {
 
             $query = "UPDATE Rechnung SET Rechnungsart = ?, Betrag = ?, IBAN = ?, SWIFT = ?, Beguenstigter = ?, Kostenart = ?, Faelligkeit = ?, Bemerkung = ?, Reise = ?, bezahlt = ? WHERE RechnungsID = ?";
             $stmt = $link->prepare($query);
-            $stmt->bind_param('sdsssisssiii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
+            $stmt->bind_param('sdssisssiii', $rechnungsart, $betrag, $iban, $swift, $Beguenstigter, $kostenart, $faelligkeit, $bemerkung, $reise, $bezahlt, $id);
 
         }
 

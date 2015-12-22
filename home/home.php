@@ -173,38 +173,5 @@ if(isset($_POST['gesendet'])) {
 
     </div>
     <!--    Content end-->
-    <script type="text/javascript">
-        $(function() {
-
-            $( "#reiseid" ).autocomplete({
-                source: function( request, response ) {
-                    $.ajax({
-                        url: "../autosuggest_recipient.php",
-                        dataType: "json",
-                        data: {term: request.term},
-                        success: function (data) {
-                            if(data.length > 0){
-                                response($.map(data, function (item) {
-                                    return {
-                                        label: item.label,
-                                        value: item.value
-                                    }
-                                }));
-                            }else{
-                                response([{ label: 'No results found.', value: -1}]);
-                            }
-                        }
-                    });
-                },
-                select: function (event, ui) {
-
-                    if (ui.item.value == -1) {
-                        return false;
-                    }
-                }
-
-            });
-    </script>
-
 <?php
 include("../includes/footer.inc.php");

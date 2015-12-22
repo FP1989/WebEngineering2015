@@ -18,7 +18,7 @@
                 $( "#beguenstigter" ).autocomplete({
                     source: function( request, response ) {
                         $.ajax({
-                            url: "autosuggest_recipient.php",
+                            url: "../autosuggest_recipient.php",
                             type:"GET",
                             dataType: "json",
                             data: {term: request.term},
