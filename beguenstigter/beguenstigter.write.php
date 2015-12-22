@@ -85,13 +85,10 @@ if(isset($_POST['gesendet'])) {
             $error_alert = "<div class='alert alert-warning' role='alert'>Datenbank-Befehl fehlgeschlagen.</div>";
         }
     }
-
 }
     else{
         $error_alert = "<div class='alert alert-warning' role='alert'>Das Formular enthält Fehler/Unvollständigkeiten.</div>";
     }
-
-
 ?>
 
 <form method="post" action="">

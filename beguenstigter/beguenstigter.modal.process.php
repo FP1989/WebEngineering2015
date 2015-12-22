@@ -88,4 +88,3 @@ function format_input($data) {
         }
 
 echo json_encode($res);
-
