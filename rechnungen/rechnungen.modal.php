@@ -28,12 +28,8 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <label>Betrag in CHF</label>
-                                <input type="number" id="Betrag_R" name="amount" class="form-control"/>
-                            </div>
-                        </div>
+                        <label>Betrag in CHF</label>
+                        <input type="number" id="Betrag_R" name="amount" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label>IBAN</label>
