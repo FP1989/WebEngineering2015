@@ -2,6 +2,7 @@
 ini_set('display_errors', E_ALL);
 include_once("classes/database.class.php");
 include_once("classes/beguenstigter.class.php");
+include("includes/authentication.inc.php");
 
 $recipientData = array();
 $success_alert = "";

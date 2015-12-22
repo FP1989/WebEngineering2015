@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
+include("includes/authentication.inc.php");
 
 /** @var database $verbindung */
 $verbindung = database::getDatabase();
@@ -24,19 +25,19 @@ function is_valid_date($enddatum) {
     return $valid;
 }
 
-function is_current_date($faelligkeit){
+function is_current_date($hinreise){
 
     $valid = true;
 
-    $time = date("Y-m-d");
+    $time = date("d.m.Y");
 
-    @$faelligkeit_array = explode('.', $faelligkeit);
+   /* @$faelligkeit_array = explode('.', $faelligkeit);
     @$tag = $faelligkeit_array[0];
     @$monat = $faelligkeit_array[1];
     @$jahr = $faelligkeit_array[2];
-    $newDate = $jahr . "-" . $monat . "-" . $tag;
+    $newDate = $jahr."-".$tag."-" .$monat;*/
 
-    if($newDate< $time) $valid = false;
+    if(strtotime($hinreise)< strtotime($time)) $valid = false;
 
     return $valid;
 }
@@ -99,7 +100,7 @@ if (empty($rueckreise)) {
 }else if (!is_valid_date($rueckreise)) {
     $rueckreise_error= "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj'] für die Rückreise</strong> eingeben";
     $valid = false;
-}else if($rueckreise < $hinreise){
+}else if(strtotime($rueckreise) < strtotime($hinreise)){
     $rueckreise_error= "Das <strong>Rückreisedatum</strong> muss nach der Hinreise sein";
     $valid = false;
 }
@@ -111,7 +112,7 @@ if(empty($max)){
     $max_error= "Die <strong>maximale Anzahl Teilnehmer </strong> muss grösser sein als die Mindestanzahl";
     $valid = false;
 }else if($max> reise::MAX OR $max<reise::MIN){
-    $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben";
+    $max_error= "Bitte eine zulässige <strong>maximale Anzahl Teilnehmer </strong> eingeben (max. 20)";
     $valid = false;
 }
 
@@ -119,7 +120,7 @@ if(empty($min)){
     $min_error = "Bitte eine <strong>Mindestanzahl Teilnehmer</strong> eingeben";
     $valid = false;
 }else if($min<reise::MIN OR $min>reise::MAX){
-    $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben";
+    $max_error= "Bitte eine zulässige <strong>Mindestanzahl Teilnehmer </strong> eingeben (min. 12)";
     $valid = false;
 }
 

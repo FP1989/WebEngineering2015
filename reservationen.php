@@ -14,6 +14,8 @@
 
                 $('#deletepositive').hide();
                 $('#deletenegative').hide();
+                $('#feedback_negative').hide();
+                $('#feedback_positive').hide();
             });
 
             function setBezahlt(button){
@@ -44,13 +46,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(1000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#bestaetigung').modal('hide');});
+                                    $('#bestaetigung').modal('hide');
                             });
                         }
 
@@ -88,13 +89,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(2000).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#beschtaetigung').modal('hide');});
+                                    $('#beschtaetigung').modal('hide');
                             });
                         }
 
@@ -154,19 +154,66 @@
 
                     }
                 });
-
-
             }
 
             function searchTeilnehmer(){
 
                 var user = document.getElementById("usr");
                 var val = user.value;
+                user.style.backgroundColor = "white";
 
-                if (isNaN(val)) {
+                if(!$.isNumeric(val)) {
 
-                    user.style.backgroundColor = "white";
+                    $.ajax({
 
+                        url: 'teilnehmer.multiple.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            teilnehmer: val
+                        },
+
+                        success: function (data) {
+
+                            if (data.length != 0) {
+
+                                var counter = 0;
+
+                                while (counter < data.length) {
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    counter += 3;
+                                }
+
+                                $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
+
+                            } else {
+
+                                $.ajax({
+
+                                    url: 'teilnehmer.read.php',
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        teilnehmer: val
+                                    },
+
+                                    success: function (data) {
+
+                                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                                            document.getElementById("readonlyName").value = data.Nachname_R;
+                                            showReservationen(data.TeilnehmerID_R);
+                                        } else document.getElementById("usr").style.backgroundColor = "red";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
 
                     $.ajax({
 
@@ -174,67 +221,80 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            Nachname_R: val
+                            teilnehmer: val
                         },
 
                         success: function (data) {
-
 
                             if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
 
                                 document.getElementById("readonlyID").value = data.TeilnehmerID_R;
                                 document.getElementById("readonlyName").value = data.Nachname_R;
                                 showReservationen(data.TeilnehmerID_R);
-
-                            }
-
-                            else document.getElementById("usr").style.backgroundColor = "red";
+                            } else document.getElementById("usr").style.backgroundColor = "red";
                         }
                     });
                 }
-
-                else{
-
-                    user.style.backgroundColor = "white";
-
-                    $.ajax({
-
-                        url: 'teilnehmer.read.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            TeilnehmerID_R: val
-                        },
-
-                        success: function (data) {
-
-                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
-
-                                document.getElementById("readonlyID").value = data.TeilnehmerID_R;
-                                document.getElementById("readonlyName").value = data.Nachname_R;
-                                showReservationen(data.TeilnehmerID_R);
-
-                            }
-
-                            else document.getElementById("usr").style.backgroundColor = "red";
-                        }
-                    });
-
-                }
-
-
-
-
             }
 
             function sucheTeilnehmer(){
 
                 var user = document.getElementById("teilnehmerNr");
                 var val = user.value;
+                user.style.backgroundColor = "white";
 
-                if (isNaN(val)) {
+                if(!$.isNumeric(val)) {
 
-                    user.style.backgroundColor = "white";
+                    $.ajax({
+
+                        url: 'teilnehmer.multiple.read.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            teilnehmer: val
+                        },
+
+                        success: function (data) {
+
+                            if (data.length != 0) {
+
+                                var counter = 0;
+
+                                while (counter < data.length) {
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    counter += 3;
+                                }
+
+                                $("#multiplenames").modal('show');
+                                $('#multiplenames').on('hidden.bs.modal', function () {
+                                    $(".insertnames").empty();
+                                });
+
+                            } else {
+
+                                $.ajax({
+
+                                    url: 'teilnehmer.read.php',
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        teilnehmer: val
+                                    },
+
+                                    success: function (data) {
+
+                                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+                                            showReservationen(data.TeilnehmerID_R);
+                                        } else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                                    }
+                                });
+                            }
+                        }
+                    })
+                } else {
 
                     $.ajax({
 
@@ -242,58 +302,80 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            Nachname_R: val
+                            teilnehmer: val
                         },
 
                         success: function (data) {
-
 
                             if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
 
                                 document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
                                 document.getElementById("teilnehmerName").value = data.Nachname_R;
-
-                            }
-
-                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                                showReservationen(data.TeilnehmerID_R);
+                            } else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
                         }
                     });
                 }
-
-                else{
-
-                    user.style.backgroundColor = "white";
-
-                    $.ajax({
-
-                        url: 'teilnehmer.read.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            TeilnehmerID_R: val
-                        },
-
-                        success: function (data) {
-
-                            if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null){
-
-                                document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
-                                document.getElementById("teilnehmerName").value = data.Nachname_R;
-
-                            }
-
-                            else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
-                        }
-                    });
-
-                }
-
-
-
-
             }
 
-            function sucheReise(){
+            function searchExactTeilnehmerRead(id) {
+
+                $(".insertnames").empty();
+                $("#multiplenames").modal('hide');
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        teilnehmer: id
+                    },
+
+                    success: function (data) {
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                            document.getElementById("readonlyID").value = data.TeilnehmerID_R;
+                            document.getElementById("readonlyName").value = data.Nachname_R;
+                            showReservationen(data.TeilnehmerID_R);
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+            function searchExactTeilnehmerWrite(id) {
+
+                $(".insertnames").empty();
+                $("#multiplenames").modal('hide');
+
+                $.ajax({
+
+                    url: 'teilnehmer.read.php',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        teilnehmer: id
+                    },
+
+                    success: function (data) {
+
+                        if (data.TeilnehmerID_R != '' && data.TeilnehmerID_R != null) {
+
+                            document.getElementById("teilnehmerID").value = data.TeilnehmerID_R;
+                            document.getElementById("teilnehmerName").value = data.Nachname_R;
+
+                        }
+
+                        else document.getElementById("teilnehmerNr").style.backgroundColor = "red";
+                    }
+                });
+            }
+
+                function sucheReise(){
 
 
                 var reise = document.getElementById("reiseNr");
@@ -329,8 +411,6 @@
                 }
 
                 else{
-
-
                     reise.style.backgroundColor = "white";
 
                     $.ajax({
@@ -343,8 +423,6 @@
                         },
 
                         success: function (data) {
-
-
 
                             if (data.ReiseID_R != '' && data.ReiseID_R != null){
 
@@ -374,6 +452,7 @@
 <?php
 include_once("includes/navigation.inc.php");
 include_once("classes/database.class.php");
+include_once("multiple_modal.php");
 ?>
 
     <div id="content" class="container">
@@ -391,11 +470,11 @@ include_once("classes/database.class.php");
                 <h2>Reservationen ansehen / Reservationen editieren</h2> <br/><br/>
 
                 <div class="form-group">
-                    <label for="nr">Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
+                    <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="usr">
                             <span class="input-group-btn">
-                                <button onclick="searchTeilnehmer()" class="btn btn-success btn-md">Suchen</button><br/><br/>
+                                <button onclick="searchTeilnehmer()" class="btn btn-primary">Suchen</button>
                             </span>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 <?php
 
 include("classes/database.class.php");
+include("includes/authentication.inc.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -36,7 +37,10 @@ else if(isset($_POST["TeilnehmerID_R"])) {
     $teilnehmerID = $_POST["TeilnehmerID_R"];
     $res = $database->fetchReservation(null, $teilnehmerID);
 
-    if(!$res) $res[0]["TeilnehmerID"]  = null;
+    if(!$res) {
+        $res = array();
+        $res[0]["TeilnehmerID"]  = null;
+    }
 
     else {
 

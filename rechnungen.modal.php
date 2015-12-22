@@ -1,3 +1,4 @@
+<?php include("includes/authentication.inc.php"); ?>
 <div class ="modal fade" id="Mutationsformular" tabindex="-1" role="dialog">
 
     <div class="modal-dialog" role="document">
@@ -151,15 +152,13 @@
                     var status = response.flag;
                     if(status){
 
-                        $('#alterpositive').show().html(response.message).delay(500).fadeOut();
+                        $('#alterpositive').show().html(response.message).delay(750).fadeOut();
                         $('#alternegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                         //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                         $( "#alterpositive" ).promise().done(function() {
-                            setTimeout(function(){
-                                $('#Mutationsformular').modal('hide');});
+                                $('#Mutationsformular').modal('hide');
                         });
-
                     }
 
                     else {

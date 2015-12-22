@@ -9,6 +9,77 @@
 
         <script type = text/javascript>
 
+            $(function(){
+
+                $('#positive').hide();
+                $('#negative').hide();
+                $('#deletepositive').hide();
+                $('#deletenegative').hide();
+
+                var zeitspanne = document.querySelector('input[name="zeitraum_reise"]:checked').value;
+
+                $.ajax({
+
+                    url: 'reisen.read.php',
+                    type: "POST",
+                    data: {
+
+                        timespan: zeitspanne
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        if(data[0] != null) {
+
+                            var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=2></th></tr>";
+
+                            for (var i = 0; i < data.length; i++) {
+
+                                reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button><td ><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td></tr>";
+                            }
+                        }
+
+                        else reisen = "<tr><td>Keine Reisen erfasst</td></tr>";
+
+                        $('#Reise_mutieren').html(reisen);
+
+                    }
+                });
+
+                $("input[name=zeitraum_reise]:radio").change(function () {
+
+                    var zeitspanne = document.querySelector('input[name="zeitraum_reise"]:checked').value;
+
+                    $.ajax({
+
+                        url: 'reisen.read.php',
+                        type: "POST",
+                        data: {
+
+                            timespan: zeitspanne
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+                            if(data[0] != null) {
+
+                                var reisen = "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Hinreise</th><th>Rückreise</th><th colspan=2></th></tr>";
+
+                                for (var i = 0; i < data.length; i++) {
+
+                                    reisen += "<tr><td>" + data[i].ReiseID + "</td><td>" + data[i].Ziel + "</td><td>" + data[i].Bezeichnung + "</td><td>" + data[i].Preis + "</td><td>" + data[i].Hinreise + "</td><td>" + data[i].Rueckreise + "</td><td align=\"right\"><button id=\"" + data[i].ReiseID + "\" onclick = \"getReiseID(this)\" class=\"btn btn-success btn-sm\" data-toggle = \"modal\" data-target = \"#Mutationsformular\" > mutieren</button><td ><button id = \"" + data[i].ReiseID + "\" onclick = \"deleteReiseID(this)\" class=\"btn btn-danger btn-sm\" data-toggle = \"modal\" data-target = \"#Reiseloeschen\"> löschen</button ></td></tr>";
+
+                                }
+                            }
+
+                            else reisen = "<tr><td>Keine Reisen erfasst</td></tr>";
+
+                            $('#Reise_mutieren').html(reisen);
+                        }
+                    });
+                });
+            });
+
             function deleteReiseID(button){
 
                 var id = button.id;
@@ -37,13 +108,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                setTimeout(function(){
-                                    $('#Reiseloeschen').modal('hide');});
+                                    $('#Reiseloeschen').modal('hide');
                             });
                         }
 
@@ -56,6 +126,8 @@
                     }
                 });
             }
+
+
 
             function getReiseID(button) {
 
@@ -72,8 +144,6 @@
 
                     success: function (data) {
 
-                        alert("success reisen");
-
                         document.getElementById("ReiseID_R").value = id;
                         document.getElementById("Ziel_R").value = data.Ziel_R;
                         document.getElementById("Beschreibung_R").value = data.Beschreibung_R;
@@ -88,18 +158,6 @@
 
                 });
             }
-        </script>
-
-        <script id="source" language="javascript" type="text/javascript">
-
-            $(function(){
-
-                $('#positive').hide();
-                $('#negative').hide();
-                $('#deletepositive').hide();
-                $('#deletenegative').hide();
-
-            });
 
         </script>
 
@@ -127,15 +185,26 @@ include_once("reisen.modal.php");
                 <h2>Reise ansehen / Reise editieren</h2> <br/><br/>
 
                 <h3>Reise ausw&auml;hlen</h3>
+
+                <br/>
+
+                <input type="radio" value=0 name="zeitraum_reise" checked="checked"> aktuell &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=30 name="zeitraum_reise"> 30 Tage zurück &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=90 name="zeitraum_reise"> 90 Tage zurück &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=180 name="zeitraum_reise"> 180 Tage zurück &nbsp; &nbsp; &nbsp;
+                <input type="radio" value=all name="zeitraum_reise"> alle Reisen
+
+                <br/><br/>
+
                 <table id="Reise_mutieren" class='table table-striped'>
                     <?php
-                    /** @var database $verbindung */
+                   /* /** @var database $verbindung *//*
                     $verbindung = database::getDatabase();
                     $result = $verbindung->getAllReisen(0);
 
                     if($result->num_rows > 0) {
 
-                        echo "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Abreise</th><th>R&uuml;ckreise</th><th colspan=2></th></tr>";
+                        echo "<tr><th>Reise-ID</th><th>Reiseziel</th><th>Bezeichnung</th><th>Preis</th><th>Abreise</th><th>Rückreise</th><th colspan=2></th></tr>";
 
                         while ($row = $result->fetch_assoc()) {
 
@@ -155,7 +224,7 @@ include_once("reisen.modal.php");
                         }
                     }
 
-                    else echo "<tr><th>Keine Reisen erfasst</th></tr>";
+                    else echo "<tr><th>Keine Reisen erfasst</th></tr>";*/
                     ?>
 
                 </table>

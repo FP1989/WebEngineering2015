@@ -2,7 +2,7 @@
 
 include("classes/database.class.php");
 include_once("classes/reise.class.php");
-
+include("includes/authentication.inc.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -24,21 +24,9 @@ if(isset($_POST["ReiseID_R"])) {
     $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
 
 
-    $date = date("d-m-Y", strtotime($reise->getHinreise()));
-    @$rueckreise_array = explode('-', $date);
-    @$tag = $rueckreise_array[0];
-    @$monat = $rueckreise_array[1];
-    @$jahr = $rueckreise_array[2];
-    $newDate = $tag . "." . $monat . "." . $jahr;
-    $re["Hinreise_R"] = $newDate;
+    $re["Hinreise_R"] = date("d-m-Y", strtotime($reise->getHinreise()));
 
-    $date = date("d-m-Y", strtotime($reise->getRueckreise()));
-    @$rueckreise_array = explode('-', $date);
-    @$tag = $rueckreise_array[0];
-    @$monat = $rueckreise_array[1];
-    @$jahr = $rueckreise_array[2];
-    $newDate = $tag . "." . $monat . "." . $jahr;
-    $re["Rueckreise_R"] = $newDate;
+    $re["Rueckreise_R"] = date("d-m-Y", strtotime($reise->getRueckreise()));
 
     echo json_encode($re);
 
@@ -59,21 +47,9 @@ else if(isset($_POST["Ziel_R"])){
     $re["Maximalanzahl_R"] = $reise->getMaxAnzahl();
     $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
 
-    $date = date("d-m-Y", strtotime($reise->getHinreise()));
-    @$hinreise_array = explode('-', $date);
-    @$tag = $hinreise_array[0];
-    @$monat = $hinreise_array[1];
-    @$jahr = $hinreise_array[2];
-    $newDate = $tag . "." . $monat . "." . $jahr;
-    $re["Hinreise_R"] = $newDate;
+    $re["Hinreise_R"] = date("d.m.Y", strtotime($reise->getHinreise()));
 
-    $date = date("d-m-Y", strtotime($reise->getRueckreise()));
-    @$rueckreise_array = explode('-', $date);
-    @$tag = $rueckreise_array[0];
-    @$monat = $rueckreise_array[1];
-    @$jahr = $rueckreise_array[2];
-    $newDate = $tag . "." . $monat . "." . $jahr;
-    $re["Rueckreise_R"] = $newDate;
+    $re["Rueckreise_R"] = date("d-m-Y", strtotime($reise->getRueckreise()));
 
     echo json_encode($re);
 
@@ -83,27 +59,15 @@ else if(isset($_POST["timespan"])){
 
         $result = $database->getAllReisen($_POST["timespan"]);
 
+        $return = array();
+
         while($datensatz = $result->fetch_assoc()){
 
+            $datensatz["Hinreise"] = date("d.m.Y", strtotime($datensatz["Hinreise"]));
+            $datensatz["Rueckreise"] = date("d.m.Y", strtotime($datensatz["Rueckreise"]));
 
-        $date = date("d-m-Y", strtotime($datensatz["Hinreise"]));
-        @$hinreise_array = explode('-', $date);
-        @$tag = $hinreise_array[0];
-        @$monat = $hinreise_array[1];
-        @$jahr = $hinreise_array[2];
-        $newDate = $tag . "." . $monat . "." . $jahr;
-        $datensatz["Hinreise"] = $newDate;
-
-        $date = date("d-m-Y", strtotime($datensatz["Rueckreise"]));
-        @$rueckreise_array = explode('-', $date);
-        @$tag = $rueckreise_array[0];
-        @$monat = $rueckreise_array[1];
-        @$jahr = $rueckreise_array[2];
-        $newDate = $tag . "." . $monat . "." . $jahr;
-        $datensatz["Rueckreise"] = $newDate;
-
-        $return [] = $datensatz;
-    }
+            $return [] = $datensatz;
+        }
 
     echo json_encode($return);
 

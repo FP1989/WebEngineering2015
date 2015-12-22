@@ -3,6 +3,8 @@ include_once("classes/database.class.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
+include("includes/authentication.inc.php");
+
 
 $term = trim(strip_tags($_GET['term']));
 $result = $database->autosuggestReise($term);

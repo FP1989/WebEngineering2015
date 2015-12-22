@@ -2,6 +2,7 @@
 
 include("classes/database.class.php");
 include_once("classes/teilnehmer.class.php");
+include("includes/authentication.inc.php");
 
 /* @var database $database*/
 $database = database::getDatabase();
@@ -26,7 +27,7 @@ if($success) {
 else {
 
     $res["flag"] = false;
-    $res["message"] = "Datensatz konnte nicht gelöscht werden";
+    $res["message"] = "Datensatz konnte nicht gelöscht werden, möglicherweise bestehen noch Abhängigkeiten.";
 
 }
 

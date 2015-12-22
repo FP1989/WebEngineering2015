@@ -94,5 +94,10 @@ burst
 
 .jumbotron h2
 {
-    font-weight: bold;
+    font-weight: bold
+}
+
+.btn.btn-multiple
+{
+    margin: 2px 0 2px 0
 }

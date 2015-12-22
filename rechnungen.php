@@ -30,7 +30,7 @@
                     dataType: 'json',
                     success: function (data) {
 
-                        var reisen = "<option>--w&auml;hlen Sie eine Reise aus--</option>";
+                        var reisen = "<option>--wählen Sie eine Reise aus--</option>";
 
                         for (var i = 0; i < data.length; i++) {
 
@@ -139,14 +139,12 @@
 
                         if(data.flag){
 
-                            $('#deletepositive').show().html(data.message).delay(500).fadeOut();
+                            $('#deletepositive').show().html(data.message).delay(750).fadeOut();
                             $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
                             //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-
-                                setTimeout(function(){
-                                    $('#Rechnungloeschen').modal('hide');});
+                                    $('#Rechnungloeschen').modal('hide');
                             });
 
 

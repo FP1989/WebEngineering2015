@@ -1,3 +1,5 @@
+<?php include("includes/authentication.inc.php");?>
+
 <div class="modal fade" id="passresetmodal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
 
@@ -62,11 +64,14 @@
 
                         var status = response.flag;
                         if (status) {
-                            $('#feedback_positive').show().html(response.message).delay(2000).fadeOut();
+                            $('#feedback_positive').show().html(response.message).delay(750).fadeOut();
                             $('#passold').val("");
                             $('#passnew').val("");
                             $('#passnew1').val("");
                             $('#feedback_negative').hide();
+                            $("#feedback_positive").promise().done(function() {
+                                    $('#passresetmodal').modal('hide');
+                            });
                         } else {
                             $('#feedback_negative').show().html(response.message);
                             $('#passresetmodal').effect("shake", {times: 2}, 500);

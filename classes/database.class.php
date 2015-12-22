@@ -14,7 +14,7 @@ class database
     private $dbname;
     private $link;
 
-/*    private function __construct(){
+    private function __construct(){
 
         $this->host = '127.0.0.1';
         $this->benutzer = 'starreisen';
@@ -22,16 +22,16 @@ class database
         $this->dbname = 'starreisen';
         $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
         $this->link->set_charset("utf8");
-    }*/
-
-    private function __construct(){
-
-        $this->host = '127.0.0.1';
-        $this->benutzer = 'root';
-        $this->passwort ='';
-        $this->dbname = 'reiseunternehmen';
-        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
     }
+
+//    private function __construct(){
+//
+//        $this->host = '127.0.0.1';
+//        $this->benutzer = 'root';
+//        $this->passwort ='';
+//        $this->dbname = 'reiseunternehmen';
+//        $this->link = mysqli_connect($this->host, $this->benutzer, $this->passwort, $this->dbname);
+//    }
 
     public static function getDatabase(){
 
@@ -175,8 +175,6 @@ class database
         $stmt->bind_result($BegID, $BegName);
 
         $return = Array();
-
-
 
         while($stmt->fetch()) {
 
@@ -349,7 +347,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT Ziel FROM Reise";
+        $query = "SELECT Ziel, ReiseID FROM Reise";
         $result = $link->query($query);
         return $result;
     }
@@ -368,8 +366,6 @@ class database
         $bemerkung = $rechnung->getBemerkung();
         $reise = $rechnung->getReise();
         $bezahlt = $rechnung->isBezahlt();
-
-        if(!$this->existsBeguenstigter($Beguenstigter)) $this->insertBeguenstigter($Beguenstigter);
 
         /** @var database $database */
         $database = database::getDatabase();
@@ -606,6 +602,38 @@ class database
         }
         $stmt->close();
         return $enthalten;
+    }
+
+    public function checkMultipleTeilnehmer($teilnehmer) {
+        /* @var database $database*/
+        $database = database::getDatabase();
+        $link = $database->getLink();
+
+        $query = "SELECT TeilnehmerID, Vorname, Nachname FROM Teilnehmer WHERE Nachname = ?";
+
+        $stmt = $link->prepare($query);
+        $stmt->bind_param('s', $teilnehmer);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($teilnehmerID, $vorname, $nachname);
+
+        if($stmt->num_rows > 1) {
+
+            $teilnehmer = array();
+            $counter = 0;
+            while ($stmt->fetch()) {
+
+                $teilnehmer[$counter] = $teilnehmerID;
+                $teilnehmer[$counter + 1] = $vorname;
+                $teilnehmer[$counter + 2] = $nachname;
+
+                $counter = $counter + 3;
+            }
+            $stmt->close();
+
+            return $teilnehmer;
+        } else return FALSE;
+
     }
 
     public function insertOrt($plz, $ort){
@@ -937,7 +965,7 @@ class database
 
     }
 
-    public function generateReport($type, $optional_radio = "") {
+    public function generateReport($type, $optional = "") {
 
         /* @var database $database*/
         $database = database::getDatabase();
@@ -952,7 +980,7 @@ class database
                 $query = "SELECT R.ReiseID, R.Ziel, R.Bezeichnung, R.Hinreise, COUNT(DISTINCT T.TeilnehmerID) AS TotalTeilnehmer FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID = Re.TeilnehmerID JOIN Reise R ON Re.ReiseID = R.ReiseID GROUP BY R.Ziel ORDER BY TotalTeilnehmer DESC";
                 break;
             case "Reiseteilnehmer":
-                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.Ziel = '$optional_radio' ORDER BY R.ReiseID ASC";
+                $query = "SELECT R.Ziel, R.Bezeichnung, R.Hinreise, T.Vorname, T.Nachname, O.PLZ, O.Ortname FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID JOIN Ort O ON T.Ort=O.PLZ WHERE R.ReiseID = '$optional' ORDER BY R.ReiseID ASC";
                 break;
             case "Debitoren":
                 $query = "SELECT T.Nachname, T.Vorname, R.Ziel, R.Hinreise FROM Teilnehmer T JOIN Reservation Re ON T.TeilnehmerID=Re.TeilnehmerID JOIN Reise R ON Re.ReiseID=R.ReiseID WHERE Re.bezahlt = 0";
@@ -1053,7 +1081,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) ORDER BY R.Hinreise ASC";
+        $query = "SELECT R.Hinreise, R.Bezeichnung, R.Ziel FROM Reise R WHERE R.Hinreise < DATE_ADD(CURDATE(), INTERVAL 60 DAY) AND R.Hinreise > CURDATE() ORDER BY R.Hinreise ASC";
 
         $result = $link->query($query);
         return $result;
@@ -1065,7 +1093,7 @@ ORDER BY Gewinn DESC;";
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit < DATE_ADD(CURDATE(), INTERVAL 60 DAY) AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
+        $query = "SELECT R.Faelligkeit, R.Kostenart, R.Betrag, R.Waehrung FROM Rechnung R WHERE R.Faelligkeit > CURDATE() AND R.bezahlt = 0 ORDER BY R.Faelligkeit ASC";
 
         $result = $link->query($query);
         return $result;

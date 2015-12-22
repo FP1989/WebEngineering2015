@@ -1,6 +1,6 @@
 <?php
 include_once("classes/database.class.php");
-
+include("includes/authentication.inc.php");
 ?>
 <br/>
 <br/>
@@ -11,12 +11,12 @@ include_once("classes/database.class.php");
 
 <div class="form-group">
     <label>Teilnehmer-Nr oder Teilnehmer-Nachname:</label>
-    <div class="input-group">
-        <input type="text" class="form-control" id="teilnehmerNr">
-        <span class="input-group-btn">
-            <button onclick="sucheTeilnehmer()" class="btn btn-success btn-md">Suche Teilnehmer</button>
-        </span>
-    </div>
+        <div class="input-group">
+    <input type="text" class="form-control" id="teilnehmerNr">
+            <span class="input-group-btn">
+    <button onclick="sucheTeilnehmer()" class="btn btn-primary">Suche Teilnehmer</button>
+            </span>
+        </div>
 </div>
 
 <div class="form-group">
@@ -40,7 +40,7 @@ include_once("classes/database.class.php");
     <div class="input-group">
         <input type="text" class="form-control" id="reiseNr">
         <span class="input-group-btn">
-            <button onclick="sucheReise()" class="btn btn-success btn-md">Suche Reise</button>
+            <button onclick="sucheReise()" class="btn btn-primary">Suche Reise</button>
         </span>
     </div>
 </div>
@@ -78,8 +78,7 @@ include_once("classes/database.class.php");
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#feedback_negative').hide();
-        $('#feedback_positive').hide();
+
 
         $("#send").on("click", function(e){
             e.preventDefault();
@@ -99,7 +98,7 @@ include_once("classes/database.class.php");
                     var status = response.flag;
                     if(status){
                         $('#feedback_negative').hide();
-                        $('#feedback_positive').show().html(response.message).delay(500).fadeOut();
+                        $('#feedback_positive').show().html(response.message).delay(1000).fadeOut();
 
                         $("#reiseNr").val("");
                         $("#reiseID").val("");
@@ -108,7 +107,7 @@ include_once("classes/database.class.php");
                         $("#teilnehmerID").val("");
                         $("#teilnehmerName").val("");
                     }else {
-                        $('#feedback_negative').show().html(response.message).delay(2000).fadeOut();
+                        $('#feedback_negative').show().html(response.message).delay(1000).fadeOut();
                     }
                 }
 

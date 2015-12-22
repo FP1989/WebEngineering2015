@@ -2,8 +2,7 @@
 include_once("classes/database.class.php");
 include_once("classes/reise.class.php");
 include_once("classes/teilnehmer.class.php");
-
-
+include("includes/authentication.inc.php");
 
 $res = array();
 

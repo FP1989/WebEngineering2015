@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/beguenstigter.class.php");
+include("includes/authentication.inc.php");
 
 $name_error=$strasse_error=$hausnummer_error=$plz_error=$ort_error="";
 $valid = true;
@@ -59,10 +60,16 @@ function format_input($data) {
             /** @var database $verbindung */
             $verbindung = database::getDatabase();
             $successful = $verbindung->insertBeguenstigter($recipient);
+            if(isset($_POST["BeguenstigterID_R"])) $id = $_POST["BeguenstigterID_R"];
+            else {
+                $beg = $verbindung->fetchBeguenstigter(null, $recipient->getBeguenstigterName());
+                $id = $beg->getBeguenstigterID();
+            }
 
             if ($successful) {
                 $res["flag"] = true;
                 $res["message"] = "Daten erfolgreich erfasst";
+                $res["id"] = $id;
             } else {
                 $res["flag"] = false;
                 $res["message"] = "Die Daten konnten nicht in die Datenbank geschrieben werden";

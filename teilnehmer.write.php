@@ -1,6 +1,8 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/teilnehmer.class.php");
+include("includes/authentication.inc.php");
+
 // define variables and set to empty values
 $surname_error = $lastname_error = $street_error = $housenumber_error = $plz_error = $town_error = $telefon_error = $email_error = "";
 $surname =  $lastname = $street = $housenumber= $plz= $town = $telefon = $email ="";
@@ -31,14 +33,14 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['surname']))) {
         $surname_error = "Bitte einen Vornamen eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['surname']))) {
+    }else if (!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",format_input($_POST['surname']))) {
         $surname_error = $surname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
     if (empty(format_input($_POST['lastname']))) {
         $lastname_error = "Bitte einen Nachname eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-Z ]*$/",format_input($_POST['lastname']))) {
+    }else if (!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",format_input($_POST['lastname']))) {
         $lastname_error = $lastname_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
@@ -46,7 +48,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['street']))) {
         $street_error = "Bitte eine Strasse eingeben";
         $valid=false;
-    }elseif(is_numeric($_POST['street'])) {
+    }elseif(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç ]*$/",format_input($_POST['street']))) {
         $street_error = "Bitte eine korrekte Strasse eingeben";
         $valid=false;
     }
@@ -61,7 +63,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['town']))) {
         $town_error = "Bitte eine Stadt eingeben";
         $valid=false;
-    }elseif(is_numeric($_POST['town'])) {
+    }elseif(!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",($_POST['town']))) {
         $town_error = "Bitte eine Stadt eingeben";
         $valid=false;
     }

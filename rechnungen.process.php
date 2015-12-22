@@ -1,6 +1,7 @@
 <?php
 include_once("classes/database.class.php");
 include_once("classes/rechnung.class.php");
+include("includes/authentication.inc.php");
 
 $betrag_error=$iban_error=$swift_error=$beguenstigter_error=$faelligkeit_error=$bemerkung_error=$reise_error="";
 $valid = true;
@@ -86,9 +87,6 @@ if (empty($faelligkeit)){
     $valid = false;
 }else if (!is_valid_date($faelligkeit)) {
     $faelligkeit_error = "Bitte ein korrektes <strong>Datumsformat ['dd.mm.jjjj']</strong> eingeben";
-    $valid = false;
-}else if (!is_current_date($faelligkeit)){
-    $faelligkeit_error = "Bitte ein <strong>aktuelles Fälligkeitsdatum</strong> eingeben";
     $valid = false;
 }
 
