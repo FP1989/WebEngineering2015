@@ -24,9 +24,9 @@ if(isset($_POST["ReiseID_R"])) {
     $re["Mindestanzahl_R"] = $reise->getMinAnzahl();
 
 
-    $re["Hinreise_R"] = date("d-m-Y", strtotime($reise->getHinreise()));
+    $re["Hinreise_R"] = date("d.m.Y", strtotime($reise->getHinreise()));
 
-    $re["Rueckreise_R"] = date("d-m-Y", strtotime($reise->getRueckreise()));
+    $re["Rueckreise_R"] = date("d.m.Y", strtotime($reise->getRueckreise()));
 
     echo json_encode($re);
 

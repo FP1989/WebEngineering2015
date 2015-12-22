@@ -148,19 +148,9 @@ if($valid) {
     @$reisedaten['Bezeichnung']=$_POST["Bezeichnung_P"];
     @$reisedaten['Preis']=$_POST["Preis_P"];
 
-    @$hinreise_array = explode('.', $_POST['Hinreise_P']);
-    @$tag = $hinreise_array[0];
-    @$monat = $hinreise_array[1];
-    @$jahr = $hinreise_array[2];
-    $newDate = $jahr . "-" . $monat . "-" . $tag;
-    @$reisedaten['Hinreise'] = $newDate;
+    @$reisedaten['Hinreise'] = date(strtotime($hinreise));
 
-    @$hinreise_array = explode('.', $_POST['Rueckreise_P']);
-    @$tag = $hinreise_array[0];
-    @$monat = $hinreise_array[1];
-    @$jahr = $hinreise_array[2];
-    $newDate = $jahr . "-" . $monat . "-" . $tag;
-    @$reisedaten['Rueckreise']= $newDate;
+    @$reisedaten['Rueckreise']= date(strtotime($rueckreise));
     @$reisedaten['MaxAnzahl'] = $_POST["Maximalanzahl_P"];
     @$reisedaten['MinAnzahl'] = $_POST["Mindestanzahl_P"];
 
