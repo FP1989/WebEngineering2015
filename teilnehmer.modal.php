@@ -132,6 +132,13 @@
 
     $(function (){
 
+        $("#Mutationsformular").on("hidden.bs.modal", function(e){
+
+            $('#negative').hide();
+            $('#positive').hide();
+
+        });
+
         $("#ButtonSpeichern").on("click", function(e){
 
             e.preventDefault();

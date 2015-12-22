@@ -30,6 +30,21 @@ function format_input($data) {
     return $data;
 }
 
+function is_valid_duration($hinreise, $rueckreise){
+
+    $hinreise = strtotime($hinreise);
+    $rueckreise = strtotime($rueckreise);
+
+    $hinreise = $hinreise/(60*60*24);
+
+    $rueckreise = $rueckreise/(60*60*24);
+
+
+    if($rueckreise-$hinreise <3 OR $rueckreise -$hinreise>7) return false;
+    else return true;
+
+}
+
 if(isset($_POST["zuruecksetzen"])){
 
     unset($_POST['destination']);
@@ -48,7 +63,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['destination']))) {
         $destination_error = "Bitte ein Ziel eingeben";
         $valid=false;
-    }else if (!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç ]*$/",format_input($_POST['destination']))) {
+    }else if (!preg_match("/^[a-zA-ZäöüÄÖÜéèàÉÈÀç \-]*$/",format_input($_POST['destination']))) {
         $destination_error = $destination_error . "Nur Buchstaben und Leerzeichen erlaubt.";
         $valid = false;
     }
@@ -70,7 +85,7 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['fromdate']))) {
         $fromdate_error = "Bitte ein Hinreisedatum eingeben";
         $valid=false;
-    }else if (is_valid_date(format_input($_POST['fromdate']))==false) {
+    }else if (!is_valid_date(format_input($_POST['fromdate']))) {
         $fromdate_error = $fromdate_error. "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
         $valid=false;
     }else if(strtotime(format_input($_POST['fromdate'])) < $today){
@@ -84,11 +99,14 @@ if(isset($_POST['gesendet'])) {
     if (empty(format_input($_POST['todate']))) {
         $todate_error = "Bitte ein R&uuml;ckreisedatum eingeben";
         $valid=false;
-    }else if (is_valid_date(format_input($_POST['todate']))==false) {
+    }else if (!is_valid_date(format_input($_POST['todate']))) {
         $todate_error = $todate_error . "Bitte ein korrektes Datum Format eingeben [dd.mm.jjjj]";
         $valid=false;
     }else if (strtotime(format_input($_POST['todate'])) < $today) {
         $todate_error = $todate_error . "Das Datum muss gr&ouml;sser sein als das heutige Datum.";
+        $valid=false;
+    }else if(!is_valid_duration($_POST["fromdate"], $_POST["todate"])){
+        $todate_error = $todate_error. " Die Reise muss zwischen 3 und 7 Tage dauern.";
         $valid=false;
     }
 

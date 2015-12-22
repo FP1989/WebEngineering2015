@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>R&uuml;ckreise</label>
+                        <label>Rückreise</label>
                         <div class="input-group date">
 
                             <input type='text' class="form-control" name="todate" id="Rueckreise_R"/>
@@ -85,8 +85,8 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" id="ButtonSpeichern" name="gesendet" class="btn btn-primary">&Auml;nderungen erfassen</button>
-                        <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">&Auml;nderungen verwerfen</button>
+                        <button type="submit" id="ButtonSpeichern" name="gesendet" class="btn btn-primary">Änderungen erfassen</button>
+                        <button type="reset" id="ButtonVerwerfen" class="btn btn-primary" data-dismiss="modal">Änderungen verwerfen</button>
                     </div>
 
                 </form>
@@ -99,6 +99,13 @@
 <script id="source" language="javascript" type="text/javascript">
 
     $(function (){
+
+        $("#Mutationsformular").on("hidden.bs.modal", function(e){
+
+            $('#negative').hide();
+            $('#positive').hide();
+
+        });
 
 
         $("#ButtonSpeichern").on("click", function(e){
@@ -153,8 +160,6 @@
                         $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                     }
-                },
-                error: function(err){
                 }
             });
         });

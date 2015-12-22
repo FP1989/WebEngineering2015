@@ -272,16 +272,6 @@ include_once("reisen.modal.php");
                     $( "#hinreise" ).datepicker( "option", "maxDate", selectedDate );
                 }
             });
-            $( "#Hinreise_R" ).datepicker({
-                onClose: function( selectedDate ) {
-                    $( "#Rueckreise_R" ).datepicker( "option", "minDate", selectedDate );
-                }
-            });
-            $( "#Rueckreise_R" ).datepicker({
-                onClose: function( selectedDate ) {
-                    $( "#Hinreise_R" ).datepicker( "option", "maxDate", selectedDate );
-                }
-            });
 
             $.datepicker.setDefaults($.datepicker.regional["de"]);
         });

@@ -18,6 +18,4 @@ for($i = 0; $i < count($result); $i++) {
     array_push($informationen, array('label' => $result[$i]['BegName'], 'value' => $result[$i]['BegID']));
 }
 
-
-
 echo json_encode($informationen);

@@ -31,15 +31,24 @@ function is_current_date($hinreise){
 
     $time = date("d.m.Y");
 
-   /* @$faelligkeit_array = explode('.', $faelligkeit);
-    @$tag = $faelligkeit_array[0];
-    @$monat = $faelligkeit_array[1];
-    @$jahr = $faelligkeit_array[2];
-    $newDate = $jahr."-".$tag."-" .$monat;*/
-
     if(strtotime($hinreise)< strtotime($time)) $valid = false;
 
     return $valid;
+}
+
+function is_valid_duration($hinreise, $rueckreise){
+
+    $hinreise = strtotime($hinreise);
+    $rueckreise = strtotime($rueckreise);
+
+    $hinreise = $hinreise/(60*60*24);
+
+    $rueckreise = $rueckreise/(60*60*24);
+
+
+    if($rueckreise-$hinreise <3 OR $rueckreise -$hinreise>7) return false;
+    else return true;
+
 }
 
 function format_input($data) {
@@ -91,6 +100,9 @@ if (empty($hinreise)) {
     $valid = false;
 }else if (!is_current_date($hinreise)){
     $hinreise_error= "Bitte ein <strong>aktuelles Hinreisedatum </strong> eingeben";
+    $valid = false;
+}else if(!is_valid_duration($hinreise, $rueckreise)){
+    $hinreise_error="Bitte ein <strong>gültige Dauer </strong> eingeben";
     $valid = false;
 }
 

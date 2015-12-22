@@ -49,7 +49,7 @@ else if(isset($_POST["Ziel_R"])){
 
     $re["Hinreise_R"] = date("d.m.Y", strtotime($reise->getHinreise()));
 
-    $re["Rueckreise_R"] = date("d-m-Y", strtotime($reise->getRueckreise()));
+    $re["Rueckreise_R"] = date("d.m.Y", strtotime($reise->getRueckreise()));
 
     echo json_encode($re);
 

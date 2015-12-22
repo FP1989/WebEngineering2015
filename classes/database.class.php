@@ -165,7 +165,7 @@ class database
         $database = database::getDatabase();
         $link = $database->getLink();
 
-        $term = "%{$term}%";
+        $term = "%".$term."%";
 
         $query = "SELECT BeguenstigterID, BeguenstigterName FROM Beguenstigter WHERE BeguenstigterName LIKE ?";
         $stmt = $link->prepare($query);

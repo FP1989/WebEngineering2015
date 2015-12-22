@@ -123,6 +123,13 @@
 
     $(function (){
 
+        $("#Mutationsformular").on("hidden.bs.modal", function(e){
+
+            $('#negative').hide();
+            $('#positive').hide();
+
+        });
+
         $("#BeguenstigterSpeichern").on("click", function(e){
 
             e.preventDefault();
