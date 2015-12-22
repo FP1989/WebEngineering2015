@@ -81,7 +81,7 @@
 
             $.ajax({
 
-                url:"beguenstigter.modal.process.php",
+                url:"../beguenstigter/beguenstigter.modal.process.php",
                 type:"POST",
                 dataType:"json",
                 data:{Name:Name,Strasse:Strasse,Hausnummer:Hausnummer, PLZ:PLZ, Ort:Ort},
