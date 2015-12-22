@@ -88,11 +88,7 @@
 
     function deleteTeilnehmer(){
 
-        alert("delete Teilnehmer");
-
         var id = document.getElementById("TeilnehmerID_R").value;
-
-        alert(id);
 
         $.ajax({
 

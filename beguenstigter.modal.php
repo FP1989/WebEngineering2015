@@ -62,12 +62,12 @@
 
                     <div class="form-group">
 
-                        <button type="submit" name ="gesendet" id="BeguenstigterSpeichern" class="btn btn-primary">Beg&uuml;nstigten mutieren</button> &nbsp;
+                        <button type="submit" name ="gesendet" id="BeguenstigterSpeichern" class="btn btn-primary">Begünstigten mutieren</button> &nbsp;
                         <button type="reset" id="AenderungenVerwerfen" class="btn btn-primary" data-dismiss="modal">Abbrechen</button>
                         <div class="btn-group pull-right">
-                            <button type="button" id="begloeschen" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beg&uuml;nstigter l&ouml;schen <span class="caret"></span></button>
+                            <button type="button" id="begloeschen" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Begünstigter löschen <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a href="javascript:deleteBeguenstigter()" id="BGloeschen">Klicken Sie hier um den Beg&uuml;nstigten definitiv zu l&ouml;schen</a></li>
+                                <li><a href="javascript:deleteBeguenstigter()" id="BGloeschen">Klicken Sie hier um den Begünstigten definitiv zu löschen</a></li>
                             </ul>
                         </div>
 
@@ -181,7 +181,7 @@
                     else {
 
                         $('#negative').show().html(response.message);
-                        $('#Mutationsformular').effect( "shake", {times:2}, 1000 );
+                        $('#Mutationsformular').effect( "shake", {times:2}, 500 );
 
                     }
                 }

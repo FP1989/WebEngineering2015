@@ -7,16 +7,14 @@ class PDF extends FPDF {
     private $cwidth = 40;
     private $cheight = 10;
     private $fsize = 10;
-    private $imagey = 169;
-    private $imagex = 130;
     private $font = 'Arial';
     private $footerfont = 'Courier';
-    private $imageloc = 'files/logo_report.png';
     private $white = 255;
     private $black = 0;
+    private $grey = 228;
 
 //    Defines at what Y-Coordinate the page is broken
-    private $maxheight = 160;
+    private $maxheight = 250;
 
 //    Override FPDF Header
     function Header() {
@@ -43,14 +41,13 @@ class PDF extends FPDF {
 
 //    Override FPDF Footer
     function Footer() {
-        $this->SetY(-139);
-        $this->Image($this->imageloc, $this->imagex, $this->imagey,'','','','');
         $this->SetY(-6);
         $this->SetFont($this->footerfont,'I',$this->fsize+2);
         $this->SetDrawColor($this->black, $this->black, $this->black);
         $this->SetFillColor($this->black, $this->black, $this->black);
         $this->SetTextColor($this->white, $this->white, $this->white);
-        $this->Cell($this->hwidth, $this->fsize-4, 'Star Reisen AG - 2015', 'T', 0, 'C', 1);
+        $this->Cell($this->hwidth, $this->fsize-4, 'Star Reisen AG - 2015 - Seite ' . $this->PageNo() . ' von {nb}', 'T', 0, 'C', 1);
+        $this->SetTextColor($this->black, $this->black, $this->black);
     }
 
     function createTable($result) {
@@ -62,6 +59,7 @@ class PDF extends FPDF {
             $this->SetDrawColor($this->black, $this->black, $this->black);
             $this->SetFillColor($this->black, $this->black, $this->black);
             $this->SetTextColor($this->white, $this->white, $this->white);
+            $this->cwidth = ($_SESSION['type'] == 'Kundenkontakt') ? 55 : 40;
 
             while ($finfo = $result->fetch_field()) {
                 $this->Cell($this->cwidth, $this->cheight, utf8_decode($finfo->name), 'LTRB', 0, 'C', 1);
@@ -73,17 +71,26 @@ class PDF extends FPDF {
             $this->SetDrawColor($this->black, $this->black, $this->black);
             $this->SetFillColor($this->white, $this->white, $this->white);
             $this->SetTextColor($this->black, $this->black, $this->black);
-            $counter = 0;
+            $pagecounter = 0;
+            $linecounter = 0;
+            $this->cwidth = ($_SESSION['type'] == 'Kundenkontakt') ? 55 : 40;
 
             while ($row = $result->fetch_assoc()) {
 
-                if ($counter < $this->maxheight) foreach ($row as $value) $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
-
-                else {
+                if ($pagecounter < $this->maxheight){
+                    if($linecounter%2 != 0) $this->SetFillColor($this->grey, $this->grey, $this->grey); else $this->SetFillColor($this->white, $this->white, $this->white);
+                    foreach ($row as $value) {
+                        $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
+                        $linecounter++;
+                    }
+                } else {
                     $this->AddPage('L');
-                    foreach ($row as $value) $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
+                    foreach ($row as $value) {
+                        $this->Cell($this->cwidth, $this->cheight, utf8_decode($value), 'LTRB', 0, 'C', 1);
+                        $linecounter++;
+                    }
                 }
-                $counter = $this->GetY();
+                $pagecounter = $this->GetY();
                 $this->Ln();
             }
             $this->Output();

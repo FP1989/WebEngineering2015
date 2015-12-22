@@ -90,18 +90,18 @@
                         if(data.flag){
 
                             $('#deletepositive').show().html(data.message).delay(750).fadeOut();
-                            $('#deleteegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
+                            $('#deletenegative').hide(); //Wenn zuvor die Eingaben nicht vollständig waren/nicht richtig
 
-                            //Nach einer positven Rückmeldung schliesst das Modal nach 1 Sekunde
+                            //Nach einer positiven Rückmeldung schliesst das Modal nach 0.75 Sekunde
                             $( "#deletepositive" ).promise().done(function() {
-                                    $('#beschtaetigung').modal('hide');
+                                    $('#bestaetigung').modal('hide');
                             });
                         }
 
                         else {
 
                             $('#deletenegative').show().html(data.message);
-                            $('#Rechnungloeschen').effect( "shake", {times:2}, 500 );
+                            $('#bestaetigung').effect( "shake", {times:2}, 500 );
 
                         }
                     }
@@ -180,7 +180,7 @@
                                 var counter = 0;
 
                                 while (counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerRead(this.id)\" class=\"btn btn-primary btn-sm btn-multiple\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
@@ -261,7 +261,7 @@
                                 var counter = 0;
 
                                 while (counter < data.length) {
-                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary btn-sm\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
+                                    $(".insertnames").append("<button id = " + data[counter] + " onclick=\"searchExactTeilnehmerWrite(this.id)\" class=\"btn btn-primary btn-sm btn-multiple\" data-dismiss=\"modal\">" + data[counter + 1] + " " + data[counter + 2] + "</button>&nbsp");
                                     counter += 3;
                                 }
 
